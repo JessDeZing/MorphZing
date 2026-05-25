@@ -1,0 +1,121 @@
+name: morphzing
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.37+99
+
+environment:
+   sdk: ">=2.19.0 <4.0.0"
+dependencies:
+  flutter:
+    sdk: flutter
+  win32: ^5.7.0
+
+  # Presentations library
+  flutter_screenutil: ^5.9.3
+  cupertino_icons: ^1.0.8
+  simple_gradient_text: ^1.3.0
+  flutter_localizations:
+    sdk: flutter
+  shared_preferences: ^2.5.3
+  flutter_svg: ^2.2.0
+  image_picker: ^1.1.2
+  carousel_slider: ^5.1.1
+  date_picker_timeline: ^1.2.7
+  connectivity_plus: ^6.1.4
+  get: ^4.7.2
+  path_provider: ^2.1.5
+  firebase_core: ^3.15.2
+  firebase_auth: ^5.7.0
+  google_sign_in: ^6.1.1
+  flutter_facebook_auth: ^7.1.2
+  sign_in_with_apple: ^7.0.1
+  get_storage: ^2.1.1
+  intl: any
+  url_launcher: ^6.3.2
+  flutter_time_picker_spinner: ^2.0.0
+  painter: ^2.0.0
+  flutter_colorpicker: ^1.1.0
+  flutter_sound: ^9.28.0
+  audioplayers: ^6.5.0
+  audio_waveforms:
+    git:
+      url: https://github.com/SimformSolutionsPvtLtd/audio_waveforms.git
+  omni_datetime_picker: ^2.0.5
+  injectable: ^2.5.1
+
+  retrofit: ^4.7.0
+  mask_text_input_formatter: ^2.9.0
+  flutter_masked_text2: ^0.9.1
+  json_annotation: ^4.9.0
+  copy_with_extension: ^7.1.0
+  permission_handler: ^12.0.1
+  # assets_audio_player removed due to Android build issues
+  file_picker: ^10.2.0
+  open_file: ^3.2.1
+  flutter_contacts: ^1.1.9+2
+  equatable: ^2.0.5
+  record: ^6.0.0
+  photo_gallery: ^2.2.0
+  table_calendar: ^3.0.9
+  flutter_html: ^3.0.0-alpha.6
+  flutter_timezone: ^4.1.1
+  image_cropper: ^9.1.0
+  purchases_flutter: ^9.2.1
+  flutter_slidable: ^4.0.0
+  share_plus: ^11.0.0
+  # social_share: ^2.3.1
+  internet_connection_checker: ^1.0.0+1
+  firebase_dynamic_links: ^6.1.10
+  app_settings: ^6.1.1
+  webview_flutter: ^4.7.0
+  # firebase_core: ^2.32.0
+  google_fonts: ^4.0.4
+  reorderable_grid_view: ^2.2.8
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # flutter_lints: ^1.0.0
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.6
+  injectable_generator: ^2.8.0
+  build_runner: ^2.6.0
+  retrofit_generator: ^10.0.1
+  json_serializable: ^6.10.0
+  copy_with_extension_gen: ^7.1.0
+
+flutter:
+
+  uses-material-design: true
+
+  # Assets
+  assets:
+    - assets/fonts/
+    - assets/icons/
+    - assets/images/
+    - assets/images/subscription/
+  fonts:
+    - family: SF Pro Display
+      fonts:
+        - asset: assets/fonts/SF-Pro-Display-Regular.ttf
+
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/app_icon.png"
+  adaptive_icon_background: "#4890FF"
+
+
+flutter_native_splash:
+  image: "assets/icons/app_icon.png"
+  android: true
+  ios: true
+  color: "#4890FF"
+#  branding: "assets/icons/app_icon.png"
+
+

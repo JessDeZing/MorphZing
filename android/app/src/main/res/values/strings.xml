@@ -1,0 +1,8 @@
+
+<resources>
+    <string name="app_name">morphZing</string>
+    <string name="facebook_app_id">732764341508657</string>
+    <string name="fb_login_protocol_scheme">fb732764341508657</string>
+    <string name="facebook_client_token">29136c8096f0ed6e835fdbc597a66683</string>
+</resources>
+

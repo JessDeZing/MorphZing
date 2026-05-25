@@ -1,0 +1,79 @@
+{
+  "project_info": {
+    "project_number": "678172654435",
+    "project_id": "morphzing-4b3f3",
+    "storage_bucket": "morphzing-4b3f3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678172654435:android:2c49c408d6c367ce30f156",
+        "android_client_info": {
+          "package_name": "com.jafton.morphzing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "678172654435-17pnfet84svirht0c4q745joad63k3t6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jafton.morphzing",
+            "certificate_hash": "b1877cbff949bf40bf956fe0575a621e47834d1b"
+          }
+        },
+        {
+          "client_id": "678172654435-95bomc7peo7a11pj4oaj1upm35o5ee6k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jafton.morphzing",
+            "certificate_hash": "96720a6e8260a44414a90fb1e9cd87a5d31c29c8"
+          }
+        },
+        {
+          "client_id": "678172654435-rqdujb6gh88tbdv00q6j0mmgfva5ie18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jafton.morphzing",
+            "certificate_hash": "06cf75551e39fc2942f534a3e152ce2cacb596b2"
+          }
+        },
+        {
+          "client_id": "678172654435-ujupjh1lic3phvgdg36vm6o2tq1k0j84.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jafton.morphzing",
+            "certificate_hash": "d60e20e365ffc7af3ec2af193fdd406fbbb562d8"
+          }
+        },
+        {
+          "client_id": "678172654435-rcpj91dcdqbki1d4prh6sc8bk6ehnmpi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9T-oBbfms9XhEA6YpFCAkRahc5ZVEKOg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "678172654435-ng5nnhapavod6h6vf77dc7k7l0h9leor.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "678172654435-au7jj2jt8urnj7m2bo6klohn54sba8if.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.jafton.morphzing",
+                "app_store_id": "1668666088"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
