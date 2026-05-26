@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # morphzing
 
 A new Flutter project.
@@ -19,3 +20,7 @@ flutter packages pub run build_runner watch --delete-conflicting-outputs
 flutter packages pub run build_runner build --delete-conflicting-outputs
 
 8142772491 P12345@1
+=======
+# MorphZing
+MorphZing app 5/252026 
+>>>>>>> 00c36ef5c826cb0d42ea1e61fbb9a92a604e9d49
