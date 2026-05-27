@@ -265,3 +265,4 @@ class AppRouter {
     }
   }
 }
+sed -i '' '/agenda\/\|calendar\/\|finances_screen\|meet_up\|self_care\|special_occasions\|travel_screen\|work_screen\|this_month\|this_year\|today_screen\|todo_screen\|agendaRoute\|calendarRoute\|calendarCellDetails\|todoRoute\|todayRoute\|thisMonth\|thisYear\|workRoute\|financesRoute\|meetUp\|selfCare\|specialOccasion\|travelRoute\|AgendaScreen\|CalendarScreen\|WorkScreen\|FinancesScreen\|MeetUpScreen\|SelfCareScreen\|SpecialOccasionsScreen\|TravelScreen\|TodoListScreen\|TodayScreen\|ThisMonthScreen\|ThisYearScreen\|TasksAndEventsScreen/d' lib/core/constants/router.dart
