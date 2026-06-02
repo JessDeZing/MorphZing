@@ -577,7 +577,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       children: [
                         Expanded(
                           child: GestureDetector(
-                            onTap: () => _pushAndUpdateBanners(agendaRoute),
+                            onTap: () => _pushAndUpdateBanners(todoRoute),
                             child: SizedBox(
                                 height: Platform.isAndroid ? 140 : 130,
                                 child: Column(
@@ -588,44 +588,11 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                         width: 100,
                                         child: Image(
                                           image: AssetImage(
-                                              'assets/icons/Agenda.png'),
+                                              'assets/icons/todo.svg'),
                                         )),
                                     const SizedBox(height: 6),
                                     Text(
-                                      agenda.tr,
-                                      style: TextStyle(
-                                        color: isDark
-                                            ? Colors.white
-                                            : blackTextColor,
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _pushAndUpdateBanners(calendarRoute),
-                            child: SizedBox(
-                                height: Platform.isAndroid ? 140 : 130,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child: Image(
-                                          image: AssetImage(
-                                              'assets/icons/calendar.png'),
-                                        )),
-                                    const SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      calendar.tr,
+                                      'To-Do',
                                       style: TextStyle(
                                         color: isDark
                                             ? Colors.white
