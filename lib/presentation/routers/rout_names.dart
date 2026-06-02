@@ -61,3 +61,4 @@ const multiPhotoRoute = 'multiPhotoRoute';
 const singlePhotoRoute = 'singlePhotoRoute';
 
 const notInternetRoute = 'notInternetRoute';
+const String todoRoute = '/todo';
