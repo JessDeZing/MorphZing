@@ -1,16 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/agenda_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/finances/finances_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/meet_up/meet_up_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/self_care/self_care_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/special_occasions/special_occasions_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/travel/travel_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/work/work_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/todo/this_moth/this_month_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/todo/this_year/this_year_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/todo/today/today_screen.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/todo/todo_screen.dart';
+import 'package:morphzing/presentation/pages/screens/todo/todo_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/create_password/create_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/login/login_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
@@ -19,8 +9,6 @@ import 'package:morphzing/presentation/pages/screens/auth/registration/registrat
 import 'package:morphzing/presentation/pages/screens/auth/reset_password/reset_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/signup/sign_up_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/verification/verification_screen.dart';
-import 'package:morphzing/presentation/pages/screens/calendar/calendar_screen.dart';
-import 'package:morphzing/presentation/pages/screens/calendar/tasks_events_details/tasks_events_screen.dart';
 import 'package:morphzing/presentation/pages/screens/entry/intro/first_intro_screen.dart';
 import 'package:morphzing/presentation/pages/screens/entry/intro/second_intro_screen.dart';
 import 'package:morphzing/presentation/pages/screens/entry/setup_language/setup_language_screen.dart';
@@ -35,7 +23,6 @@ import 'package:morphzing/presentation/pages/screens/journal_new/calendar_journa
 import 'package:morphzing/presentation/pages/screens/journal_new/journal/new_journal_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal_new/multi_photo/multi_photo_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal_new/single_photo/single_photo_screen.dart';
-import 'package:morphzing/presentation/pages/screens/journal_new/today_journal/today_journal_screen.dart';
 import 'package:morphzing/presentation/pages/screens/mission_statement_screen.dart';
 import 'package:morphzing/presentation/pages/screens/subscription_plan.dart';
 import 'package:morphzing/presentation/pages/screens/not_internet/not_internet_screen.dart';
@@ -195,7 +182,7 @@ class AppRouter {
       case worldChangersRoute:
         return GetPageRoute(page: () => const WorldChangersScreen());
       case todoRoute:
-        return GetPageRoute(page: () => const TodoListScreen());
+        return GetPageRoute(page: () => const TodoScreen());
       case todayRoute:
         final args = settings.arguments as DateTime?;
         return GetPageRoute(

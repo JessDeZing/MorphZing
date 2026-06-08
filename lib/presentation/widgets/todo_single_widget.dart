@@ -6,7 +6,6 @@ import 'package:morphzing/core/constants/style.dart';
 import 'package:morphzing/data/models/agenda/agenda_calendar.dart';
 import 'package:morphzing/data/models/agenda/todo.dart';
 import 'package:morphzing/localization/translation_keys.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/agenda_controller.dart';
 import 'package:morphzing/presentation/pages/screens/agenda/widgets/custom_dialog.dart';
 import 'package:morphzing/presentation/pages/screens/agenda/widgets/quick_access_task_view.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
@@ -21,7 +20,6 @@ class TodoSingleWidget extends StatefulWidget {
 }
 
 class _TodoSingleWidgetState extends State<TodoSingleWidget> {
-  final controller = Get.find<AgendaController>();
   bool? checkBoxValueOfTask = false;
   late String taskCount;
 

@@ -1,7 +1,6 @@
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/agenda_controller.dart';
 import 'package:morphzing/presentation/pages/screens/pending_invitations/invitations_by_category/invitations_controller.dart';
 import 'package:morphzing/presentation/pages/screens/pending_invitations/invitations_by_category/widgets/invitation_bottom_sheet.dart';
 import 'package:morphzing/presentation/pages/screens/pending_invitations/pending_invitations_controller.dart';
@@ -61,7 +60,6 @@ class DynamicDeepLinkService {
       final eventId = int.tryParse(path.last);
       if (path.first == 'event_id' && eventId != null) {
         debugPrint('Processing event_id deep link: $eventId');
-        final repo = Get.find<AgendaController>();
         final event = await repo.getEventByUUID(eventId);
         if (event == null) {
           return;
@@ -116,12 +114,8 @@ class DynamicDeepLinkService {
       if (path.first == 'event_id' && eventId != null) {
         debugPrint('Processing route event_id deep link: $eventId');
 
-        // Ensure AgendaController is available
-        if (!Get.isRegistered<AgendaController>()) {
-          Get.put<AgendaController>(AgendaController());
         }
 
-        final repo = Get.find<AgendaController>();
         final event = await repo.getEventByUUID(eventId);
         if (event == null) {
           debugPrint('Event not found for ID: $eventId');

@@ -5,7 +5,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/core/constants/style.dart';
 import 'package:morphzing/localization/translation_keys.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/agenda_controller.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:morphzing/utils/style/colors.dart';
 
@@ -29,7 +28,6 @@ class _BottomSheetForFloatingButtonState
   double _specialOccasions = -40.w;
   double _meetUp = -90.w;
 
-  final agendaNames = Get.find<AgendaController>().listOfAgendaNames;
 
   @override
   void initState() {

@@ -3,12 +3,10 @@ import 'package:morphzing/data/models/agenda/event.dart';
 import 'package:morphzing/data/models/agenda/invitation_change_status.dart';
 import 'package:morphzing/data/repositories/agenda/agenda_repository.dart';
 import 'package:morphzing/di/di_config.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/agenda_controller.dart';
 import 'package:morphzing/utils/show_error.dart';
 
 class PendingInvitationsController extends GetxController {
   final agendaRepository = getIt<AgendaRepository>();
-  final agendaController = Get.find<AgendaController>();
   RxBool pageLoading = true.obs;
   RxList<Event> work = RxList([]);
   RxList<Event> finances = RxList([]);
@@ -35,7 +33,6 @@ class PendingInvitationsController extends GetxController {
       specialOccasions.clear();
       meetUp.clear();
       final response = await agendaRepository.getPendingInvitations();
-      final list = agendaController.listOfAgendaNames;
       print('response: $response');
       print('list: $list');
       for (final element in response) {

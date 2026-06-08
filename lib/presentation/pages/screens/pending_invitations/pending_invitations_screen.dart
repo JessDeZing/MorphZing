@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/core/constants/style.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/agenda_controller.dart';
 import 'package:morphzing/presentation/pages/screens/agenda/events/widgets/common_functions.dart';
 import 'package:morphzing/presentation/pages/screens/pending_invitations/pending_invitations_controller.dart';
 import 'package:morphzing/presentation/pages/screens/pending_invitations/widgets/agenda_type_container.dart';
@@ -19,7 +18,6 @@ class PendingInvitationsScreen extends StatefulWidget {
 class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
   final controller =
       Get.put<PendingInvitationsController>(PendingInvitationsController());
-  final agendaController = Get.find<AgendaController>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +32,6 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
       body: Obx(() {
         return controller.pageLoading.value
             ? const Center(child: CircularProgressIndicator.adaptive())
-            : agendaController.listOfAgendaNames.isEmpty
                 ? Center(
                     child: Text('Failed to fetch agenda names'),
                   )
@@ -44,7 +41,6 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
                       children: [
                         const SizedBox(height: 23),
                         AgendaTypeContainer(
-                          name: agendaController.listOfAgendaNames.first.name,
                           //this is where it shows teh events status
                           quantity: CommonFunctions.getCorrectEventQuantity(
                               controller.work.length),
@@ -63,7 +59,6 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
                         ),
                         const SizedBox(height: 16),
                         AgendaTypeContainer(
-                          name: agendaController.listOfAgendaNames[1].name,
                           quantity: CommonFunctions.getCorrectEventQuantity(
                               controller.finances.length),
                           color: financeColor,
@@ -71,7 +66,6 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
                         ),
                         const SizedBox(height: 16),
                         AgendaTypeContainer(
-                          name: agendaController.listOfAgendaNames[2].name,
                           quantity: CommonFunctions.getCorrectEventQuantity(
                               controller.travel.length),
                           color: travelColor,
@@ -80,7 +74,6 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
                         ),
                         const SizedBox(height: 16),
                         AgendaTypeContainer(
-                          name: agendaController.listOfAgendaNames[3].name,
                           quantity: CommonFunctions.getCorrectEventQuantity(
                               controller.selfCare.length),
                           color: selfCareColor,
@@ -88,7 +81,6 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
                         ),
                         const SizedBox(height: 16),
                         AgendaTypeContainer(
-                          name: agendaController.listOfAgendaNames[4].name,
                           quantity: CommonFunctions.getCorrectEventQuantity(
                               controller.specialOccasions.length),
                           nameStyle: customTextStyle(
@@ -105,7 +97,6 @@ class _PendingInvitationsScreenState extends State<PendingInvitationsScreen> {
                         ),
                         const SizedBox(height: 16),
                         AgendaTypeContainer(
-                          name: agendaController.listOfAgendaNames.last.name,
                           quantity: CommonFunctions.getCorrectEventQuantity(
                               controller.meetUp.length),
                           color: meetUpColor,
