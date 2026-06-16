@@ -31,7 +31,6 @@ import 'package:morphzing/presentation/pages/screens/not_internet/not_internet_s
 import 'package:morphzing/presentation/pages/screens/note/all_note/all_note_screen.dart';
 import 'package:morphzing/presentation/pages/screens/note/my_note/my_note_screen.dart';
 import 'package:morphzing/presentation/pages/screens/note/note/note_screen.dart';
-import 'package:morphzing/presentation/pages/screens/note/note/note_controller.dart';
 import 'package:morphzing/presentation/pages/screens/notification_settings/notification_settings_screen.dart';
 import 'package:morphzing/presentation/pages/screens/profile/change_password/change_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/profile/current_phone/current_phone_screen.dart';
@@ -58,11 +57,7 @@ class AppRouter {
         return GetPageRoute(
             page: () => const AllNoteScreen(), settings: settings);
       case noteRoute:
-        return GetPageRoute(
-          page: () => const NoteScreen(),
-          binding: BindingsBuilder(() => Get.put(NoteController())),
-          settings: settings,
-        );
+        return GetPageRoute(page: () => const NoteScreen(), settings: settings);
       case myRoute:
         return GetPageRoute(
             page: () => const MyNoteScreen(), settings: settings);
