@@ -14,14 +14,20 @@ class NoteScreen extends StatelessWidget {
     final timeStr = TimeOfDay.fromDateTime(now).format(context);
     final dateStr = '${_monthName(now.month)} ${now.day}, ${now.year}';
 
-    return Scaffold(
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        controller.saveNote(silent: true);
+      },
+      child: Scaffold(
       backgroundColor: isDark ? darkBgColor : whiteColor,
       appBar: AppBar(
         backgroundColor: isDark ? darkBgColor : whiteColor,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: isDark ? whiteColor : blackTextColor),
-          onPressed: () => Get.back(),
+          onPressed: () => controller.saveNote(silent: true),
         ),
         title: Text(
           'Note',
@@ -32,6 +38,11 @@ class NoteScreen extends StatelessWidget {
           ),
         ),
         actions: [
+          if (controller.isEditing)
+            IconButton(
+              icon: Icon(Icons.delete_outline, color: Colors.red),
+              onPressed: controller.deleteNote,
+            ),
           Obx(() => controller.isSaving.value
               ? const Padding(
                   padding: EdgeInsets.all(12),
@@ -103,6 +114,7 @@ class NoteScreen extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }

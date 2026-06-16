@@ -389,12 +389,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                 opacity: 1,
               ),
               drawerButton(
-                pendingInvitationsRoute,
-                'assets/icons/pendingInvitations.svg',
-                pendingInvitations.tr,
-                opacity: 1,
-              ),
-              drawerButton(
                 notificationSettingsRoute,
                 'assets/icons/notfication_sv.svg',
                 notificationSettings.tr,
