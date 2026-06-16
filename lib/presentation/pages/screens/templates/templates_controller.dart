@@ -6,7 +6,6 @@ import 'package:morphzing/data/models/user/user_model/user.dart';
 import 'package:morphzing/data/repositories/purchase/purchase_repository.dart';
 import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/localization/translation_keys.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/widgets/custom_dialog.dart';
 import 'package:morphzing/presentation/pages/screens/subscription/subscription_controller.dart';
 import 'package:morphzing/utils/loading_overlay.dart';
 
@@ -95,23 +94,8 @@ class TemplatesController extends GetxController {
                     SubscriptionType.familyShare))) {
       final total =
           _appController.user!.paymentStatus == SubscriptionType.basic ? 3 : 7;
-      CustomDialogs.show(
-        context: context,
-        title:
-            '${thisWillBeYour.tr} ${templateCounter + 1}/$total ${freePremiumTemplate.tr}',
-        onPressLeftButton: () {
-          Navigator.pop(context);
-          return;
-        },
-        onPressRightButton: () async {
-          Navigator.pop(context);
-          await _buyTemplate(
-            context: context,
-            index: index,
-            isBuying: false,
-          );
-        },
-      );
+      // CustomDialogs removed - skipping dialog for now
+      return;
     } else {
       await _buyTemplate(
         context: context,

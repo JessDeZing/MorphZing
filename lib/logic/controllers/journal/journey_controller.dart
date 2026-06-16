@@ -17,6 +17,7 @@ import 'package:morphzing/presentation/pages/screens/home/home_controller.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:morphzing/utils/show_error.dart';
 import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:path_provider/path_provider.dart';
 
 class JourneyController extends GetxController {
@@ -115,6 +116,21 @@ class JourneyController extends GetxController {
     return imageTemporary;
   }
 
+  Future<void> pickMultipleImages() async {
+    // Request permission for Android 13+
+    final status = await Permission.photos.request();
+    if (status.isDenied || status.isPermanentlyDenied) {
+      // Try storage permission for older Android
+      final storageStatus = await Permission.storage.request();
+      if (storageStatus.isDenied) return;
+    }
+    final List<XFile> images = await ImagePicker().pickMultiImage();
+    if (images.isEmpty) return;
+    final newPhotos = images.map((img) => Photo(file: File(img.path))).toList();
+    photos.addAll(newPhotos);
+    photos.refresh();
+  }
+
   onSave() async {
     final appController = Get.find<AppController>();
     audio = pathAudio.value.isNotEmpty ? File(pathAudio.value) : null;
@@ -137,13 +153,11 @@ class JourneyController extends GetxController {
         photos: photos.value,
       );
       if (result.statusCode == 200 || result.statusCode == 201) {
-        Get.back();
+        // navigation handled by _saveAndPop
       } else {
         showInternalError();
       }
     } catch (e) {
-      Get.back();
-
       showInternalError();
     }
   }
@@ -175,7 +189,7 @@ class JourneyController extends GetxController {
     } catch (e) {
       showInternalError();
     }
-    Get.back();
+    // navigation handled by _saveAndPop
   }
 
   fetchInitData(

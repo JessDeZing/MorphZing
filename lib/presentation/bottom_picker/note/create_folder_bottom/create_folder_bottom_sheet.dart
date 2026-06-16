@@ -4,12 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/core/constants/style.dart';
-import 'package:morphzing/data/models/agenda/event.dart';
-import 'package:morphzing/data/models/agenda/todo.dart';
 import 'package:morphzing/presentation/bottom_picker/note/create_folder_bottom/create_folder_bottom_controller.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/travel/widgets/uploaded_pictures.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/events/widgets/common_functions.dart';
-import 'package:morphzing/presentation/pages/screens/agenda/widgets/bottom_sheet_bottom_buttons.dart';
 import 'package:morphzing/utils/loading_overlay.dart';
 import 'package:morphzing/utils/style/colors.dart';
 

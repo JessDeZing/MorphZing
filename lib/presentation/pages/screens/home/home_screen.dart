@@ -18,7 +18,7 @@ import 'package:morphzing/presentation/pages/screens/home/home_controller.dart';
 import 'package:morphzing/presentation/pages/screens/home/images_widgets/quote_image.dart';
 import 'package:morphzing/presentation/pages/screens/home/images_widgets/uploaded_image.dart';
 import 'package:morphzing/presentation/pages/screens/home/images_widgets/zingrart_image.dart';
-import 'package:morphzing/presentation/pages/screens/pending_invitations/pending_invitations_controller.dart';
+  // import removed - pending invitations deleted
 import 'package:morphzing/presentation/pages/screens/subscription/subscription_controller.dart';
 import 'package:morphzing/presentation/pages/screens/subscription/widgets/subscription_dialog.dart';
 import 'package:morphzing/presentation/pages/screens/subscription_plan.dart';
@@ -41,8 +41,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
   final logic = Get.put(HomeController());
   final appController = Get.find<AppController>();
-  final controller =
-      Get.put<PendingInvitationsController>(PendingInvitationsController());
+  final controller = Get.put<HomeController>(HomeController());
+
 
   int current = 0;
   // final CarouselController _controller = CarouselController();
@@ -583,12 +583,15 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    const SizedBox(
+                                    SizedBox(
                                         height: 100,
                                         width: 100,
-                                        child: Image(
-                                          image: AssetImage(
-                                              'assets/icons/todo.svg'),
+                                        child: SvgPicture.asset(
+                                          'assets/icons/todo.svg',
+                                          colorFilter: ColorFilter.mode(
+                                            isDark ? Colors.white : blackTextColor,
+                                            BlendMode.srcIn,
+                                          ),
                                         )),
                                     const SizedBox(height: 6),
                                     Text(
@@ -758,40 +761,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                         //         )),
                         //   ),
                         // ),
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: SizedBox(
-                              height: Platform.isAndroid ? 140 : 130,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                      height: 100,
-                                      width: 100,
-                                      child: Image(
-                                        image:
-                                            AssetImage('assets/icons/Chat.png'),
-                                      )),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  Text(
-                                    chat.tr,
-                                    style: TextStyle(
-                                      color: isDark
-                                          ? Colors.white
-                                          : blackTextColor,
-                                      fontFamily: 'SF Pro Display',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
+
                       ],
                     ),
                   ],
@@ -908,15 +878,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(5),
           // color: (title == pendingInvitations.tr && myArray.isNotEmpty) ? blueColor : Colors.transparent, // testing wid local
-          color: (title == pendingInvitations.tr &&
-                  (controller.work.isNotEmpty ||
-                      controller.finances.isNotEmpty ||
-                      controller.travel.isNotEmpty ||
-                      controller.selfCare.isNotEmpty ||
-                      controller.specialOccasions.isNotEmpty ||
-                      controller.meetUp.isNotEmpty))
-              ? blueColor
-              : Colors.transparent, // Set your desired background color here
+          color: Colors.transparent,
         ),
         child: Opacity(
           opacity: opacity,

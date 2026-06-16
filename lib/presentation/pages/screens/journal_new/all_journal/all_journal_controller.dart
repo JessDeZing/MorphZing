@@ -13,7 +13,7 @@ class AllJournalController extends GetxController {
   final Rx<RxStatus> _rxStatus = Rx<RxStatus>(RxStatus.empty());
   final Rx<ApiPagination<JournalModel>> _response = Rx<ApiPagination<JournalModel>>(ApiPagination(total: 0, data: []));
   final String _startDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
-  final String _endDate = DateFormat("yyyy-MM-dd").format(DateTime.now());
+  final String _endDate = DateFormat("yyyy-MM-dd").format(DateTime(DateTime.now().year + 1));
   final Rx<JournalStreakModel> _journalStreakModel = Rx<JournalStreakModel>(
     JournalStreakModel(streakCount: 0, totalEntries: 0, weekStreak: 0),
   );
@@ -69,20 +69,20 @@ class AllJournalController extends GetxController {
   }
 
   void openTodayJournal() {
-    Get.toNamed(todayJournalRoute)?.then((value) {
+    Get.toNamed(todayJournal)?.then((value) {
       if (value != null && value) _getJournalCountJournalList();
     });
   }
 
   void openCalendarJournalScreen() {
-    Get.toNamed(calendarJournal)?.then((value) {
+    Get.toNamed(journeyRoute)?.then((value) {
       if (value != null && value) _getJournalCountJournalList();
     });
   }
 
   void openCreateJournalScreen() {
     Get.toNamed(journeyRoute)?.then((value) {
-      if (value != null && value) _getJournalCountJournalList();
+      _getJournalCountJournalList();
     });
   }
 

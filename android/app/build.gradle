@@ -31,7 +31,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace 'com.jafton.morphzing'
-    compileSdkVersion 35
+    compileSdkVersion 36
     ndkVersion "29.0.13846066"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

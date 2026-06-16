@@ -268,7 +268,7 @@ class En {
         translation.success: 'Success',
         translation.attention: 'Attention',
         translation.reminderBeforeStart: 'Reminder before start',
-        translation.todayJourney: 'Today\'s Journey',
+        translation.todayJourney: 'Journey',
         translation.myLifeJourney: 'My Life Journey',
         translation.totalEntries: 'Total Entries',
         translation.currentStreak: 'Current Streak',

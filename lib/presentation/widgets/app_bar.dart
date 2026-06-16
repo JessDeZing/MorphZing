@@ -197,7 +197,7 @@ class StaticAppBar {
       ),
       actions: [
         GestureDetector(
-          onTap: () => Get.toNamed(searchRoute, arguments: SearchScreenParam()),
+          onTap: () => Get.toNamed(searchRoute),
           child: Center(
             child: SizedBox(
               height: 30,

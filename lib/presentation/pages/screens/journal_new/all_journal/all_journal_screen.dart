@@ -21,6 +21,7 @@ class AllJournalScreen extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return GetBuilder<AllJournalController>(
         init: AllJournalController(),
+        tag: 'allJournal',
         builder: (controller) {
           return Scaffold(
             backgroundColor: isDark ? darkBgColor : whiteColor,
@@ -251,10 +252,7 @@ class AllJournalScreen extends StatelessWidget {
                 );
               }),
             ),
-            bottomNavigationBar: CustomBottomBar.customJournalBottomBar(
-              context: context,
-              onPressedCalendar: () => controller.openCalendarJournalScreen(),
-            ),
+            bottomNavigationBar: null,
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.centerDocked,
             floatingActionButton: CustomBottomBar.journalFloatingActionButton(

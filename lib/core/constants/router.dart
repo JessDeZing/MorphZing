@@ -16,10 +16,12 @@ import 'package:morphzing/presentation/pages/screens/home/home_binding.dart';
 import 'package:morphzing/presentation/pages/screens/home/home_screen.dart';
 import 'package:morphzing/presentation/pages/screens/home/web_view_container.dart';
 import 'package:morphzing/presentation/pages/screens/journal/image_list_view_screen.dart';
+import 'package:morphzing/presentation/pages/screens/journal/journey_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal/journal_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal/painting_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal_new/all_journal/all_journal_screen.dart';
-import 'package:morphzing/presentation/pages/screens/journal_new/calendar_journal/calendar_journal_screen.dart';
+import 'package:morphzing/presentation/pages/screens/journal_new/all_journal/all_entries_screen.dart';
+// REMOVED: import 'package:morphzing/presentation/pages/screens/journal_new/calendar_journal/calendar_journal_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal_new/journal/new_journal_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal_new/multi_photo/multi_photo_screen.dart';
 import 'package:morphzing/presentation/pages/screens/journal_new/single_photo/single_photo_screen.dart';
@@ -30,9 +32,6 @@ import 'package:morphzing/presentation/pages/screens/note/all_note/all_note_scre
 import 'package:morphzing/presentation/pages/screens/note/my_note/my_note_screen.dart';
 import 'package:morphzing/presentation/pages/screens/note/note/note_screen.dart';
 import 'package:morphzing/presentation/pages/screens/notification_settings/notification_settings_screen.dart';
-import 'package:morphzing/presentation/pages/screens/pending_invitations/arguments.dart';
-import 'package:morphzing/presentation/pages/screens/pending_invitations/invitations_by_category/invitations_screen.dart';
-import 'package:morphzing/presentation/pages/screens/pending_invitations/pending_invitations_screen.dart';
 import 'package:morphzing/presentation/pages/screens/profile/change_password/change_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/profile/current_phone/current_phone_screen.dart';
 import 'package:morphzing/presentation/pages/screens/profile/profile_screen.dart';
@@ -49,11 +48,11 @@ import 'package:morphzing/presentation/pages/screens/subscription/subscription_s
 import 'package:morphzing/presentation/pages/screens/templates/templates_screen.dart';
 import 'package:morphzing/presentation/pages/screens/world_changers/world_changers_screen.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
+import 'package:morphzing/data/models/journal/journal_model.dart';
 
 class AppRouter {
   static GetPageRoute<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      /// New Journal Screens
       case allNoteRoute:
         return GetPageRoute(
             page: () => const AllNoteScreen(), settings: settings);
@@ -62,32 +61,22 @@ class AppRouter {
       case myRoute:
         return GetPageRoute(
             page: () => const MyNoteScreen(), settings: settings);
-
-      /// New Journal Screens
       case allJournal:
         return GetPageRoute(
             page: () => const AllJournalScreen(), settings: settings);
-      case calendarJournal:
+      case todayJournal:
         return GetPageRoute(
-            page: () => const CalendarJournalScreen(), settings: settings);
-      case createJournal:
-        return GetPageRoute(
-            page: () => const AllJournalScreen(), settings: settings);
-      case todayJournalRoute:
-        return GetPageRoute(
-            page: () => const TodayJournalScreen(), settings: settings);
+            page: () => const AllEntriesScreen(), settings: settings);
+// REMOVED: case calendarJournal:
       case multiPhotoRoute:
         return GetPageRoute(
             page: () => const MultiPhotoScreen(), settings: settings);
       case singlePhotoRoute:
         return GetPageRoute(
             page: () => const SinglePhotoScreen(), settings: settings);
-
       case notInternetRoute:
         return GetPageRoute(
             page: () => const NotInternetScreen(), settings: settings);
-
-      /// Entry Screens
       case splashRoute:
         return GetPageRoute(
             page: () => const SplashScreen(), settings: settings);
@@ -100,9 +89,6 @@ class AppRouter {
       case secondIntroRoute:
         return GetPageRoute(
             page: () => const SecondIntroScreen(), settings: settings);
-
-      /// Registration Screens
-
       case recoveryPasswordRoute:
         return GetPageRoute(
             page: () => const RecoveryPasswordScreen(), settings: settings);
@@ -136,21 +122,37 @@ class AppRouter {
       case profileRoute:
         return GetPageRoute(
             page: () => const ProfileScreen(), settings: settings);
-
-      /// Other Screens
       case searchRoute:
         return GetPageRoute(
             page: () => const SearchScreen(), settings: settings);
       case journeyRoute:
+        final journeyArgs = settings.arguments;
+        if (journeyArgs is JournalModel) {
+          return GetPageRoute(
+            page: () => JourneyScreen(
+              isEdit: true,
+              id: journeyArgs.id,
+              journeyTime: journeyArgs.journeyTime,
+              noteName: journeyArgs.noteName,
+              description: journeyArgs.description,
+              audio: journeyArgs.audioUrl,
+              draw: journeyArgs.drawUrl,
+              location: journeyArgs.location,
+              webLink: journeyArgs.webLink,
+              document: journeyArgs.documentUrl,
+              photos: journeyArgs.images,
+            ),
+            settings: settings,
+          );
+        }
         return GetPageRoute(
-            page: () => const NewJournalScreen(), settings: settings);
+            page: () => const JourneyScreen(), settings: settings);
       case painterRoute:
         return GetPageRoute(page: () => const PaintingScreen());
       case allImagesRoute:
         return GetPageRoute(page: () => const ImageListViewScreen());
       case aboutMeRoute:
         return GetPageRoute(page: () => const AboutMeScreen());
-      // web view
       case webViewRoute:
         return GetPageRoute(page: () => const WebViewContainer());
       case homeRoute:
@@ -161,14 +163,7 @@ class AppRouter {
       case missionStatementRoute:
         return GetPageRoute(page: () => const MissionStatementScreen());
       case subscriptionPlanRoute:
-        return GetPageRoute(
-            page: () => const SubscriptionPlanScreen()); // new developed screen
-      // case newSubscriptionScreen:
-      //   return GetPageRoute(page: () => const NewSubscriptionScreen()); // another with prev data
-      //   //subscriptionBottomSheet new neew
-      // case subscriptionBottomSheet:
-      // return GetPageRoute(page: () => const SubscriptionBottomSheet());
-
+        return GetPageRoute(page: () => const SubscriptionPlanScreen());
       case aboutTheAppRoute:
         return GetPageRoute(page: () => AboutTheAppScreen());
       case faqRoute:
@@ -183,42 +178,8 @@ class AppRouter {
         return GetPageRoute(page: () => const WorldChangersScreen());
       case todoRoute:
         return GetPageRoute(page: () => const TodoScreen());
-      case todayRoute:
-        final args = settings.arguments as DateTime?;
-        return GetPageRoute(
-            page: () => TodayScreen(chosenDayFromMonthly: args));
-      case thisMonthRoute:
-        return GetPageRoute(page: () => const ThisMonthScreen());
-      case thisYearRoute:
-        return GetPageRoute(page: () => const ThisYearScreen());
-      case agendaRoute:
-        return GetPageRoute(page: () => const AgendaScreen());
-      case workRoute:
-        return GetPageRoute(page: () => const WorkScreen());
-      case financesRoute:
-        return GetPageRoute(page: () => const FinancesScreen());
-      case meetUpRoute:
-        return GetPageRoute(page: () => const MeetUpScreen());
-      case selfCareRoute:
-        return GetPageRoute(page: () => const SelfCareScreen());
-      case specialOccasionRoute:
-        return GetPageRoute(page: () => const SpecialOccasionsScreen());
-      case travelRoute:
-        return GetPageRoute(page: () => const TravelScreen());
-      case calendarRoute:
-        return GetPageRoute(page: () => const CalendarScreen());
-      case calendarCellDetailsRoute:
-        DateTime time = settings.arguments as DateTime;
-        return GetPageRoute(page: () => TasksAndEventsScreen(time: time));
       case journalRoute:
-        return GetPageRoute(
-          page: () => const JournalScreen(),
-        );
-      case pendingInvitationsRoute:
-        return GetPageRoute(page: () => const PendingInvitationsScreen());
-      case invitationsByCategoryRoute:
-        final args = settings.arguments as InvitationArguments;
-        return GetPageRoute(page: () => InvitationsScreen(arguments: args));
+        return GetPageRoute(page: () => const JournalScreen());
       case subscriptionScreen:
         return GetPageRoute(page: () => const SubscriptionScreen());
       case templatesScreen:
@@ -229,21 +190,16 @@ class AppRouter {
       case notificationSettingsRoute:
         return GetPageRoute(page: () => const NotificationSettingsScreen());
       default:
-        // Handle deep links that start with /event_id/
         if (settings.name != null && settings.name!.startsWith('/event_id/')) {
-          // Extract event ID from the route
           final eventIdStr = settings.name!.split('/').last;
           final eventId = int.tryParse(eventIdStr);
-
           if (eventId != null) {
-            // Navigate to home screen and let DynamicDeepLinkService handle the deep link
             return GetPageRoute(
               page: () => const HomeScreen(),
               binding: HomeBinding(),
             );
           }
         }
-
         return GetPageRoute(
             page: () => Scaffold(
                   body: Center(
@@ -252,4 +208,3 @@ class AppRouter {
     }
   }
 }
-
