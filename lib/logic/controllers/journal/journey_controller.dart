@@ -117,18 +117,22 @@ class JourneyController extends GetxController {
   }
 
   Future<void> pickMultipleImages() async {
-    // Request permission for Android 13+
-    final status = await Permission.photos.request();
-    if (status.isDenied || status.isPermanentlyDenied) {
-      // Try storage permission for older Android
-      final storageStatus = await Permission.storage.request();
-      if (storageStatus.isDenied) return;
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: true,
+      );
+      if (result == null || result.files.isEmpty) return;
+      final newPhotos = result.files
+          .where((f) => f.path != null)
+          .map((f) => Photo(file: File(f.path!)))
+          .toList();
+      debugPrint('Photos picked via FilePicker: ${newPhotos.length}');
+      photos.addAll(newPhotos);
+      photos.refresh();
+    } catch (e) {
+      Get.snackbar('Error', 'Could not load photos: $e', snackPosition: SnackPosition.BOTTOM);
     }
-    final List<XFile> images = await ImagePicker().pickMultiImage();
-    if (images.isEmpty) return;
-    final newPhotos = images.map((img) => Photo(file: File(img.path))).toList();
-    photos.addAll(newPhotos);
-    photos.refresh();
   }
 
   onSave() async {

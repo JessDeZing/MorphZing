@@ -583,7 +583,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                     ),
                     _featureRow(
                       context: context,
-                      icon: Image.asset('assets/icons/Journal.png', height: 24, width: 24),
+                      icon: const Text('📓', style: TextStyle(fontSize: 22)),
                       iconBg: const Color(0xFF6B3A1F),
                       label: 'Journal',
                       subtitle: 'Write about your day',
@@ -592,7 +592,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                     ),
                     _featureRow(
                       context: context,
-                      icon: Image.asset('assets/icons/notes.png', height: 24, width: 24),
+                      icon: const Text('📝', style: TextStyle(fontSize: 22)),
                       iconBg: const Color(0xFF1F5C3A),
                       label: 'Notes',
                       subtitle: 'Quick thoughts & ideas',
