@@ -62,3 +62,7 @@ const singlePhotoRoute = 'singlePhotoRoute';
 
 const notInternetRoute = 'notInternetRoute';
 const String todoRoute = '/todo';
+
+/// Calm Corner
+const String calmCornerRoute = '/calm_corner';
+const String groundingRoute = '/grounding_game';

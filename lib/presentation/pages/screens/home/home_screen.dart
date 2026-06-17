@@ -606,7 +606,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       label: 'Calm Corner',
                       subtitle: 'Breathe. Color. Reset.',
                       isDark: isDark,
-                      onTap: () {},
+                      onTap: () => Get.toNamed(calmCornerRoute),
                     ),
                     const SizedBox(height: 16),
                   ],

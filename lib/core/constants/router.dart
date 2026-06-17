@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/presentation/pages/screens/todo/todo_screen.dart';
+import 'package:morphzing/presentation/pages/screens/calm_corner/calm_corner_screen.dart';
+import 'package:morphzing/presentation/pages/screens/calm_corner/grounding_game_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/create_password/create_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/login/login_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
@@ -194,6 +196,10 @@ class AppRouter {
         return GetPageRoute(page: () => StandardView(imageUrl: args));
       case notificationSettingsRoute:
         return GetPageRoute(page: () => const NotificationSettingsScreen());
+      case calmCornerRoute:
+        return GetPageRoute(page: () => const CalmCornerScreen(), settings: settings);
+      case groundingRoute:
+        return GetPageRoute(page: () => const GroundingGameScreen(), settings: settings);
       default:
         if (settings.name != null && settings.name!.startsWith('/event_id/')) {
           final eventIdStr = settings.name!.split('/').last;
