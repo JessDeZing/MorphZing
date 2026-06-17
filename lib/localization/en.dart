@@ -309,7 +309,7 @@ class En {
         translation.aboutTheApp: 'About the app',
         translation.ourMission: 'Our Mission',
         translation.ourMissionDescription:
-            'To help humanity achieve and fulfill their Personal Legend/Journey with a balanced life full of positive energy and hope to make our earth a better place.',
+            'Life is complicated, MorphZing exists to help you! Get organized, inspired, and at peace. One simple app. One beautiful journey.',
         translation.balanceEnergyHopeEarth: 'Balance.Energy.Hope.Earth',
         translation.faq: 'FAQ',
         translation.disclaimer: 'Disclaimer',

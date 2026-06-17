@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 import 'dart:io';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:morphzing/main.dart';
@@ -78,9 +79,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
   @override
   void didPopNext() {
-    // Called when navigating back to HomeScreen
     fetchUserInfo();
     checkPremiumLightValidity();
+    setState(() {
+      current = current == 0 ? 1 : 0;
+      _controller.jumpToPage(current);
+    });
   }
 
   Future checkPremiumLightValidity() async {
@@ -500,7 +504,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       ),
                       child: SizedBox(
                         height:
-                            ((MediaQuery.of(context).size.width - 32) * 9) / 16,
+                            ((MediaQuery.of(context).size.width - 32) * 9) / 12,
                         width: MediaQuery.of(context).size.width,
                         child: logic.bannerLoading.value
                             ? const Center(
@@ -517,18 +521,11 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                   QuoteImage(
                                       imageUrl: logic
                                           .homePageImages.value.quoteImage),
-                                  Obx(() {
-                                    return UploadedImage(
-                                      uploadedImage:
-                                          logic.homePageImages.value.phoneImage,
-                                      id: logic.homePageImages.value.id,
-                                    );
-                                  }),
                                 ],
                                 carouselController: _controller,
                                 options: CarouselOptions(
                                     viewportFraction: 1,
-                                    autoPlay: false,
+                                    autoPlay: true,
                                     enlargeCenterPage: false,
                                     aspectRatio: 0.1,
                                     onPageChanged: (index, reason) {
@@ -544,7 +541,6 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          logic.homePageImages.value.phoneImage,
                           logic.homePageImages.value.zingArtImage?.image,
                           logic.homePageImages.value.quoteImage,
                         ].asMap().entries.map((entry) {
@@ -567,296 +563,131 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                         }).toList(),
                       ),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _pushAndUpdateBanners(todoRoute),
-                            child: SizedBox(
-                                height: Platform.isAndroid ? 140 : 130,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child: SvgPicture.asset(
-                                          'assets/icons/todo.svg',
-                                          colorFilter: ColorFilter.mode(
-                                            isDark ? Colors.white : blackTextColor,
-                                            BlendMode.srcIn,
-                                          ),
-                                        )),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      'To-Do',
-                                      style: TextStyle(
-                                        color: isDark
-                                            ? Colors.white
-                                            : blackTextColor,
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ),
+                    const SizedBox(height: 8),
+                    _featureRow(
+                      context: context,
+                      icon: SvgPicture.asset(
+                        'assets/icons/todo.svg',
+                        colorFilter: ColorFilter.mode(
+                          isDark ? Colors.white : blackTextColor,
+                          BlendMode.srcIn,
                         ),
-                      ],
+                        height: 24,
+                        width: 24,
+                      ),
+                      iconBg: const Color(0xFF3D2B6B),
+                      label: 'To-Do',
+                      subtitle: "Tackle today's tasks",
+                      isDark: isDark,
+                      onTap: () => _pushAndUpdateBanners(todoRoute),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _pushAndUpdateBanners(allJournal),
-                            child: SizedBox(
-                              height: Platform.isAndroid ? 140 : 130,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                      height: 100,
-                                      width: 100,
-                                      child: Image(
-                                        image: AssetImage(
-                                            'assets/icons/Journal.png'),
-                                      )),
-                                  SizedBox(
-                                    height: 6,
-                                  ),
-                                  Text(
-                                    journal.tr,
-                                    style: TextStyle(
-                                      color: isDark
-                                          ? Colors.white
-                                          : blackTextColor,
-                                      fontFamily: 'SF Pro Display',
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
-                          child: GestureDetector(
-                            // _pushAndUpdateBanners(allJournal)
-                            onTap: () => _pushAndUpdateBanners(webViewRoute),
-                            // async {
-                            //   launchUrl(
-                            //     Uri.parse('https://zingphotography.com'),
-                            //     mode: LaunchMode.externalApplication,
-                            //   );
-                            // },
-                            child: SizedBox(
-                                height: Platform.isAndroid ? 140 : 130,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child: Image(
-                                          image: AssetImage(
-                                              'assets/icons/ZingPhotography.png'),
-                                          color: isDark
-                                              ? Colors.white
-                                              : blackTextColor,
-                                        )),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      zingPhotography.tr,
-                                      style: TextStyle(
-                                        color: isDark
-                                            ? Colors.white
-                                            : blackTextColor,
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ),
-                        ),
-                      ],
+                    _featureRow(
+                      context: context,
+                      icon: Image.asset('assets/icons/Journal.png', height: 24, width: 24),
+                      iconBg: const Color(0xFF6B3A1F),
+                      label: 'Journal',
+                      subtitle: 'Write about your day',
+                      isDark: isDark,
+                      onTap: () => _pushAndUpdateBanners(allJournal),
                     ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: GestureDetector(
-                            onTap: () => _pushAndUpdateBanners(allNoteRoute),
-                            child: SizedBox(
-                                height: Platform.isAndroid ? 140 : 130,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                        height: 100,
-                                        width: 100,
-                                        child: Image(
-                                          image: AssetImage(
-                                              'assets/icons/notes.png'),
-                                        )),
-                                    SizedBox(
-                                      height: 6,
-                                    ),
-                                    Text(
-                                      notes.tr,
-                                      style: TextStyle(
-                                        color: isDark
-                                            ? Colors.white
-                                            : blackTextColor,
-                                        fontFamily: 'SF Pro Display',
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ],
-                                )),
-                          ),
-                        ),
-                        // Expanded(
-                        //   child: GestureDetector(
-                        //     onTap: () =>
-                        //         _pushAndUpdateBanners(worldChangersRoute),
-                        //     child: SizedBox(
-                        //         height: 130,
-                        //         child: Column(
-                        //           crossAxisAlignment: CrossAxisAlignment.center,
-                        //           children: [
-                        //             SizedBox(
-                        //                 height: 100,
-                        //                 width: 100,
-                        //                 child: Image(
-                        //                   image: AssetImage(
-                        //                       'assets/icons/wordl_changer.png'),
-                        //                 )),
-                        //             SizedBox(
-                        //               height: 6,
-                        //             ),
-                        //             Text(
-                        //               worldChangers.tr,
-                        //               style: TextStyle(
-                        //                 color: isDark
-                        //                     ? Colors.white
-                        //                     : blackTextColor,
-                        //                 fontFamily: 'SF Pro Display',
-                        //                 fontSize: 14,
-                        //                 fontWeight: FontWeight.bold,
-                        //               ),
-                        //             )
-                        //           ],
-                        //         )),
-                        //   ),
-                        // ),
+                    _featureRow(
+                      context: context,
+                      icon: Image.asset('assets/icons/notes.png', height: 24, width: 24),
+                      iconBg: const Color(0xFF1F5C3A),
+                      label: 'Notes',
+                      subtitle: 'Quick thoughts & ideas',
+                      isDark: isDark,
+                      onTap: () => _pushAndUpdateBanners(allNoteRoute),
+                    ),
+                    _featureRow(
+                      context: context,
+                      icon: Icon(Icons.palette_outlined, color: Colors.white, size: 24),
+                      iconBg: const Color(0xFF5C1F4A),
+                      label: 'Calm Corner',
+                      subtitle: 'Breathe. Color. Reset.',
+                      isDark: isDark,
+                      onTap: () {},
+                    ),
+                    const SizedBox(height: 16),
+                  ],
+                ),
+              ),
 
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 37,
-                  right: 37,
-                  bottom: Platform.isAndroid ? 18 : 8,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        launchUrlString(
-                          'https://www.facebook.com/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: SizedBox(
-                          height: 24,
-                          width: 24,
-                          child:
-                              SvgPicture.asset('assets/icons/ic_facebook.svg')),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        launchUrlString(
-                          'https://www.instagram.com/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: SvgPicture.asset(
-                              'assets/icons/ic_instagram.svg')),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        launchUrlString(
-                          'https://twitter.com/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: SvgPicture.asset(
-                            'assets/icons/twitterx.svg',
-                            color: isDark ? Colors.white : blackTextColor,
-                          )),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        launchUrlString(
-                          'https://www.youtube.com/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: SizedBox(
-                          height: 33,
-                          width: 33,
-                          child: SvgPicture.asset('assets/icons/youtube.svg')),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        launchUrlString(
-                          'https://www.tiktok.com/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: SizedBox(
-                          height: 24,
-                          width: 24,
-                          child:
-                              SvgPicture.asset('assets/icons/ic_tiktok.svg')),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        launchUrlString(
-                          'https://www.snapchat.com/',
-                          mode: LaunchMode.externalApplication,
-                        );
-                      },
-                      child: SizedBox(
-                          height: 24,
-                          width: 24,
-                          child:
-                              SvgPicture.asset('assets/icons/ic_snapchat.svg')),
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),
       );
     });
+  }
+
+  Widget _featureRow({
+    required BuildContext context,
+    required Widget icon,
+    required Color iconBg,
+    required String label,
+    required String subtitle,
+    required bool isDark,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF141414) : const Color(0xFFF5F5F5),
+          borderRadius: BorderRadius.circular(14),
+          border: Border.all(
+            color: isDark ? const Color(0xFF222222) : const Color(0xFFE0E0E0),
+            width: 0.5,
+          ),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: iconBg,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(child: icon),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: TextStyle(
+                      color: isDark ? Colors.white : blackTextColor,
+                      fontFamily: 'SF Pro Display',
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 2),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: isDark ? const Color(0xFF888888) : const Color(0xFF666666),
+                      fontFamily: 'SF Pro Display',
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              Icons.chevron_right,
+              color: isDark ? const Color(0xFF444444) : const Color(0xFFBBBBBB),
+              size: 20,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   drawerButton(String route, String svg, String title, {double opacity = 1.0}) {
