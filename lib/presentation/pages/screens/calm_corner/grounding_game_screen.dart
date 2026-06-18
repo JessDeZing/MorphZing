@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class GroundingGameScreen extends StatefulWidget {
@@ -26,10 +27,12 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
     setState(() {
       _tapped++;
       if (_tapped >= needed) {
+        HapticFeedback.mediumImpact();
         if (_currentStep < _senses.length - 1) {
           _currentStep++;
           _tapped = 0;
         } else {
+          HapticFeedback.heavyImpact();
           _finished = true;
         }
       }
@@ -131,7 +134,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
                 backgroundColor: color.withOpacity(0.15),
                 foregroundColor: color,
                 elevation: 0,
-                padding: const EdgeInsets.symmetric(vertical: 18),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                   side: BorderSide(color: color.withOpacity(0.4), width: 0.5),
@@ -233,7 +236,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
                 backgroundColor: const Color(0xFF89b4e8).withOpacity(0.15),
                 foregroundColor: const Color(0xFF89b4e8),
                 elevation: 0,
-                padding: const EdgeInsets.symmetric(vertical: 18),
+                padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
                   side: const BorderSide(color: Color(0xFF89b4e8), width: 0.5),
