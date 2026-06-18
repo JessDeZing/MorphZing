@@ -633,62 +633,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(top: 8.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    controller.currentSex.value = 3;
-                                    controller.defaultSex.value = genderList[2];
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 16,
-                                    ),
-                                    height: 48,
-                                    width: Get.width,
-                                    decoration: BoxDecoration(
-                                      color:
-                                          isDark ? darkBorderColor : greyButton,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          genderList[2],
-                                          style: TextStyle(
-                                            color: isDark
-                                                ? Colors.white
-                                                : blackTextColor,
-                                            fontFamily: 'SF Pro Display',
-                                            fontSize: 17,
-                                          ),
-                                        ),
-                                        (controller.currentSex.value == 3)
-                                            ? const Icon(Icons.check_circle,
-                                                size: 26, color: blueColor)
-                                            : Container(
-                                                height: 26,
-                                                width: 26,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(13),
-                                                  border: Border.all(
-                                                    width: 1,
-                                                    color: isDark
-                                                        ? darkBorderColor
-                                                        : Colors.grey,
-                                                  ),
-                                                ),
-                                              ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              Padding(
                                 padding: const EdgeInsets.only(
                                   bottom: 20,
                                   top: 20,
