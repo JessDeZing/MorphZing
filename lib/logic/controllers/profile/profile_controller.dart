@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:morphzing/app_controller.dart';
@@ -74,32 +75,32 @@ class ProfileController extends GetxController {
 
   pickImageFromCamera() async {
     loading(true);
-    final image = await ImagePicker().pickImage(
-      source: ImageSource.camera,
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
     );
-    if (image == null) {
+    if (result == null || result.files.isEmpty) {
       loading(false);
       return;
     }
 
-    final imageTemporary = File(image.path);
-    currentImage = imageTemporary;
+    currentImage = File(result.files.single.path!);
     loading(false);
     Get.back();
   }
 
   pickImageFromGallery() async {
     loading(true);
-    final image = await ImagePicker().pickImage(
-      source: ImageSource.gallery,
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.image,
+      allowMultiple: false,
     );
-    if (image == null) {
+    if (result == null || result.files.isEmpty) {
       loading(false);
       return;
     }
 
-    final imageTemporary = File(image.path);
-    currentImage = imageTemporary;
+    currentImage = File(result.files.single.path!);
     loading(false);
     Get.back();
   }

@@ -199,7 +199,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         child: Icon(
                                           Icons.image,
                                           size: 30,
-                                          color: blackTextColor,
+                                          color: Colors.white,
                                         ),
                                       ),
                                     ),
