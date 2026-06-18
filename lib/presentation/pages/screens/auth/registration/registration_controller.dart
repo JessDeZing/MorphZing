@@ -277,8 +277,6 @@ class RegistrationController extends GetxController {
       return male.tr;
     } else if (_currentSex.value == 2) {
       return female.tr;
-    } else if (_currentSex.value == 3) {
-      return nonBinary.tr;
     }
     return pleaseSelect.tr;
   }
