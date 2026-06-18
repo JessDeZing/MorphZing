@@ -44,9 +44,8 @@ class CalmCornerScreen extends StatelessWidget {
               icon: Icons.air,
               iconColor: const Color(0xFFb8a8d8),
               title: 'Breathing Exercise',
-              subtitle: 'Coming soon',
-              onTap: null,
-              locked: true,
+              subtitle: 'Box breathing • 4-4-4-4',
+              onTap: () => Get.toNamed(breathingRoute),
             ),
             const SizedBox(height: 16),
             _CalmTile(

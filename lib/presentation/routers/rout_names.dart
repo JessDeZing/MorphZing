@@ -66,3 +66,5 @@ const String todoRoute = '/todo';
 /// Calm Corner
 const String calmCornerRoute = '/calm_corner';
 const String groundingRoute = '/grounding_game';
+
+const String breathingRoute = '/breathing';

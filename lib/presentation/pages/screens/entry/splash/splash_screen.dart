@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/presentation/pages/screens/entry/splash/splash_controller.dart';
-import 'package:morphzing/utils/style/colors.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
-
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
@@ -16,38 +13,55 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return GetBuilder<SplashController>(
       init: controller,
       builder: (controller) {
         return Scaffold(
-          backgroundColor: blueColor,
+          backgroundColor: const Color(0xFF1a1f30),
           body: SafeArea(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 4,
-                  width: MediaQuery.of(context).size.height / 2,
-                  child: const Center(
-                      child: Image(
-                          image: AssetImage("assets/icons/app_icon.png"))),
+                const Spacer(),
+                Center(
+                  child: SizedBox(
+                    width: 160,
+                    height: 160,
+                    child: Image.asset('assets/images/logo.png'),
+                  ),
                 ),
-                SizedBox(
-                  height: 50,
-                  child: Center(
-                    child: Text(
-                      appName.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontFamily: "SF Pro Display",
-                        fontWeight: FontWeight.bold,
-                      ),
+                const SizedBox(height: 24),
+                const Text(
+                  'MorphZing',
+                  style: TextStyle(
+                    color: Color(0xFFeceaf8),
+                    fontSize: 28,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 1.2,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Get organized. Get inspired. Find peace.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Color(0xFF6a6a88),
+                    fontSize: 14,
+                    letterSpacing: 0.3,
+                  ),
+                ),
+                const Spacer(),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 32),
+                  child: Text(
+                    'One simple app. One beautiful journey.',
+                    style: TextStyle(
+                      color: Color(0xFF4a4a62),
+                      fontSize: 12,
+                      letterSpacing: 0.3,
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
