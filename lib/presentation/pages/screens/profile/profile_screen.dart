@@ -62,26 +62,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           actions: [
-            if (Get.find<AppController>()
-                    .user
-                    ?.userSubscription
-                    .paymentStatus ==
-                SubscriptionType.free) ...[
-              GestureDetector(
-                onTap: () {
-                  SubscriptionDialog.show(context: context);
-                },
-                child: Center(
-                    child: SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: SvgPicture.asset('assets/icons/premium.svg'),
-                )),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-            ],
+            // Premium star hidden until subscription is ready
             CupertinoButton(
               child: Text(
                 save.tr,
@@ -955,16 +936,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
-                    child: PrimaryButton(
-                      buttonColor: Colors.blue,
-                      buttonText: subscription.tr,
-                      onPressed: () {
-                        Navigator.pushNamed(context, subscriptionScreen);
-                      },
-                    ),
-                  ),
+                  // Subscription button hidden until payment is ready
                   Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 10.0),
                     child: CupertinoButton(

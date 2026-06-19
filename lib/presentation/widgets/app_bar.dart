@@ -93,23 +93,7 @@ class StaticAppBar {
         ),
       ),
       actions: [
-        if (logic.user?.userSubscription.paymentStatus ==
-            SubscriptionType.free) ...[
-          GestureDetector(
-            onTap: () {
-              SubscriptionDialog.show(context: context);
-            },
-            child: Center(
-                child: SizedBox(
-              height: 30,
-              width: 30,
-              child: SvgPicture.asset('assets/icons/premium.svg'),
-            )),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-        ],
+
         GetBuilder<AppController>(
           builder: (logic) {
             var profileImage = logic.user?.imageUrl ?? "";
@@ -294,23 +278,7 @@ class StaticAppBar {
         ),
       ),
       actions: [
-        if (logic.user?.userSubscription.paymentStatus ==
-            SubscriptionType.free) ...[
-          GestureDetector(
-            onTap: () {
-              SubscriptionDialog.show(context: context);
-            },
-            child: Center(
-                child: SizedBox(
-              height: 30,
-              width: 30,
-              child: SvgPicture.asset('assets/icons/premium.svg'),
-            )),
-          ),
-          const SizedBox(
-            width: 20,
-          ),
-        ],
+
         Padding(
           padding: const EdgeInsets.only(right: 16),
           child: GestureDetector(

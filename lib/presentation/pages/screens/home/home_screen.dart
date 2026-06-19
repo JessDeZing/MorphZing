@@ -54,11 +54,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void initState() {
     super.initState();
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      final result = await logic.checkSubscriptionShownStatus();
-      if (!result) {
-        SubscriptionDialog.show(context: context);
-        logic.setSubscriptionShown();
-      }
+      // Subscription dialog hidden until payment is ready
+      // final result = await logic.checkSubscriptionShownStatus();
+      // if (!result) {
+      //   SubscriptionDialog.show(context: context);
+      //   logic.setSubscriptionShown();
+      // }
       DynamicDeepLinkService.instance.initDynamicLinks(context);
       await fetchUserInfo();
       await checkPremiumLightValidity();
@@ -386,12 +387,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                 myAccount.tr,
                 opacity: 1,
               ),
-              drawerButton(
-                templatesScreen,
-                'assets/icons/ic_templates.svg',
-                templates.tr,
-                opacity: 1,
-              ),
+              // Background hidden until subscription is ready
+              // drawerButton(
+              //   templatesScreen,
+              //   'assets/icons/ic_templates.svg',
+              //   templates.tr,
+              //   opacity: 1,
+              // ),
               drawerButton(
                 notificationSettingsRoute,
                 'assets/icons/notfication_sv.svg',

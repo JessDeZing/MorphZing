@@ -386,12 +386,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                               },
                               child: const Center(child: Icon(Icons.brush, color: Colors.white, size: 24)),
                             )),
-                            Container(height: 30, width: 1, color: greyTextColor),
-                            // Wallpaper/Background
-                            Expanded(child: GestureDetector(
-                              onTap: () {},
-                              child: const Center(child: Icon(Icons.wallpaper, color: Colors.white, size: 24)),
-                            )),
+                            // Background hidden until subscription is ready
                             Container(height: 30, width: 1, color: greyTextColor),
                             // More
                             Expanded(child: GestureDetector(
