@@ -65,55 +65,7 @@ class CustomBottomBar {
   }
 
   static customBottomBar(BuildContext context) {
-    return BottomAppBar(
-      shape: const CircularNotchedRectangle(),
-      notchMargin: -8,
-      child: SizedBox(
-        height: 56,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 16,
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  SubscriptionDialog.show(context: context);
-                },
-                child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: SvgPicture.asset(
-                    'assets/icons/premium.svg',
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 10.0,
-                horizontal: 16,
-              ),
-              child: GestureDetector(
-                onTap: () {
-                  Get.offAllNamed(homeRoute);
-                },
-                child: SizedBox(
-                  height: 36,
-                  width: 36,
-                  child: SvgPicture.asset(
-                    'assets/icons/leading_icon.svg',
-                    color: hintTextColor,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    return const SizedBox.shrink();
   }
 
   static customJournalBottomBar({
