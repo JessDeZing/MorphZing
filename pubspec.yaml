@@ -111,10 +111,10 @@ flutter_icons:
 
 
 flutter_native_splash:
-  image: "assets/icons/app_icon.png"
+  image: "assets/images/black_mz_logo.png"
   android: true
   ios: true
-  color: "#4890FF"
+  color: "#000000"
 #  branding: "assets/icons/app_icon.png"
 
 

@@ -309,7 +309,7 @@ class En {
         translation.aboutTheApp: 'About the app',
         translation.ourMission: 'Our Mission',
         translation.ourMissionDescription:
-            'Life is complicated, MorphZing exists to help you! Get organized, inspired, and at peace. One simple app. One beautiful journey.',
+            'Life is complicated. MorphZing is not. Get organized, inspired, and at peace. One simple app. One beautiful journey.',
         translation.balanceEnergyHopeEarth: 'Balance.Energy.Hope.Earth',
         translation.faq: 'FAQ',
         translation.disclaimer: 'Disclaimer',

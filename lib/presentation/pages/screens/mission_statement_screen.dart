@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/presentation/widgets/app_bar.dart';
-import 'package:morphzing/utils/style/colors.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
 
 class MissionStatementScreen extends StatefulWidget {
   const MissionStatementScreen({Key? key}) : super(key: key);
@@ -13,201 +10,164 @@ class MissionStatementScreen extends StatefulWidget {
   State<MissionStatementScreen> createState() => _MissionStatementScreenState();
 }
 
-class _MissionStatementScreenState extends State<MissionStatementScreen> {
-  final box = GetStorage();
-  Future<void> _launchUrl(String url) async {
-    final Uri _url = Uri.parse(url);
-    if (!await launchUrl(_url)) {
-      throw 'Could not launch $_url';
-    }
+class _MissionStatementScreenState extends State<MissionStatementScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _fadeIn;
+  late Animation<double> _slideUp;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    );
+    _fadeIn = CurvedAnimation(parent: _controller, curve: Curves.easeIn);
+    _slideUp = Tween<double>(begin: 40, end: 0).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeOut),
+    );
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-        appBar:
-            StaticAppBar.subHomeAppBar(context, missionStatement.tr, false, ''),
-        body: SizedBox(
-          // height: MediaQuery.of(context).size.height,
-          child: SingleChildScrollView(
+      backgroundColor: const Color(0xFF070C1A),
+      appBar: StaticAppBar.subHomeAppBar(context, missionStatement.tr, false, ''),
+      body: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, child) {
+          return Opacity(
+            opacity: _fadeIn.value,
+            child: Transform.translate(
+              offset: Offset(0, _slideUp.value),
+              child: child,
+            ),
+          );
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  child: Text(
-                    ourMission.tr,
+                const SizedBox(height: 36),
+                Text(
+                  'OUR MISSION',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
+                    letterSpacing: 3,
+                    color: Colors.white.withOpacity(0.3),
+                    fontFamily: 'SF Pro Display',
+                  ),
+                ),
+                const SizedBox(height: 14),
+                ShaderMask(
+                  shaderCallback: (bounds) => const LinearGradient(
+                    colors: [Color(0xFF8B6FE8), Color(0xFFE88FC7), Color(0xFF86EFAC)],
+                  ).createShader(bounds),
+                  child: const Text(
+                    'Life is complicated.\nMorphZing is not.',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'SF Pro Display',
-                      fontSize: 20,
-                      color: isDark ? Colors.white : blackTextColor,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 28,
+                      fontWeight: FontWeight.w700,
+                      height: 1.3,
+                      color: Colors.white,
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-                  child: Text(
-                    ourMissionDescription.tr,
-                    style: TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 18,
-                      color: isDark ? Colors.white : greyTextColor,
-                      fontWeight: FontWeight.w400,
+                const SizedBox(height: 16),
+                Container(
+                  width: 36,
+                  height: 3,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(2),
+                    gradient: const LinearGradient(
+                      colors: [Color(0xFF8B6FE8), Color(0xFFE88FC7)],
                     ),
                   ),
                 ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  child: Text(
-                    balanceEnergyHopeEarth.tr,
-                    style: const TextStyle(
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 20,
-                      color: blueColor,
-                      fontWeight: FontWeight.w500,
-                    ),
+                const SizedBox(height: 20),
+                Text(
+                  'Get organized, inspired, and at peace.\nOne simple app. One beautiful journey.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 15,
+                    color: Colors.white.withOpacity(0.5),
+                    height: 1.8,
+                    fontWeight: FontWeight.w400,
                   ),
                 ),
-                const SizedBox(
-                  // height: 100,
-                  child: Center(
-                    child: Image(
-                      fit: BoxFit.contain,
-                      image: AssetImage(
-                        "assets/icons/app_icon_in_blue.png",
-                      ),
-                    ),
-                  ),
+                const SizedBox(height: 32),
+                Image.asset(
+                  'assets/images/treeoflifetransparent.png',
+                  width: MediaQuery.of(context).size.width * 0.82,
+                  fit: BoxFit.contain,
                 ),
-                const SizedBox(height: 40),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    left: 16.0,
-                    right: 16,
-                    top: 30,
-                    bottom: 20,
-                  ),
-                  child: Container(
-                    height: 140,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: const DecorationImage(
-                        image: AssetImage(
-                          'assets/images/world_changers_landing.png',
+                const SizedBox(height: 28),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 38,
+                      height: 38,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [
+                            Color(0xFF4F6BED),
+                            Color(0xFFA78BFA),
+                            Color(0xFFF0ABFC),
+                            Color(0xFF86EFAC),
+                          ],
                         ),
-                        fit: BoxFit.cover,
+                      ),
+                      child: const Center(
+                        child: Text(
+                          'MZ',
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                            fontFamily: 'SF Pro Display',
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 16, right: 80, bottom: 8),
-                  child: Text(
-                    'You are changing the world!',
-                    style: TextStyle(
-                      color: isDark ? Colors.white : blackTextColor,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 34,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, bottom: 20),
-                  child: Text(
-                    'Your membership helps to support the following foundations:',
-                    style: TextStyle(
-                      color: isDark ? Colors.white : hintTextColor,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 16, right: 16, bottom: 8),
-                  child: Text(
-                    'Thank you! You make a difference!',
-                    style: TextStyle(
-                      color: isDark ? Colors.white : hintTextColor,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'SF Pro Display',
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Container(
-                      height: 80,
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      child: Image(
-                        image: AssetImage('assets/icons/world_reload.png'),
-                        height: 80,
-                        width: 80,
-                      )),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 30),
-                  child: GestureDetector(
-                    onTap: () {
-                      _launchUrl('https://carbon180.org/');
-                    },
-                    child: Text(
-                      'https://carbon180.org',
-                      style: TextStyle(
-                        color: isDark ? Colors.white : blackTextColor,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'SF Pro Display',
-                        fontSize: 16,
+                    const SizedBox(width: 10),
+                    ShaderMask(
+                      shaderCallback: (bounds) => const LinearGradient(
+                        colors: [Color(0xFFA78BFA), Color(0xFFF0ABFC)],
+                      ).createShader(bounds),
+                      child: const Text(
+                        'MorphZing',
+                        style: TextStyle(
+                          fontFamily: 'SF Pro Display',
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
                       ),
-                      textAlign: TextAlign.center,
                     ),
-                  ),
+                  ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  child: Container(
-                      height: 80,
-                      width: MediaQuery.of(context).size.width,
-                      alignment: Alignment.center,
-                      child: Image(
-                        image: AssetImage('assets/icons/behind.png'),
-                        height: 60,
-                        width: 130,
-                      )),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, right: 16, bottom: 30),
-                  child: GestureDetector(
-                    onTap: () {
-                      _launchUrl('https://puppiesbehindbars.com/');
-                    },
-                    child: Text(
-                      'https://puppiesbehindbars.com/',
-                      style: TextStyle(
-                        color: isDark ? Colors.white : blackTextColor,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'SF Pro Display',
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ),
+                const SizedBox(height: 48),
               ],
             ),
           ),
-        ));
+        ),
+      ),
+    );
   }
 }

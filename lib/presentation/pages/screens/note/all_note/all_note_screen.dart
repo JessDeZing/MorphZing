@@ -1,14 +1,40 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:morphzing/data/models/journal/note.dart';
 import 'package:morphzing/presentation/pages/screens/note/all_note/all_note_controller.dart';
 import 'package:morphzing/presentation/widgets/app_bar.dart';
 import 'package:morphzing/presentation/widgets/custom_bottom_bar.dart';
 import 'package:morphzing/presentation/widgets/note_item.dart';
 import 'package:morphzing/utils/style/colors.dart';
 
-class AllNoteScreen extends StatelessWidget {
+class AllNoteScreen extends StatefulWidget {
   const AllNoteScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AllNoteScreen> createState() => _AllNoteScreenState();
+}
+
+class _AllNoteScreenState extends State<AllNoteScreen> {
+  bool _searchExpanded = false;
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  List<Note> _filtered(List<Note> source) {
+    if (_searchQuery.isEmpty) return source;
+    final q = _searchQuery.toLowerCase();
+    return source
+        .where((n) =>
+            (n.noteName ?? '').toLowerCase().contains(q) ||
+            (n.noteDescription ?? '').toLowerCase().contains(q))
+        .toList();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +72,49 @@ class AllNoteScreen extends StatelessWidget {
                       )
                     ],
                   )
-                : StaticAppBar.searchAppBar(context, 'Note', false, ""),
+                : AppBar(
+                    backgroundColor: isDark ? darkBgColor : whiteColor,
+                    elevation: 0,
+                    title: _searchExpanded
+                        ? TextField(
+                            controller: _searchController,
+                            autofocus: true,
+                            style: TextStyle(
+                                color: isDark ? whiteColor : blackTextColor),
+                            decoration: InputDecoration(
+                              hintText: 'Search notes...',
+                              hintStyle: TextStyle(color: greyTextColor),
+                              border: InputBorder.none,
+                            ),
+                            onChanged: (v) => setState(() => _searchQuery = v),
+                          )
+                        : Text(
+                            'Notes',
+                            style: TextStyle(
+                              color: isDark ? whiteColor : blackTextColor,
+                              fontFamily: 'SF Pro Display',
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(
+                          _searchExpanded ? Icons.close : Icons.search,
+                          color: isDark ? whiteColor : blackTextColor,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _searchExpanded = !_searchExpanded;
+                            if (!_searchExpanded) {
+                              _searchController.clear();
+                              _searchQuery = '';
+                            }
+                          });
+                        },
+                      ),
+                    ],
+                  ),
             body: SafeArea(
               child: Obx(() {
                 if (controller.rxStatus.isLoading) {
@@ -59,6 +127,7 @@ class AllNoteScreen extends StatelessWidget {
                 }
 
                 if (controller.rxStatus.isSuccess) {
+                  final filtered = _filtered(controller.orderedNotes);
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -73,7 +142,7 @@ class AllNoteScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  '${controller.response.total} note',
+                                  '${_searchQuery.isEmpty ? controller.response.total : filtered.length} note',
                                   style: TextStyle(
                                     color: isDark ? whiteColor : greyTextColor,
                                     fontFamily: 'SF Pro Display',
@@ -121,8 +190,6 @@ class AllNoteScreen extends StatelessWidget {
                                         child: Text('A-Z')),
                                     DropdownMenuItem(
                                         value: 'custom', child: Text('Custom')),
-                                    // DropdownMenuItem(
-                                    //     value: 'date', child: Text('Date')),
                                   ],
                                   onChanged: (String? newValue) {
                                     if (newValue != null) {
@@ -143,139 +210,142 @@ class AllNoteScreen extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: GridView.builder(
-                          controller: controller.scrollController,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 4,
-                            mainAxisSpacing: 4,
-                            childAspectRatio: 0.8,
-                          ),
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16, horizontal: 16),
-                          itemCount: controller.response.isLastPage()
-                              ? controller.orderedNotes.length
-                              : controller.orderedNotes.length + 1,
-                          itemBuilder: (context, index) {
-                            // Show loading indicator at the end if not last page
-                            if (!controller.response.isLastPage() &&
-                                index == controller.orderedNotes.length) {
-                              return controller.rxStatus.isLoadingMore
-                                  ? const Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(16.0),
-                                        child: CircularProgressIndicator(),
-                                      ),
-                                    )
-                                  : const SizedBox.shrink();
-                            }
-
-                            final note = controller.orderedNotes[index];
-                            final isPinned = controller.isNotePinned(note.id);
-
-                            return DragTarget<int>(
-                              key: ValueKey('target_${note.id ?? index}'),
-                              builder: (context, candidateData, rejectedData) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    border: candidateData.isNotEmpty
-                                        ? Border.all(
-                                            color: Colors.blue, width: 2.0)
-                                        : null,
+                        child: filtered.isEmpty
+                            ? Center(
+                                child: Text(
+                                  _searchQuery.isNotEmpty
+                                      ? 'No results found'
+                                      : 'No notes yet',
+                                  style: TextStyle(
+                                    color: isDark ? whiteColor : blackTextColor,
+                                    fontSize: 16,
                                   ),
-                                  child: LongPressDraggable<int>(
-                                    key: ValueKey(
-                                        'draggable_${note.id ?? index}'),
-                                    data: index,
-                                    delay: const Duration(milliseconds: 500),
-                                    feedback: Material(
-                                      elevation: 8.0,
-                                      child: Container(
-                                        width: 150,
-                                        height: 180,
-                                        child: NoteItem(
-                                          note: note,
-                                          isPinned: isPinned,
-                                          onPinPressed: () =>
-                                              controller.togglePinNote(note),
-                                          onPressed: () {},
-                                          onLongPressed: () {},
-                                          onDoublePressed: () {
-                                            print('double pressed');
-                                          },
+                                ),
+                              )
+                            : GridView.builder(
+                                controller: controller.scrollController,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 4,
+                                  mainAxisSpacing: 4,
+                                  childAspectRatio: 0.8,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 16, horizontal: 16),
+                                itemCount: _searchQuery.isEmpty &&
+                                        !controller.response.isLastPage()
+                                    ? filtered.length + 1
+                                    : filtered.length,
+                                itemBuilder: (context, index) {
+                                  if (_searchQuery.isEmpty &&
+                                      !controller.response.isLastPage() &&
+                                      index == controller.orderedNotes.length) {
+                                    return controller.rxStatus.isLoadingMore
+                                        ? const Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.all(16.0),
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
+                                          )
+                                        : const SizedBox.shrink();
+                                  }
+
+                                  final note = filtered[index];
+                                  final isPinned =
+                                      controller.isNotePinned(note.id);
+
+                                  return DragTarget<int>(
+                                    key: ValueKey('target_${note.id ?? index}'),
+                                    builder:
+                                        (context, candidateData, rejectedData) {
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          border: candidateData.isNotEmpty
+                                              ? Border.all(
+                                                  color: Colors.blue, width: 2.0)
+                                              : null,
                                         ),
-                                      ),
-                                    ),
-                                    childWhenDragging: Opacity(
-                                      opacity: 0.5,
-                                      child: NoteItem(
-                                        note: note,
-                                        isPinned: isPinned,
-                                        onPinPressed: () =>
-                                            controller.togglePinNote(note),
-                                        onPressed: () {},
-                                        onLongPressed: () {},
-                                        onDoublePressed: () {
-                                          print('double pressed');
-                                        },
-                                      ),
-                                    ),
-                                    child: NoteItem(
-                                      note: note,
-                                      isPinned: isPinned,
-                                      onPinPressed: () =>
-                                          controller.togglePinNote(note),
-                                      onPressed: () {
-                                        if (controller.isChecking) {
-                                          int originalIndex = controller
-                                              .response.data
-                                              .indexWhere(
-                                                  (n) => n.id == note.id);
-                                          if (originalIndex != -1) {
-                                            controller.onChangeNoteChecked(
-                                                originalIndex);
-                                          }
-                                        } else {
-                                          controller.openNoteScreen(note: note);
-                                        }
-                                      },
-                                      onLongPressed: () {
-                                        // Long press is now used for dragging
-                                        print('long pressed');
-                                      },
-                                      onDoublePressed: () {
-                                        print('double pressed');
-                                      },
-                                    ),
-                                  ),
-                                );
-                              },
-                              onAccept: (draggedIndex) {
-                                print('Drop accepted: $draggedIndex -> $index');
-                                // Always accept the drop, but only reorder if indices are different
-                                if (draggedIndex != index) {
-                                  controller.reorderNotes(draggedIndex, index);
-                                } else {
-                                  print(
-                                      'Same position drop - no reorder needed');
-                                }
-                              },
-                              onWillAccept: (data) {
-                                print('Will accept: $data at index $index');
-                                return data !=
-                                    null; // Allow dropping anywhere, even same position
-                              },
-                            );
-                          },
-                        ),
+                                        child: LongPressDraggable<int>(
+                                          key: ValueKey(
+                                              'draggable_${note.id ?? index}'),
+                                          data: index,
+                                          delay:
+                                              const Duration(milliseconds: 500),
+                                          feedback: Material(
+                                            elevation: 8.0,
+                                            child: Container(
+                                              width: 150,
+                                              height: 180,
+                                              child: NoteItem(
+                                                note: note,
+                                                isPinned: isPinned,
+                                                onPinPressed: () => controller
+                                                    .togglePinNote(note),
+                                                onPressed: () {},
+                                                onLongPressed: () {},
+                                                onDoublePressed: () {},
+                                              ),
+                                            ),
+                                          ),
+                                          childWhenDragging: Opacity(
+                                            opacity: 0.5,
+                                            child: NoteItem(
+                                              note: note,
+                                              isPinned: isPinned,
+                                              onPinPressed: () => controller
+                                                  .togglePinNote(note),
+                                              onPressed: () {},
+                                              onLongPressed: () {},
+                                              onDoublePressed: () {},
+                                            ),
+                                          ),
+                                          child: NoteItem(
+                                            note: note,
+                                            isPinned: isPinned,
+                                            onPinPressed: () =>
+                                                controller.togglePinNote(note),
+                                            onPressed: () {
+                                              if (controller.isChecking) {
+                                                int originalIndex = controller
+                                                    .response.data
+                                                    .indexWhere(
+                                                        (n) => n.id == note.id);
+                                                if (originalIndex != -1) {
+                                                  controller
+                                                      .onChangeNoteChecked(
+                                                          originalIndex);
+                                                }
+                                              } else {
+                                                controller.openNoteScreen(
+                                                    note: note);
+                                              }
+                                            },
+                                            onLongPressed: () {},
+                                            onDoublePressed: () {},
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                    onAccept: (draggedIndex) {
+                                      if (draggedIndex != index) {
+                                        controller.reorderNotes(
+                                            draggedIndex, index);
+                                      }
+                                    },
+                                    onWillAccept: (data) => data != null,
+                                  );
+                                },
+                              ),
                       ),
                       if (controller.isChecking)
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           child: ElevatedButton(
                             onPressed: controller.isValidate()
-                                ? () => controller.openMoveFolderBottom(context)
+                                ? () =>
+                                    controller.openMoveFolderBottom(context)
                                 : null,
                             child: const Text('Move to Folder'),
                           ),

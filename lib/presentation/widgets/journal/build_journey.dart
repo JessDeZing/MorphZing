@@ -80,8 +80,8 @@ class _BuildJourneyState extends State<BuildJourney> {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
-          height: 50,
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 2),
+          height: 40,
           width: Get.width,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -124,16 +124,16 @@ class _BuildJourneyState extends State<BuildJourney> {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(bottom: 10.0),
+          padding: EdgeInsets.only(bottom: 2.0),
           child: Divider(
             height: 1,
             color: isDark ? Colors.white : greyTextColor,
           ),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4),
           child: SizedBox(
-            height: 30,
+            height: 28,
             width: Get.width,
             child: TextField(
               onChanged: (e) {

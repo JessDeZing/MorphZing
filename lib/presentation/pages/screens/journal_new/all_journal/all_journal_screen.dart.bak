@@ -13,31 +13,8 @@ import 'package:morphzing/presentation/widgets/custom_bottom_bar.dart';
 import 'package:morphzing/presentation/widgets/journal/journal_item.dart';
 import 'package:morphzing/utils/style/colors.dart';
 
-class AllJournalScreen extends StatefulWidget {
+class AllJournalScreen extends StatelessWidget {
   const AllJournalScreen({Key? key}) : super(key: key);
-
-  @override
-  State<AllJournalScreen> createState() => _AllJournalScreenState();
-}
-
-class _AllJournalScreenState extends State<AllJournalScreen> {
-  bool _searchExpanded = false;
-  final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
-  }
-
-  List<JournalModel> _filtered(List<JournalModel> source) {
-    if (_searchQuery.isEmpty) return source;
-    return source
-        .where((j) =>
-            (j.noteName ?? '').toLowerCase().contains(_searchQuery.toLowerCase()))
-        .toList();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,19 +25,8 @@ class _AllJournalScreenState extends State<AllJournalScreen> {
         builder: (controller) {
           return Scaffold(
             backgroundColor: isDark ? darkBgColor : whiteColor,
-            appBar: AppBar(
-              backgroundColor: isDark ? darkBgColor : whiteColor,
-              elevation: 0,
-              title: Text(
-                todayJourney.tr,
-                style: TextStyle(
-                  color: isDark ? whiteColor : blackTextColor,
-                  fontFamily: 'SF Pro Display',
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
+            appBar:
+                StaticAppBar.searchAppBar(context, todayJourney.tr, false, ""),
             body: SafeArea(
               child: Obx(() {
                 return CustomScrollView(
@@ -214,82 +180,74 @@ class _AllJournalScreenState extends State<AllJournalScreen> {
                         ),
                       ),
                     if (controller.rxStatus.isSuccess)
-                      Builder(builder: (_) {
-                        final filtered = _filtered(controller.response.data);
-                        return filtered.isNotEmpty
-                            ? SliverPadding(
-                                padding: EdgeInsets.symmetric(vertical: 16.h),
-                                sliver: SliverList(
-                                  delegate: SliverChildBuilderDelegate(
-                                    (BuildContext context, int index) {
-                                      // Only show pagination loader when not searching
-                                      if (_searchQuery.isEmpty &&
-                                          !controller.response.isLastPage() &&
-                                          index ==
-                                              controller.response.data.length) {
-                                        if (controller.rxStatus.isLoadingMore) {
-                                          return Center(
-                                              child:
-                                                  CircularProgressIndicator());
-                                        } else {
-                                          controller.getPaginationJournalList();
-                                          return SizedBox.shrink();
-                                        }
+                      controller.response.data.isNotEmpty
+                          ? SliverPadding(
+                              padding: EdgeInsets.symmetric(vertical: 16.h),
+                              sliver: SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (BuildContext context, int index) {
+                                    if (!controller.response.isLastPage() &&
+                                        index ==
+                                            controller.response.data.length) {
+                                      if (controller.rxStatus.isLoadingMore) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      } else {
+                                        controller.getPaginationJournalList();
+                                        return SizedBox.shrink();
                                       }
-                                      JournalModel model = filtered[index];
-                                      return Container(
-                                        margin: EdgeInsets.only(bottom: 8),
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 16),
-                                        child: JournalItem(
-                                          journalItem: model,
-                                          onPressedItem: () => controller
-                                              .openUpdateJournalScreen(model),
-                                        ),
-                                      );
-                                    },
-                                    childCount: _searchQuery.isEmpty &&
-                                            !controller.response.isLastPage()
-                                        ? filtered.length + 1
-                                        : filtered.length,
+                                    }
+                                    JournalModel model =
+                                        controller.response.data[index];
+                                    return Container(
+                                      margin: EdgeInsets.only(bottom: 8),
+                                      padding:
+                                          EdgeInsets.symmetric(horizontal: 16),
+                                      child: JournalItem(
+                                        journalItem:
+                                            controller.response.data[index],
+                                        onPressedItem: () => controller
+                                            .openUpdateJournalScreen(model),
+                                      ),
+                                    );
+                                  },
+                                  // 40 list items
+                                  childCount: controller.response.isLastPage()
+                                      ? controller.response.data.length
+                                      : controller.response.data.length + 1,
+                                ),
+                              ),
+                            )
+                          : SliverFillRemaining(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    noJourneyForTodayTitle.tr,
+                                    style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w700,
+                                      color: isDark
+                                          ? whiteColor
+                                          : Color(0xFF050A41),
+                                    ),
                                   ),
-                                ),
-                              )
-                            : SliverFillRemaining(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      _searchQuery.isNotEmpty
-                                          ? 'No results found'
-                                          : noJourneyForTodayTitle.tr,
-                                      style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w700,
-                                        color: isDark
-                                            ? whiteColor
-                                            : Color(0xFF050A41),
-                                      ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    noJourneyForTodayDesc.tr,
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: isDark
+                                          ? greyTextColor
+                                          : Color(0xFF676A8B),
                                     ),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      _searchQuery.isNotEmpty
-                                          ? 'Try a different search term'
-                                          : noJourneyForTodayDesc.tr,
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w400,
-                                        color: isDark
-                                            ? greyTextColor
-                                            : Color(0xFF676A8B),
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
-                                  ],
-                                ),
-                              );
-                      }),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                              ),
+                            )
                   ],
                 );
               }),
