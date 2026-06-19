@@ -7,7 +7,7 @@ class Es {
         translation.spanish: 'Español',
         translation.setupLanguageDescription:
             '''Controla el viaje de tu vida, todo\n en un solo lugar''',
-        translation.next: 'Próxima',
+        translation.next: 'Siguiente',
         translation.useYourJournalTo: 'Usa tu diario para',
         translation.trackYourProgress: 'Sigue tu progreso',
         translation.findInspiration: 'Encuentra inspiración',
@@ -25,7 +25,7 @@ class Es {
         translation.login: 'Acceso',
         translation.forgotPassword: 'Has olvidado tu contraseña?',
         translation.phone: 'Número de teléfono',
-        translation.emailOrPhone: 'Número de teléfono',
+        translation.emailOrPhone: 'Correo electrónico o número de teléfono',
         translation.password: 'Contraseña',
         translation.doNotHaveAnAccountYet: '''Aún no tienes una cuenta?''',
         translation.signUp: 'Inscribirse',
@@ -64,7 +64,7 @@ class Es {
             'Por favor introduzca su correo electrónico',
         translation.email: 'Correo electrónico',
         translation.howDoYouIdentity: 'Como te identificas',
-        translation.save: 'Ahorrar',
+        translation.save: 'Guardar',
         translation.male: 'Masculina',
         translation.female: 'Femenino',
         translation.nonBinary: 'No binaria',
@@ -72,15 +72,15 @@ class Es {
         translation.yourPasswordHasBeenSuccessfullyChanged:
             'Su contraseña ha sido cambiada exitosamente',
         translation.great: 'Excelente',
-        translation.home: 'Hogar',
+        translation.home: 'Inicio',
         translation.agenda: 'Agenda',
         translation.calendar: 'Calendario',
         translation.journal: 'Diario',
         translation.zingPhotography: 'Fotografía Zing',
         translation.worldChangers: 'Cambiadores del mundo',
-        translation.chat: 'Charlar',
-        translation.todo: 'Hacer',
-        translation.todoCapital: 'Hacer',
+        translation.chat: 'Chat',
+        translation.todo: 'Pendientes',
+        translation.todoCapital: 'Pendientes',
         translation.today: 'Hoy',
         translation.monthly: 'Mensual',
         translation.yearly: 'Anual',
@@ -152,6 +152,8 @@ class Es {
             'Disfruta organizando tu día con el plan de suscripción MorphZing Free.',
         translation.basicDescription:
             'Obtenga los beneficios y disfrute organizando su día con el plan de suscripción MorphZing Basic.',
+        translation.basicDialogDescription:
+            'Obtén todos los beneficios a la vez y disfruta la libertad de organizar tu día.',
         translation.premiumDescription:
             'Obtenga todos los beneficios a la vez y disfrute creando tareas/eventos/y notas de diario ilimitadas con el plan de suscripción MorphZing Premium.',
         translation.subscribeForMoreFeatures:
@@ -314,7 +316,7 @@ class Es {
         translation.aboutTheApp: 'Sobre la aplicación',
         translation.ourMission: 'Nuestra misión',
         translation.ourMissionDescription:
-            'Para ayudar a la humanidad a lograr y cumplir su Leyenda/Viaje personal con una vida equilibrada llena de energía positiva y esperanza para hacer de nuestra tierra un lugar mejor',
+            'La vida es complicada. MorphZing no lo es. Organízate, inspírate y encuentra paz. Una app simple. Un viaje hermoso.',
         translation.balanceEnergyHopeEarth:
             'Equilibrio.Energía.Esperanza.Tierra',
         translation.faq: 'Preguntas más frecuentes',
