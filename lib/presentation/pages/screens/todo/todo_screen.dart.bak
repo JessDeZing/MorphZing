@@ -84,95 +84,48 @@ class _TodoScreenState extends State<TodoScreen>
     }
   }
 
-  String _csvEscape(String value) {
-    if (value.contains(',') || value.contains('"') || value.contains('\n')) {
-      return '"' + value.replaceAll('"', '""') + '"';
-    }
-    return value;
-  }
-
   Future<void> _exportTasks() async {
     try {
-      final buffer = StringBuffer();
-      buffer.writeln('title,color,dueDate,completed');
-      for (final t in _items) {
-        final row = [
-          _csvEscape(t.title),
-          t.color?.value.toString() ?? '',
-          t.dueDate?.toIso8601String() ?? '',
-          t.completed.toString(),
-        ].join(',');
-        buffer.writeln(row);
-      }
+      final data = _items.map((t) => {
+        "id": t.id,
+        "title": t.title,
+        "color": t.color?.value,
+        "dueDate": t.dueDate?.toIso8601String(),
+        "completed": t.completed,
+      }).toList();
+      final jsonStr = jsonEncode(data);
       final dir = await getTemporaryDirectory();
-      final file = File('${dir.path}/MorphZing_ToDo_Backup.csv');
-      await file.writeAsString(buffer.toString());
+      final file = File('\${dir.path}/morphzing_todo_backup.json');
+      await file.writeAsString(jsonStr);
       await Share.shareXFiles([XFile(file.path)], text: 'MorphZing To-Do backup');
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Export failed: $e')),
+          SnackBar(content: Text('Export failed: \$e')),
         );
       }
     }
-  }
-
-  List<String> _parseCsvLine(String line) {
-    final fields = <String>[];
-    final buffer = StringBuffer();
-    bool inQuotes = false;
-    for (int i = 0; i < line.length; i++) {
-      final c = line[i];
-      if (inQuotes) {
-        if (c == '"' && i + 1 < line.length && line[i + 1] == '"') {
-          buffer.write('"');
-          i++;
-        } else if (c == '"') {
-          inQuotes = false;
-        } else {
-          buffer.write(c);
-        }
-      } else {
-        if (c == '"') {
-          inQuotes = true;
-        } else if (c == ',') {
-          fields.add(buffer.toString());
-          buffer.clear();
-        } else {
-          buffer.write(c);
-        }
-      }
-    }
-    fields.add(buffer.toString());
-    return fields;
   }
 
   Future<void> _importTasks() async {
     try {
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['csv'],
+        allowedExtensions: ['json'],
       );
       if (result == null || result.files.single.path == null) return;
       final file = File(result.files.single.path!);
-      final csvStr = await file.readAsString();
-      final lines = csvStr.split('\n').where((l) => l.trim().isNotEmpty).toList();
-      if (lines.isEmpty) return;
-      final newItems = <TodoItem>[];
-      for (int i = 1; i < lines.length; i++) {
-        final fields = _parseCsvLine(lines[i]);
-        if (fields.length < 4) continue;
-        newItems.add(TodoItem(
-          id: DateTime.now().millisecondsSinceEpoch.toString() + '_' + i.toString(),
-          title: fields[0],
-          color: fields[1].isNotEmpty ? Color(int.parse(fields[1])) : null,
-          dueDate: fields[2].isNotEmpty ? DateTime.parse(fields[2]) : null,
-          completed: fields[3].trim().toLowerCase() == 'true',
-        ));
-      }
+      final jsonStr = await file.readAsString();
+      final List data = jsonDecode(jsonStr);
       setState(() {
         _items.clear();
-        _items.addAll(newItems);
+        _items.addAll(data.map((e) => TodoItem(
+          id: e["id"],
+          title: e["title"],
+          color: e["color"] != null ? Color(e["color"]) : null,
+          dueDate: e["dueDate"] != null ? DateTime.parse(e["dueDate"]) : null,
+          completed: e["completed"] ?? false,
+        )));
       });
       _saveItems();
       if (mounted) {
@@ -183,7 +136,65 @@ class _TodoScreenState extends State<TodoScreen>
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Import failed: $e')),
+          SnackBar(content: Text('Import failed: \$e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _exportTasks() async {
+    try {
+      final data = _items.map((t) => {
+        "id": t.id,
+        "title": t.title,
+        "color": t.color?.value,
+        "dueDate": t.dueDate?.toIso8601String(),
+        "completed": t.completed,
+      }).toList();
+      final jsonStr = jsonEncode(data);
+      final dir = await getTemporaryDirectory();
+      final file = File('\${dir.path}/morphzing_todo_backup.json');
+      await file.writeAsString(jsonStr);
+      await Share.shareXFiles([XFile(file.path)], text: 'MorphZing To-Do backup');
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Export failed: \$e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _importTasks() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['json'],
+      );
+      if (result == null || result.files.single.path == null) return;
+      final file = File(result.files.single.path!);
+      final jsonStr = await file.readAsString();
+      final List data = jsonDecode(jsonStr);
+      setState(() {
+        _items.clear();
+        _items.addAll(data.map((e) => TodoItem(
+          id: e["id"],
+          title: e["title"],
+          color: e["color"] != null ? Color(e["color"]) : null,
+          dueDate: e["dueDate"] != null ? DateTime.parse(e["dueDate"]) : null,
+          completed: e["completed"] ?? false,
+        )));
+      });
+      _saveItems();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('To-Do list restored successfully')),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Import failed: \$e')),
         );
       }
     }
