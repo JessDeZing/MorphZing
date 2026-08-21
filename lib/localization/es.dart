@@ -488,6 +488,11 @@ class Es {
         'dark': 'Oscuro',
         'followPhoneSettings': 'Seguir configuración del teléfono',
         'alwaysLightTheme': 'Siempre tema claro',
-        'alwaysDarkTheme': 'Siempre tema oscuro'
+        'alwaysDarkTheme': 'Siempre tema oscuro',
+        translation.journalReminder1: 'Tu diario espera la página de hoy. 📝',
+        translation.journalReminder2: '¿Unos minutos con tus pensamientos? Tu diario está abierto.',
+        translation.journalReminder3: 'Hoy aún no está escrito. ¿Quieres agregar una página?',
+        translation.journalReminder4: 'Un momento tranquilo para ti — tu diario te espera.',
+        translation.journalReminder5: 'No has escrito hoy. Tu diario te extrañó.',
       };
 }

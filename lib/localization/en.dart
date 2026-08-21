@@ -472,5 +472,10 @@ class En {
         'followPhoneSettings': 'Follow phone settings',
         'alwaysLightTheme': 'Always light theme',
         'alwaysDarkTheme': 'Always dark theme',
+        translation.journalReminder1: 'Your journal is waiting for today\'s page. 📝',
+        translation.journalReminder2: 'A few minutes with your thoughts? Your journal\'s open.',
+        translation.journalReminder3: 'Today\'s not written yet. Want to add a page?',
+        translation.journalReminder4: 'Quiet moment for you — your journal\'s ready when you are.',
+        translation.journalReminder5: 'Haven\'t checked in today. Your journal missed you.',
       };
 }
