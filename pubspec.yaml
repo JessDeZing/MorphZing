@@ -116,5 +116,8 @@ flutter_native_splash:
   ios: true
   color: "#000000"
 #  branding: "assets/icons/app_icon.png"
+  android_12:
+    image: "assets/images/black_mz_logo.png"
+    color: "#000000"
 
 

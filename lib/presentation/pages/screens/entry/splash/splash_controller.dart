@@ -21,7 +21,6 @@ class SplashController extends GetxController {
   }
 
   Future<void> _init() async {
-    await Future.delayed(const Duration(seconds: 1));
     bool isAuth = _commonRepository.getIsAuth();
     String? localeKey = _commonRepository.getLocale();
     String? accessToken = _tokenRepository.getAccessToken();
