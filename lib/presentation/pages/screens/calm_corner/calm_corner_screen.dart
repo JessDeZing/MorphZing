@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
+import 'package:morphzing/localization/translation_keys.dart' as translation;
 
 class CalmCornerScreen extends StatelessWidget {
   const CalmCornerScreen({super.key});
@@ -16,8 +17,8 @@ class CalmCornerScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFb8a8d8)),
           onPressed: () => Get.back(),
         ),
-        title: const Text(
-          'Calm Corner',
+        title: Text(
+          translation.calmCorner.tr,
           style: TextStyle(color: Color(0xFFeceaf8), fontSize: 18, fontWeight: FontWeight.w500),
         ),
       ),
@@ -27,32 +28,32 @@ class CalmCornerScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 8),
-            const Text(
-              'Take a moment for yourself.',
+            Text(
+              translation.takeAMomentForYourself.tr,
               style: TextStyle(color: Color(0xFF8a8aaa), fontSize: 15),
             ),
             const SizedBox(height: 32),
             _CalmTile(
               icon: Icons.self_improvement,
               iconColor: const Color(0xFF89b4e8),
-              title: 'Grounding Exercise',
-              subtitle: '5-4-3-2-1  •  Brings you back to the present',
+              title: translation.groundingExercise.tr,
+              subtitle: translation.groundingExerciseSubtitle.tr,
               onTap: () => Get.toNamed(groundingRoute),
             ),
             const SizedBox(height: 16),
             _CalmTile(
               icon: Icons.air,
               iconColor: const Color(0xFFb8a8d8),
-              title: 'Breathing Exercise',
-              subtitle: 'Box breathing • 4-4-4-4',
+              title: translation.breathingExercise.tr,
+              subtitle: translation.breathingExerciseSubtitle.tr,
               onTap: () => Get.toNamed(breathingRoute),
             ),
             const SizedBox(height: 16),
             _CalmTile(
               icon: Icons.palette_outlined,
               iconColor: const Color(0xFFd4a0b8),
-              title: 'Color & Discover',
-              subtitle: 'Coming soon — Zing Photography',
+              title: translation.colorAndDiscover.tr,
+              subtitle: translation.comingSoonZingPhotography.tr,
               onTap: null,
               locked: true,
             ),

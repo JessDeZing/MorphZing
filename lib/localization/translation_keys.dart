@@ -406,3 +406,12 @@ const system = 'system';
 const followPhoneSettings = 'followPhoneSettings';
 const alwaysLightTheme = 'alwaysLightTheme';
 const alwaysDarkTheme = 'alwaysDarkTheme';
+
+const calmCorner = 'calmCorner';
+const takeAMomentForYourself = 'takeAMomentForYourself';
+const groundingExercise = 'groundingExercise';
+const groundingExerciseSubtitle = 'groundingExerciseSubtitle';
+const breathingExercise = 'breathingExercise';
+const breathingExerciseSubtitle = 'breathingExerciseSubtitle';
+const colorAndDiscover = 'colorAndDiscover';
+const comingSoonZingPhotography = 'comingSoonZingPhotography';
