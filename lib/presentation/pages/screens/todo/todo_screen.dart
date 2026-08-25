@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:morphzing/localization/translation_keys.dart' as translation;
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -111,7 +113,7 @@ class _TodoScreenState extends State<TodoScreen>
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Export failed: $e')),
+          SnackBar(content: Text('${translation.exportFailed.tr}: $e')),
         );
       }
     }
@@ -177,13 +179,13 @@ class _TodoScreenState extends State<TodoScreen>
       _saveItems();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('To-Do list restored successfully')),
+          SnackBar(content: Text(translation.todoRestoredSuccess.tr)),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Import failed: $e')),
+          SnackBar(content: Text('${translation.importFailed.tr}: $e')),
         );
       }
     }
@@ -269,14 +271,14 @@ class _TodoScreenState extends State<TodoScreen>
                 controller: _searchController,
                 autofocus: true,
                 style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  hintText: 'Search tasks...',
+                decoration: InputDecoration(
+                  hintText: translation.searchTasks.tr,
                   hintStyle: TextStyle(color: Colors.white38),
                   border: InputBorder.none,
                 ),
                 onChanged: (v) => setState(() => _searchQuery = v),
               )
-            : const Text('My To-Do',
+            : Text(translation.myToDo.tr,
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 22,
@@ -312,9 +314,9 @@ class _TodoScreenState extends State<TodoScreen>
           labelColor: const Color(0xFF7C4DFF),
           unselectedLabelColor: Colors.white38,
           labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
-          tabs: const [
-            Tab(text: 'Active'),
-            Tab(text: 'Completed'),
+          tabs: [
+            Tab(text: translation.activeTab.tr),
+            Tab(text: translation.completed.tr),
           ],
         ),
       ),
@@ -335,13 +337,13 @@ class _TodoScreenState extends State<TodoScreen>
 
   Widget _buildList(List<TodoItem> items) {
     if (items.isEmpty) {
-      return const Center(
+      return Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.check_circle_outline, size: 56, color: Colors.white12),
-            SizedBox(height: 12),
-            Text('Nothing here',
+            const Icon(Icons.check_circle_outline, size: 56, color: Colors.white12),
+            const SizedBox(height: 12),
+            Text(translation.nothingHere.tr,
                 style: TextStyle(color: Colors.white24, fontSize: 16)),
           ],
         ),
@@ -510,7 +512,7 @@ Future<TimeOfDay?> showDigitalTimePicker(
       return AlertDialog(
         backgroundColor: const Color(0xFF1A1A1A),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Set time',
+        title: Text(translation.setTime.tr,
             style: TextStyle(color: Colors.white, fontSize: 16)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -570,7 +572,7 @@ Future<TimeOfDay?> showDigitalTimePicker(
                             color: isAM ? const Color(0xFF7C4DFF) : const Color(0xFF2A2A2A),
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
                           ),
-                          child: Text('AM',
+                          child: Text(translation.amLabel.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: isAM ? Colors.white : Colors.white38,
@@ -591,7 +593,7 @@ Future<TimeOfDay?> showDigitalTimePicker(
                             color: !isAM ? const Color(0xFF7C4DFF) : const Color(0xFF2A2A2A),
                             borderRadius: const BorderRadius.vertical(bottom: Radius.circular(8)),
                           ),
-                          child: Text('PM',
+                          child: Text(translation.pmLabel.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                   color: !isAM ? Colors.white : Colors.white38,
@@ -605,15 +607,15 @@ Future<TimeOfDay?> showDigitalTimePicker(
               ],
             ),
             const SizedBox(height: 8),
-            const Text('Tap numbers to type  •  arrows to scroll',
+            Text(translation.tapNumbersHint.tr,
                 style: TextStyle(color: Colors.white24, fontSize: 11)),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel',
-                style: TextStyle(color: Colors.white54, fontSize: 15)),
+            child: Text(translation.cancel.tr,
+                style: const TextStyle(color: Colors.white54, fontSize: 15)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, TimeOfDay(hour: hour, minute: minute)),
@@ -622,7 +624,7 @@ Future<TimeOfDay?> showDigitalTimePicker(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             ),
-            child: const Text('OK',
+            child: Text(translation.ok.tr,
                 style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w600)),
           ),
         ],
@@ -756,7 +758,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('New Task',
+              Text(translation.newTask.tr,
                   style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
               const SizedBox(height: 16),
               TextField(
@@ -764,7 +766,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                 autofocus: true,
                 style: const TextStyle(color: Colors.white, fontSize: 16),
                 decoration: InputDecoration(
-                  hintText: 'What do you need to do?',
+                  hintText: translation.whatDoYouNeedToDo.tr,
                   hintStyle: const TextStyle(color: Colors.white38),
                   filled: true,
                   fillColor: const Color(0xFF252525),
@@ -775,7 +777,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text('Color (optional)',
+              Text(translation.colorOptional.tr,
                   style: TextStyle(color: Colors.white54, fontSize: 12)),
               const SizedBox(height: 8),
               ColorPickerRow(
@@ -797,7 +799,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                       Expanded(
                         child: Text(
                           _dueDate == null
-                              ? 'Add date & time (optional)'
+                              ? translation.addDateTimeOptional.tr
                               : _formatDateTime(_dueDate!, _use24Hour),
                           style: TextStyle(
                             color: _dueDate == null ? Colors.white38 : Colors.white,
@@ -824,7 +826,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                   ),
-                  child: const Text('Save Task',
+                  child: Text(translation.saveTask.tr,
                       style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w600)),
                 ),
               ),
@@ -895,19 +897,19 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
       context: context,
       builder: (ctx) => AlertDialog(
         backgroundColor: const Color(0xFF1A1A1A),
-        title: const Text('Delete task?', style: TextStyle(color: Colors.white)),
-        content: const Text('This cannot be undone.', style: TextStyle(color: Colors.white54)),
+        title: Text(translation.deleteTaskConfirm.tr, style: const TextStyle(color: Colors.white)),
+        content: Text(translation.cannotBeUndone.tr, style: const TextStyle(color: Colors.white54)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('Cancel', style: TextStyle(color: Colors.white54, fontSize: 15)),
+            child: Text(translation.cancel.tr, style: const TextStyle(color: Colors.white54, fontSize: 15)),
           ),
           TextButton(
             onPressed: () {
               Navigator.pop(ctx);
               widget.onDelete();
             },
-            child: const Text('Delete', style: TextStyle(color: Colors.redAccent, fontSize: 15)),
+            child: Text(translation.delete.tr, style: const TextStyle(color: Colors.redAccent, fontSize: 15)),
           ),
         ],
       ),
@@ -933,9 +935,9 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
                   child: TextField(
                     controller: _titleController,
                     style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
-                    decoration: const InputDecoration(
+                    decoration: InputDecoration(
                         border: InputBorder.none,
-                        hintText: 'Task name',
+                        hintText: translation.taskName.tr,
                         hintStyle: TextStyle(color: Colors.white38)),
                     onChanged: (v) {
                       item.title = v;
@@ -958,7 +960,7 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text('Color', style: TextStyle(color: Colors.white54, fontSize: 12)),
+            Text(translation.colorLabel.tr, style: const TextStyle(color: Colors.white54, fontSize: 12)),
             const SizedBox(height: 8),
             ColorPickerRow(
               selected: item.color,
@@ -983,7 +985,7 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
                     Expanded(
                       child: Text(
                         item.dueDate == null
-                            ? 'Add date & time'
+                            ? translation.addDateTime.tr
                             : _formatDateTime(item.dueDate!, _use24Hour),
                         style: TextStyle(
                           color: item.dueDate == null ? Colors.white38 : Colors.white,
@@ -1017,7 +1019,7 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
                     ),
                     const SizedBox(width: 10),
                     Text(
-                      item.completed ? 'Completed' : 'Mark as complete',
+                      item.completed ? translation.completed.tr : translation.markAsComplete.tr,
                       style: TextStyle(
                         color: item.completed ? Colors.greenAccent : Colors.white70,
                         fontSize: 14,
