@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:vibration/vibration.dart';
+import 'package:morphzing/localization/translation_keys.dart' as translation;
 
 class BreathingScreen extends StatefulWidget {
   const BreathingScreen({super.key});
@@ -20,6 +22,15 @@ class _BreathingScreenState extends State<BreathingScreen>
     {'label': 'Exhale', 'seconds': 4, 'scale': 0.0},
     {'label': 'Hold', 'seconds': 4, 'scale': 0.0},
   ];
+
+  String _phaseLabel(String key) {
+    switch (key) {
+      case 'Inhale': return translation.phaseInhale.tr;
+      case 'Hold': return translation.phaseHold.tr;
+      case 'Exhale': return translation.phaseExhale.tr;
+      default: return key;
+    }
+  }
 
   int _phaseIndex = 0;
   int _countdown = 4;
@@ -83,7 +94,8 @@ class _BreathingScreenState extends State<BreathingScreen>
       if (_countdown <= 0) {
         t.cancel();
         if (!_running) return;
-        setState(() => _phaseIndex = (_phaseIndex + 1) % _phases.length);
+        Vibration.vibrate(duration: 50);
+          setState(() => _phaseIndex = (_phaseIndex + 1) % _phases.length);
         _runPhase();
       }
     });
@@ -116,8 +128,8 @@ class _BreathingScreenState extends State<BreathingScreen>
             Get.back();
           },
         ),
-        title: const Text(
-          'Breathing Exercise',
+        title: Text(
+            translation.breathingExercise.tr,
           style: TextStyle(color: Color(0xFFeceaf8), fontSize: 17, fontWeight: FontWeight.w500),
         ),
       ),
@@ -127,12 +139,12 @@ class _BreathingScreenState extends State<BreathingScreen>
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Box Breathing',
+              translation.boxBreathing.tr,
               style: TextStyle(fontSize: 13, color: color, letterSpacing: 1.5),
             ),
             const SizedBox(height: 8),
-            const Text(
-              '4 - 4 - 4 - 4',
+            Text(
+                translation.breathingCount.tr,
               style: TextStyle(fontSize: 13, color: Color(0xFF4a4a62), letterSpacing: 2),
             ),
             const SizedBox(height: 60),
@@ -153,7 +165,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          _running ? phase['label'] as String : 'Ready',
+                          _running ? _phaseLabel(phase['label'] as String) : translation.breathingReady.tr,
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
@@ -189,14 +201,14 @@ class _BreathingScreenState extends State<BreathingScreen>
                   ),
                 ),
                 child: Text(
-                  _running ? 'Stop' : 'Start',
+                  _running ? translation.stop.tr : translation.start.tr,
                   style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                 ),
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Inhale • Hold • Exhale • Hold',
+            Text(
+            translation.breathingFooter.tr,
               style: TextStyle(fontSize: 12, color: Color(0xFF4a4a62), letterSpacing: 1),
             ),
           ],
