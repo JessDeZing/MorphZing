@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:vibration/vibration.dart';
+import 'package:morphzing/localization/translation_keys.dart' as translation;
 
 class GroundingGameScreen extends StatefulWidget {
   const GroundingGameScreen({super.key});
@@ -18,6 +20,17 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
     {'label': 'TASTE', 'emoji': '👅', 'count': 1, 'color': const Color(0xFF89b4e8)},
   ];
 
+  String _senseLabel(String key) {
+    switch (key) {
+      case 'SEE': return translation.senseSee.tr;
+      case 'TOUCH': return translation.senseTouch.tr;
+      case 'HEAR': return translation.senseHear.tr;
+      case 'SMELL': return translation.senseSmell.tr;
+      case 'TASTE': return translation.senseTaste.tr;
+      default: return key;
+    }
+  }
+
   int _currentStep = 0;
   int _tapped = 0;
   bool _finished = false;
@@ -26,13 +39,14 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
     final needed = _senses[_currentStep]['count'] as int;
     setState(() {
       _tapped++;
+      Vibration.vibrate(duration: 30);
       if (_tapped >= needed) {
-        HapticFeedback.mediumImpact();
+        Vibration.vibrate(duration: 80);
         if (_currentStep < _senses.length - 1) {
           _currentStep++;
           _tapped = 0;
         } else {
-          HapticFeedback.heavyImpact();
+          Vibration.vibrate(duration: 200);
           _finished = true;
         }
       }
@@ -58,8 +72,8 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
           icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFb8a8d8)),
           onPressed: () => Get.back(),
         ),
-        title: const Text(
-          'Grounding Exercise',
+        title: Text(
+          translation.groundingExercise.tr,
           style: TextStyle(color: Color(0xFFeceaf8), fontSize: 17, fontWeight: FontWeight.w500),
         ),
       ),
@@ -89,18 +103,20 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
           ),
           const SizedBox(height: 32),
           Text(
-            'STEP ${_currentStep + 1} OF 5',
+            translation.groundingStepOf.tr
+                  .replaceAll('{step}', '${_currentStep + 1}')
+                  .replaceAll('{total}', '${_senses.length}'),
             style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: color, letterSpacing: 1.5),
           ),
           const SizedBox(height: 10),
           Text(
-            'Find $remaining thing${remaining == 1 ? '' : 's'} you can ${sense['label']} ${sense['emoji']}',
+            '${translation.groundingFindPrompt.tr.replaceAll('{count}', '$remaining').replaceAll('{plural}', remaining == 1 ? '' : 's')} ${_senseLabel(sense['label'])} ${sense['emoji']}',
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Color(0xFFeceaf8)),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Look around. Tap each time you find one.',
+          Text(
+            translation.groundingInstructions.tr,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: Color(0xFF6a6a88)),
           ),
@@ -124,7 +140,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
             ),
           ),
           const SizedBox(height: 8),
-          Text('tap the circle', style: TextStyle(fontSize: 12, color: color.withOpacity(0.5))),
+          Text(translation.groundingTapCircle.tr, style: TextStyle(fontSize: 12, color: color.withOpacity(0.5))),
           const SizedBox(height: 32),
           SizedBox(
             width: double.infinity,
@@ -141,7 +157,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
                 ),
               ),
               child: Text(
-                'I found one  ✓',
+                translation.groundingFoundOne.tr,
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
             ),
@@ -166,7 +182,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
                   ),
                 ),
                 child: Text(
-                  done ? '${_senses[i]['label']} ✓' : '${_senses[i]['label']} ${_senses[i]['count']}',
+                  done ? '${_senseLabel(_senses[i]['label'])} ✓' : '${_senseLabel(_senses[i]['label'])} ${_senses[i]['count']}',
                   style: TextStyle(fontSize: 11, color: done || active ? chipColor : const Color(0xFF6a6a88)),
                 ),
               );
@@ -185,11 +201,11 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
         children: [
           const Text('🌿', style: TextStyle(fontSize: 64)),
           const SizedBox(height: 20),
-          const Text('You did it!',
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: Color(0xFFeceaf8))),
+          Text(translation.groundingYouDidIt.tr,
+                style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: Color(0xFFeceaf8))),
           const SizedBox(height: 12),
-          const Text(
-            'You are present. You are grounded. Take a slow breath.',
+          Text(
+              translation.groundingCompleteMessage.tr,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 15, color: Color(0xFF8a8aaa), height: 1.7),
           ),
@@ -204,7 +220,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
             ),
             child: Column(
               children: [
-                const Text('ALL 5 SENSES COMPLETE',
+                Text(translation.groundingAllSensesComplete.tr,
                     style: TextStyle(fontSize: 11, color: Color(0xFFa8c8a8), letterSpacing: 1.2)),
                 const SizedBox(height: 12),
                 Wrap(
@@ -220,7 +236,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(color: color.withOpacity(0.4), width: 0.5),
                       ),
-                      child: Text('${s['label']} ✓', style: TextStyle(fontSize: 11, color: color)),
+                      child: Text('${_senseLabel(s['label'])} ✓', style: TextStyle(fontSize: 11, color: color)),
                     );
                   }).toList(),
                 ),
@@ -242,13 +258,13 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
                   side: const BorderSide(color: Color(0xFF89b4e8), width: 0.5),
                 ),
               ),
-              child: const Text('Back to Calm Corner', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              child: Text(translation.backToCalmCorner.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
             ),
           ),
           const SizedBox(height: 16),
           GestureDetector(
             onTap: _reset,
-            child: const Text('Play again', style: TextStyle(fontSize: 13, color: Color(0xFF4a4a62))),
+            child: Text(translation.playAgain.tr, style: const TextStyle(fontSize: 13, color: Color(0xFF4a4a62))),
           ),
         ],
       ),
