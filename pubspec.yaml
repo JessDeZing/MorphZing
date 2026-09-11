@@ -73,6 +73,7 @@ dependencies:
   # firebase_core: ^2.32.0
   google_fonts: ^6.2.1
   reorderable_grid_view: ^2.2.8
+  firebase_messaging: ^15.2.10
 
 
 dev_dependencies:
