@@ -12,7 +12,6 @@ import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class SocialController extends GetxController {
   final AuthRepository _authRepository = getIt<AuthRepository>();
@@ -21,9 +20,7 @@ class SocialController extends GetxController {
   final AppController _appController = Get.find<AppController>();
 
   Future<void> socialGoogle() async {
-    print('sasas');
     GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
-    print(googleSignInAccount.toString());
     if (googleSignInAccount == null) return;
 
     UserCredential? userCredential;
@@ -59,7 +56,6 @@ class SocialController extends GetxController {
         })
         .then((response) => _navigateScreen(social: response))
         .onError((error, stackTrace) {
-          print(error.toString());
           return Future.error(error.toString());
         });
   }
@@ -106,38 +102,6 @@ class SocialController extends GetxController {
           }
           return Future.error(error.toString());
         });
-  }
-
-  Future<void> socialFacebook() async {
-    await FacebookAuth.instance.logOut();
-    final LoginResult loginResult = await FacebookAuth.instance.login();
-    final OAuthCredential facebookAuthCredential =
-        FacebookAuthProvider.credential(loginResult.accessToken!.tokenString);
-    final UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithCredential(facebookAuthCredential);
-    User? user = userCredential.user;
-    if (user == null) {
-      if (userCredential.user == null)
-        return Future.error(_getSocialUserNotFoundMessage());
-    }
-
-    String? token = await userCredential.user?.getIdToken();
-    AdditionalUserInfo? info = userCredential.additionalUserInfo;
-    String? email;
-
-    if (user != null && user.email != null) {
-      email = user.email;
-    } else if (info != null) {
-      email = info.profile?['email'];
-    }
-
-    _authRepository
-        .socialFacebook(SocialFacebookProvider(authToken: token, email: email))
-        .then((response) {
-      _navigateScreen(social: response);
-    }).onError((error, stackTrace) {
-      return Future.error(error.toString());
-    });
   }
 
   Future<void> _navigateScreen({required Social social}) async {

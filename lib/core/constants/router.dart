@@ -215,10 +215,9 @@ class AppRouter {
           }
         }
         return GetPageRoute(
-            page: () => Scaffold(
-                  body: Center(
-                      child: Text('No route defined for ${settings.name}')),
-                ));
+          page: () => const HomeScreen(),
+          binding: HomeBinding(),
+        );
     }
   }
 }
