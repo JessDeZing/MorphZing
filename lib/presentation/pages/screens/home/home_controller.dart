@@ -95,11 +95,16 @@ class HomeController extends GetxController {
         switch (status) {
           case InternetConnectionStatus.connected:
             _appController.isDeviceConnected = true;
-            Get.back();
+            // Only close the no-internet screen if it is actually showing
+            if (Get.currentRoute == notInternetRoute) {
+              Get.key.currentState?.pop();
+            }
             break;
           case InternetConnectionStatus.disconnected:
             _appController.isDeviceConnected = false;
-            Get.toNamed(notInternetRoute);
+            if (Get.currentRoute != notInternetRoute) {
+              Get.toNamed(notInternetRoute);
+            }
             break;
         }
       },

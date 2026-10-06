@@ -86,30 +86,42 @@ class _JourneyScreenState extends State<JourneyScreen> {
     return permission;
   }
 
+  bool _isSaving = false;
+
   Future<void> _saveAndPop() async {
+    // Ignore extra taps / back presses while a save is running
+    if (_isSaving) return;
+
     final desc = journeyController.journeyDescriptionController.text.trim();
     final title = journeyController.journeyTitleController.text.trim();
-    
+
     // Nothing to save
     if (desc.isEmpty && title.isEmpty) {
-      Get.back(result: false);
+      if (mounted) Navigator.of(context).pop(false);
       return;
     }
-    
+
     // Auto-title from first 7 words if no title
     if (title.isEmpty && desc.isNotEmpty) {
       final words = desc.split(RegExp(r'\s+'));
       journeyController.journeyTitleController.text = words.take(7).join(' ');
     }
-    
+
+    _isSaving = true;
     journeyController.loading(true);
-    if (widget.isEdit) {
-      await journeyController.onEdit();
-    } else {
-      await journeyController.onSave();
+    try {
+      if (widget.isEdit) {
+        await journeyController.onEdit();
+      } else {
+        await journeyController.onSave();
+      }
+    } finally {
+      journeyController.loading(false);
+      _isSaving = false;
     }
-    journeyController.loading(false);
-    Get.back(result: true);
+    // Navigator.pop instead of Get.back: Get.back tries to close a
+    // snackbar first and crashes if it isn't ready (LateInitializationError)
+    if (mounted) Navigator.of(context).pop(true);
   }
 
   @override
