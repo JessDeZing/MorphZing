@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "678172654435",
     "project_id": "morphzing-4b3f3",
-    "storage_bucket": "morphzing-4b3f3.appspot.com"
+    "storage_bucket": "morphzing-4b3f3.firebasestorage.app"
   },
   "client": [
     {
@@ -19,6 +19,14 @@
           "android_info": {
             "package_name": "com.jafton.morphzing",
             "certificate_hash": "b1877cbff949bf40bf956fe0575a621e47834d1b"
+          }
+        },
+        {
+          "client_id": "678172654435-30t7ufjk7gt3591bildl1qmbk7uvcud0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.jafton.morphzing",
+            "certificate_hash": "7046713ac00bdf217d82c3990d4c0024be9b623a"
           }
         },
         {
