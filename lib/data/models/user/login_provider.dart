@@ -10,20 +10,25 @@ String loginProviderToJson(LoginProvider data) => json.encode(data.toJson());
 
 class LoginProvider {
   LoginProvider({
-    required this.phone,
+    this.phone,
+    this.email,
     required this.password,
   });
 
-  String phone;
+  // Log in with phone OR email (the server accepts either)
+  String? phone;
+  String? email;
   String password;
 
   factory LoginProvider.fromJson(Map<String, dynamic> json) => LoginProvider(
     phone: json["phone"],
+    email: json["email"],
     password: json["password"],
   );
 
   Map<String, dynamic> toJson() => {
-    "phone": phone,
+    if (phone != null) "phone": phone,
+    if (email != null) "email": email,
     "password": password,
   };
 }

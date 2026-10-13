@@ -45,6 +45,8 @@ class Es {
         translation.phoneStepTitle: "Agrega tu número de teléfono",
         translation.phoneStepDesc: "Se usa para recordatorios y para recuperar tu cuenta.",
         translation.addProfilePhoto: "Agrega una foto de perfil",
+        translation.checkEmailPassword: "Ingresa un correo válido y una contraseña de al menos 8 caracteres.",
+        translation.checkPhonePassword: "Ingresa un número de 10 dígitos y una contraseña de al menos 8 caracteres.",
         translation.phone: 'Número de teléfono',
         translation.emailOrPhone: 'Correo electrónico o número de teléfono',
         translation.password: 'Contraseña',

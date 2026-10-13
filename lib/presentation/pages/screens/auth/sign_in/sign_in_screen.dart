@@ -1,9 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/logic/controllers/social_controller.dart';
+import 'package:morphzing/app_controller.dart';
+import 'package:morphzing/data/models/user/login_provider.dart';
+import 'package:morphzing/data/repositories/auth/auth_repository.dart';
+import 'package:morphzing/data/repositories/auth/token_repository.dart';
+import 'package:morphzing/data/repositories/common/common_repository.dart';
+import 'package:morphzing/data/repositories/user/user_repository.dart';
+import 'package:morphzing/di/di_config.dart';
+import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:morphzing/utils/loading_overlay.dart';
-import 'package:morphzing/utils/show_error.dart';
 import 'package:morphzing/utils/style/colors.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -52,10 +60,64 @@ class _SignInScreenState extends State<SignInScreen> {
     } catch (error) {
       final text = error.toString();
       if (!text.contains('DioException') && !text.contains('DioError')) {
-        showErrorSnackBar(message: googleSignInFailed.tr);
+        _showError(googleSignInFailed.tr);
       }
     } finally {
       LoadingOverlay.hide();
+    }
+  }
+
+  final AuthRepository _authRepository = getIt<AuthRepository>();
+  final TokenRepository _tokenRepository = getIt<TokenRepository>();
+  final UserRepository _userRepository = getIt<UserRepository>();
+  final CommonRepository _commonRepository = getIt<CommonRepository>();
+
+  // Continue: log in with email + password (Email tab) or +1 phone + password (Phone tab).
+  // Same steps as the old login screen. Server errors show in the app's error pop-up.
+  void _showError(String message) {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(
+        content: Text(message),
+        backgroundColor: const Color(0xFFFF3B30),
+        behavior: SnackBarBehavior.floating,
+      ));
+  }
+
+  Future<void> _continue() async {
+    FocusScope.of(context).unfocus();
+    final password = _passwordController.text;
+    final LoginProvider provider;
+    if (_tab == 0) {
+      final email = _emailController.text.trim();
+      if (!GetUtils.isEmail(email) || password.length < 8) {
+        _showError(checkEmailPassword.tr);
+        return;
+      }
+      provider = LoginProvider(email: email, password: password);
+    } else {
+      final digits = _phoneController.text.replaceAll(RegExp(r'[^0-9]'), '');
+      if (digits.length != 10 || password.length < 8) {
+        _showError(checkPhonePassword.tr);
+        return;
+      }
+      provider = LoginProvider(phone: '1$digits', password: password);
+    }
+    LoadingOverlay.show(context);
+    try {
+      final tokens = await _authRepository.login(provider);
+      await _tokenRepository.saveToken(tokens.access, tokens.refresh!);
+      Get.find<AppController>().user = await _userRepository.getUserInfo();
+      await _commonRepository.setAuth(true);
+      LoadingOverlay.hide();
+      Get.offAllNamed(homeRoute);
+    } catch (e) {
+      LoadingOverlay.hide();
+      // Server said no (e.g. wrong password)
+      if (e is DioException && e.response != null) {
+        _showError((_tab == 0 ? checkEmailPassword : checkPhonePassword).tr);
+      }
     }
   }
 
@@ -235,7 +297,7 @@ class _SignInScreenState extends State<SignInScreen> {
             gradient: const LinearGradient(colors: [Color(0xFF4F6BED), _purple]),
           ),
           child: ElevatedButton(
-            onPressed: () {}, // wired up in piece 3
+            onPressed: _continue,
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.transparent,
               shadowColor: Colors.transparent,

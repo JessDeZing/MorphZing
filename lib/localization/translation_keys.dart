@@ -491,3 +491,5 @@ const createAccountTitle = 'create_account_title';
 const phoneStepTitle = 'phone_step_title';
 const phoneStepDesc = 'phone_step_desc';
 const addProfilePhoto = 'add_profile_photo';
+const checkEmailPassword = 'check_email_password';
+const checkPhonePassword = 'check_phone_password';
