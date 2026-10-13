@@ -72,6 +72,7 @@ dependencies:
   google_fonts: ^6.2.1
   reorderable_grid_view: ^2.2.8
   firebase_messaging: ^15.2.10
+  country_code_picker: ^3.4.1
 
 
 dev_dependencies:

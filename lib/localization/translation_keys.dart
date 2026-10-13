@@ -486,3 +486,6 @@ const continueButton = 'continue_button';
 const phoneOutsideHint = 'phone_outside_hint';
 const newHereCreate = 'new_here_create';
 const googleSignInFailed = 'google_sign_in_failed';
+const createAccountTitle = 'create_account_title';
+const phoneStepTitle = 'phone_step_title';
+const phoneStepDesc = 'phone_step_desc';

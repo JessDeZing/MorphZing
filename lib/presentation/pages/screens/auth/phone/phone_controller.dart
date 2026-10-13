@@ -1,17 +1,11 @@
 import 'package:get/get.dart';
-import 'package:morphzing/data/models/user/recovery_password_provider.dart';
-import 'package:morphzing/data/models/verification/phone_verification_provider.dart';
-import 'package:morphzing/data/repositories/auth/auth_repository.dart';
-import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
-import 'package:morphzing/presentation/pages/screens/auth/verification/verification_screen.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:morphzing/utils/loading_overlay.dart';
 
 class PhoneController extends GetxController {
   final PhoneScreenParam _param = Get.arguments;
-  final AuthRepository _authRepository = getIt<AuthRepository>();
 
   PhoneScreenParam get param => _param;
 
@@ -36,8 +30,6 @@ class PhoneController extends GetxController {
     );
   }
 
-  bool isValidate() {
-    if (phone.length == 11) return true;
-    return false;
-  }
+  // Any country: country code + number, 8 to 15 digits (same rule as the server)
+  bool isValidate() => RegExp(r'^[1-9]\d{7,14}$').hasMatch(phone);
 }
