@@ -467,3 +467,11 @@ const markAsComplete = 'markAsComplete';
 const searchTasks = 'searchTasks';
 const activeTab = 'activeTab';
 const whatDoYouNeedToDo = 'whatDoYouNeedToDo';
+
+// Login redesign
+const signInOrCreate = 'sign_in_or_create';
+const oneTapIn = 'one_tap_in';
+const continueWithApple = 'continue_with_apple';
+const continueWithGoogle = 'continue_with_google';
+const orDivider = 'or_divider';
+const moreOptions = 'more_options';

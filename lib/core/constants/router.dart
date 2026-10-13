@@ -6,6 +6,7 @@ import 'package:morphzing/presentation/pages/screens/calm_corner/breathing_scree
 import 'package:morphzing/presentation/pages/screens/calm_corner/grounding_game_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/create_password/create_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/login/login_screen.dart';
+import 'package:morphzing/presentation/pages/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/recovery_password/recovery_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
@@ -114,7 +115,7 @@ class AppRouter {
             page: () => const ResetPasswordScreen(), settings: settings);
       case loginRoute:
         return GetPageRoute(
-            page: () => const LoginScreen(), settings: settings);
+            page: () => const SignInScreen(), settings: settings);
       case signUpRoute:
         return GetPageRoute(
             page: () => const SignUpScreen(), settings: settings);
