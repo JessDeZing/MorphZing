@@ -24,7 +24,13 @@ class SubscriptionController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await initPlatformState(_appController.user!.id).then((_) async {
+    // Not logged in yet (app just opened) - skip instead of crashing
+    final user = _appController.user;
+    if (user == null) {
+      pageLoading.value = false;
+      return;
+    }
+    await initPlatformState(user.id).then((_) async {
       await getOfferings();
     });
     pageLoading.value = false;
