@@ -23,6 +23,21 @@ class _SignInScreenState extends State<SignInScreen> {
   static const Color _purple = Color(0xFF8B6FE8);
   static const String _font = 'SF Pro Display';
 
+  bool _expanded = false;
+  int _tab = 0; // 0 = email (default, free), 1 = phone
+  bool _hidePassword = true;
+  final _phoneController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
@@ -97,18 +112,164 @@ class _SignInScreenState extends State<SignInScreen> {
               const SizedBox(height: 8),
               Center(
                 child: TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.keyboard_arrow_down, color: linkColor),
+                  onPressed: () => setState(() => _expanded = !_expanded),
+                  icon: Icon(_expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: linkColor),
                   label: Text(
-                    moreOptions.tr,
+                    _expanded ? fewerOptions.tr : moreOptions.tr,
                     style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 16, fontWeight: FontWeight.w500),
                   ),
                 ),
               ),
+              if (_expanded) ..._moreOptions(isDark, textColor, subColor, linkColor),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  // "More options": Phone | Email tabs, fields, Continue (wired up in piece 3)
+  List<Widget> _moreOptions(bool isDark, Color textColor, Color subColor, Color linkColor) {
+    final fieldFill = isDark ? const Color(0xFF1E1E2A) : Colors.white;
+    final fieldBorder = isDark ? const Color(0xFF2E3456) : borderColor;
+    final labelStyle = TextStyle(color: subColor, fontFamily: _font, fontSize: 14);
+    final fieldText = TextStyle(color: textColor, fontFamily: _font, fontSize: 16);
+    InputDecoration deco(String hint) => InputDecoration(
+          hintText: hint,
+          hintStyle: TextStyle(color: subColor, fontFamily: _font),
+          filled: true,
+          fillColor: fieldFill,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: BorderSide(color: fieldBorder),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+            borderSide: const BorderSide(color: _purple, width: 2),
+          ),
+        );
+
+    return [
+      const SizedBox(height: 8),
+      _tabs(isDark, subColor),
+      const SizedBox(height: 20),
+      if (_tab == 1) ...[
+        Text(fieldPhoneNumber.tr, style: labelStyle),
+        const SizedBox(height: 6),
+        TextField(
+          controller: _phoneController,
+          keyboardType: TextInputType.phone,
+          style: fieldText,
+          decoration: deco('(312) 555-1234').copyWith(
+            // Phone tab is US/Canada only, so +1 is built in
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(left: 16, right: 6),
+              child: Text('+1', style: TextStyle(color: subColor, fontFamily: _font, fontSize: 16, fontWeight: FontWeight.w600)),
+            ),
+            prefixIconConstraints: const BoxConstraints(minWidth: 0, minHeight: 0),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(phoneOutsideHint.tr, style: TextStyle(color: subColor, fontFamily: _font, fontSize: 13)),
+      ] else ...[
+        Text(fieldEmail.tr, style: labelStyle),
+        const SizedBox(height: 6),
+        TextField(
+          controller: _emailController,
+          keyboardType: TextInputType.emailAddress,
+          autocorrect: false,
+          style: fieldText,
+          decoration: deco('you@example.com'),
+        ),
+      ],
+      const SizedBox(height: 12),
+      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+        Text(fieldPassword.tr, style: labelStyle),
+        TextButton(
+          onPressed: () {}, // wired up in piece 3
+          child: Text(
+            forgotPassword.tr,
+            style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 14, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ]),
+      TextField(
+        controller: _passwordController,
+        obscureText: _hidePassword,
+        style: fieldText,
+        decoration: deco(passwordHint.tr).copyWith(
+          suffixIcon: IconButton(
+            onPressed: () => setState(() => _hidePassword = !_hidePassword),
+            icon: Icon(_hidePassword ? Icons.visibility_off : Icons.visibility, color: subColor),
+          ),
+        ),
+      ),
+      const SizedBox(height: 24),
+      SizedBox(
+        height: 56,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(14),
+            gradient: const LinearGradient(colors: [Color(0xFF4F6BED), _purple]),
+          ),
+          child: ElevatedButton(
+            onPressed: () {}, // wired up in piece 3
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              shadowColor: Colors.transparent,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            ),
+            child: Text(
+              continueButton.tr,
+              style: const TextStyle(color: Colors.white, fontFamily: _font, fontSize: 17, fontWeight: FontWeight.w600),
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(height: 8),
+      Center(
+        child: TextButton(
+          onPressed: () {}, // wired up in piece 3
+          child: Text(
+            newHereCreate.tr,
+            style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 15, fontWeight: FontWeight.w500),
+          ),
+        ),
+      ),
+    ];
+  }
+
+  Widget _tabs(bool isDark, Color subColor) {
+    final track = isDark ? const Color(0xFF1E1E2A) : const Color(0xFFEEECF5);
+    const active = Color(0xFF6A4FD6);
+    Widget tab(String label, int index) {
+      final selected = _tab == index;
+      return Expanded(
+        child: TextButton(
+          onPressed: () => setState(() => _tab = index),
+          style: TextButton.styleFrom(
+            backgroundColor: selected ? active : Colors.transparent,
+            minimumSize: const Size.fromHeight(44),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
+          ),
+          child: Text(
+            label,
+            style: TextStyle(
+              color: selected ? Colors.white : subColor,
+              fontFamily: _font,
+              fontSize: 15,
+              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(color: track, borderRadius: BorderRadius.circular(12)),
+      child: Row(children: [tab(tabEmail.tr, 0), const SizedBox(width: 4), tab(tabPhone.tr, 1)]),
     );
   }
 
