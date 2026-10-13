@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/localization/translation_keys.dart';
+import 'package:morphzing/logic/controllers/social_controller.dart';
+import 'package:morphzing/utils/loading_overlay.dart';
+import 'package:morphzing/utils/show_error.dart';
 import 'package:morphzing/utils/style/colors.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 
@@ -36,6 +39,24 @@ class _SignInScreenState extends State<SignInScreen> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  final SocialController _social = SocialController();
+
+  // Google sign-in. Server errors (like "account already exists") are shown
+  // automatically by the app's error pop-up; here we only cover Google itself failing.
+  Future<void> _google() async {
+    LoadingOverlay.show(context);
+    try {
+      await _social.socialGoogle();
+    } catch (error) {
+      final text = error.toString();
+      if (!text.contains('DioException') && !text.contains('DioError')) {
+        showErrorSnackBar(message: googleSignInFailed.tr);
+      }
+    } finally {
+      LoadingOverlay.hide();
+    }
   }
 
   @override
@@ -98,7 +119,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 background: isDark ? const Color(0xFF1E1E2A) : Colors.white,
                 foreground: textColor,
                 border: _purple,
-                onPressed: () {},
+                onPressed: _google,
               ),
               const SizedBox(height: 30),
               Row(children: [

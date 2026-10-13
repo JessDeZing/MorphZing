@@ -40,6 +40,7 @@ class Es {
         translation.continueButton: "Continuar",
         translation.phoneOutsideHint: "Solo números de EE. UU. y Canadá.",
         translation.newHereCreate: "¿Eres nuevo? Crea una cuenta",
+        translation.googleSignInFailed: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
         translation.phone: 'Número de teléfono',
         translation.emailOrPhone: 'Correo electrónico o número de teléfono',
         translation.password: 'Contraseña',

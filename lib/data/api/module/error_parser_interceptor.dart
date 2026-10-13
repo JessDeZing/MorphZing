@@ -1,12 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' as helper;
 import 'package:morphzing/core/constants/urls.dart';
-import 'package:morphzing/data/models/error_model.dart';
 import 'package:morphzing/data/models/user/withsocials/get_token_provider.dart';
 import 'package:morphzing/data/repositories/auth/token_repository.dart';
 import 'package:morphzing/localization/locale_enum.dart';
@@ -38,7 +36,6 @@ class CommonRequestInterceptor extends QueuedInterceptor {
     myPrint('Headers: ${options.headers}');
     myPrint('Query parameters: ${options.queryParameters}');
     myPrint('Request data: ${options.data}');
-    log('Request data: ${options.data}');
     return super.onRequest(options, handler);
   }
 
@@ -70,12 +67,13 @@ class CommonRequestInterceptor extends QueuedInterceptor {
     }
     try {
       if (err.response != null && err.response!.data['errors'] != null) {
-        ErrorModel errorModel = ErrorModel.fromJson(err.response!.data);
         StringBuffer buffer = StringBuffer();
-        for (var element in errorModel.errors) {
-          buffer.write('${element.field}: ${element.message}\n');
+        for (final element in err.response!.data['errors'] as List) {
+          final field = element['field'];
+          final message = element['message'] ?? '';
+          buffer.write(field == null ? '$message\n' : '$field: $message\n');
         }
-        showErrorSnackBar(message: buffer.toString());
+        showErrorSnackBar(message: buffer.toString().trim());
       }
     } on Object catch (e) {
       myPrint('catch in interceptor ${e.toString()}');

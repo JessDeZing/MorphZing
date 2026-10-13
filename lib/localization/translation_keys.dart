@@ -485,3 +485,4 @@ const passwordHint = 'password_hint';
 const continueButton = 'continue_button';
 const phoneOutsideHint = 'phone_outside_hint';
 const newHereCreate = 'new_here_create';
+const googleSignInFailed = 'google_sign_in_failed';

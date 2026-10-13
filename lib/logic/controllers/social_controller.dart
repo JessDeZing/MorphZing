@@ -7,6 +7,7 @@ import 'package:morphzing/data/models/user/social.dart';
 import 'package:morphzing/data/models/user/withsocials/social_facebook_provider.dart';
 import 'package:morphzing/data/repositories/auth/auth_repository.dart';
 import 'package:morphzing/data/repositories/auth/token_repository.dart';
+import 'package:morphzing/data/repositories/common/common_repository.dart';
 import 'package:morphzing/data/repositories/user/user_repository.dart';
 import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
@@ -18,6 +19,7 @@ class SocialController extends GetxController {
   final TokenRepository _tokenRepository = getIt<TokenRepository>();
   final UserRepository _userRepository = getIt<UserRepository>();
   final AppController _appController = Get.find<AppController>();
+  final CommonRepository _commonRepository = getIt<CommonRepository>();
 
   Future<void> socialGoogle() async {
     GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
@@ -119,8 +121,9 @@ class SocialController extends GetxController {
           .then((value) => _userRepository.getUserInfo())
           .then((value) {
         _appController.user = value;
-      }).then((value) {
-        Get.toNamed(homeRoute);
+      }).then((value) => _commonRepository.setAuth(true))
+          .then((value) {
+        Get.offAllNamed(homeRoute);
       }).onError((error, stackTrace) {
         return Future.error(error.toString());
       });

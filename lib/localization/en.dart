@@ -40,6 +40,7 @@ class En {
         translation.continueButton: "Continue",
         translation.phoneOutsideHint: "US and Canada numbers only.",
         translation.newHereCreate: "New here? Create an account",
+        translation.googleSignInFailed: "Google sign-in didn't work. Please try again.",
         translation.phone: 'Phone number',
         translation.emailOrPhone: 'E-mail or phone number',
         translation.password: 'Password',
