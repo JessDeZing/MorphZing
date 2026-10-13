@@ -257,6 +257,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   ),
                                 ),
                               ),
+                              // Photo is required: show a hint until one is picked
+                              Obx(() => controller.currentImage == null
+                                  ? Center(
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 8),
+                                        child: Text(
+                                          '${addProfilePhoto.tr} *',
+                                          style: TextStyle(
+                                            color: isDark ? Colors.white70 : greyTextColor,
+                                            fontFamily: 'SF Pro Display',
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  : const SizedBox.shrink()),
                               Padding(
                                 padding:
                                     const EdgeInsets.only(top: 14, bottom: 10),

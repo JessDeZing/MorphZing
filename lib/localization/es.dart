@@ -44,6 +44,7 @@ class Es {
         translation.createAccountTitle: "Crear cuenta",
         translation.phoneStepTitle: "Agrega tu número de teléfono",
         translation.phoneStepDesc: "Se usa para recordatorios y para recuperar tu cuenta.",
+        translation.addProfilePhoto: "Agrega una foto de perfil",
         translation.phone: 'Número de teléfono',
         translation.emailOrPhone: 'Correo electrónico o número de teléfono',
         translation.password: 'Contraseña',
