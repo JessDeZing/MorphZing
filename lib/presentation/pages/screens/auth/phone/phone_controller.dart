@@ -4,6 +4,7 @@ import 'package:morphzing/data/models/verification/phone_verification_provider.d
 import 'package:morphzing/data/repositories/auth/auth_repository.dart';
 import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
+import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/verification/verification_screen.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:morphzing/utils/loading_overlay.dart';
@@ -20,21 +21,19 @@ class PhoneController extends GetxController {
 
   set phone(String value) => _phone.value = value;
 
+  // Google/Apple/email sign-up: no text code (free, works worldwide).
+  // The phone goes straight to the profile step; the server checks it there.
   Future<void> onPressedContinue() async {
-    _authRepository.auth(PhoneVerificationPost(phone: phone)).then((value) {
-      LoadingOverlay.hide();
-      Get.toNamed(
-        verificationRoute,
-        arguments: VerificationScreenParam(
-          verificationType: VerificationType.socialVerification,
-          phone: phone,
-          email: _param.email,
-          secretKey: _param.secretKey,
-        ),
-      );
-    }).catchError((e) {
-      LoadingOverlay.hide();
-    });
+    LoadingOverlay.hide();
+    Get.toNamed(
+      registrationRoute,
+      arguments: RegistrationScreenParam(
+        secretKey: _param.secretKey,
+        isSocial: true,
+        phone: phone,
+        email: _param.email,
+      ),
+    );
   }
 
   bool isValidate() {
