@@ -88,6 +88,7 @@ class Es {
         translation.male: 'Masculina',
         translation.female: 'Femenino',
         translation.nonBinary: 'No binaria',
+        translation.preferNotToSay: 'Prefiero no decirlo',
         translation.pleaseSelect: 'Por favor seleccione',
         translation.yourPasswordHasBeenSuccessfullyChanged:
             'Su contraseña ha sido cambiada exitosamente',

@@ -90,14 +90,11 @@ class RegistrationController extends GetxController {
   }
 
   bool isValidate() {
-    if (_fio.value.isNotEmpty &&
-        _bio.value.isNotEmpty &&
-        _currentSex.value != 0 &&
-        _param.isSocial) return true;
+    // Required: name + profile picture. Optional: bio and gender.
+    final hasBasics = _fio.value.isNotEmpty && _currentImage.value != null;
+    if (hasBasics && _param.isSocial) return true;
 
-    if (_fio.value.isNotEmpty &&
-        _bio.value.isNotEmpty &&
-        _currentSex.value != 0 &&
+    if (hasBasics &&
         _email.value.isNotEmpty &&
         GetUtils.isEmail(_email.value)) return true;
 
@@ -122,7 +119,7 @@ class RegistrationController extends GetxController {
   //           fullName: _fio.value,
   //           bio: _bio.value,
   //           birthDate: DateFormat('yyyy-MM-dd').format(_birthDate.value),
-  //           sex: GENDER_LIST_WORD[_currentSex.value - 1],
+  //           sex: _currentSex.value == 0 ? '' : GENDER_LIST_WORD[_currentSex.value - 1],
   //           email: _email.value,
   //           timeZone: timeZone,
   //           password: _param.password,
@@ -165,7 +162,7 @@ class RegistrationController extends GetxController {
         fullName: _fio.value,
         bio: _bio.value,
         birthDate: DateFormat('yyyy-MM-dd').format(_birthDate.value),
-        sex: GENDER_LIST_WORD[_currentSex.value - 1],
+        sex: _currentSex.value == 0 ? '' : GENDER_LIST_WORD[_currentSex.value - 1],
         email: _email.value,
         timeZone: timeZone,
         password: _param.password,
@@ -222,7 +219,7 @@ class RegistrationController extends GetxController {
 //           fullName: _fio.value,
 //           bio: _bio.value,
 //           birthDate: DateFormat('yyyy-MM-dd').format(_birthDate.value),
-//           sex: GENDER_LIST_WORD[_currentSex.value - 1],
+//           sex: _currentSex.value == 0 ? '' : GENDER_LIST_WORD[_currentSex.value - 1],
 //           email: _email.value,
 //           timeZone: timeZone,
 //           password: _param.password,
@@ -252,7 +249,7 @@ class RegistrationController extends GetxController {
             fullName: _fio.value,
             bio: _bio.value,
             birthDate: DateFormat('yyyy-MM-dd').format(_birthDate.value),
-            sex: GENDER_LIST_WORD[_currentSex.value - 1],
+            sex: _currentSex.value == 0 ? '' : GENDER_LIST_WORD[_currentSex.value - 1],
             timeZone: timeZone,
             phone: _param.phone,
             password: _param.password,
@@ -278,6 +275,7 @@ class RegistrationController extends GetxController {
     } else if (_currentSex.value == 2) {
       return female.tr;
     }
+    if (_currentSex.value == 3) return preferNotToSay.tr;
     return pleaseSelect.tr;
   }
 

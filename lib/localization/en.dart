@@ -86,6 +86,7 @@ class En {
         translation.male: 'Male',
         translation.female: 'Female',
         translation.nonBinary: 'Non binary',
+        translation.preferNotToSay: 'Prefer not to say',
         translation.pleaseSelect: 'Please select',
         translation.yourPasswordHasBeenSuccessfullyChanged:
             'Your password has been successfully changed',

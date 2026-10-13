@@ -57,6 +57,7 @@ const save = 'save';
 const male = 'male';
 const female = 'female';
 const nonBinary = 'non_binary';
+const preferNotToSay = 'prefer_not_to_say';
 const pleaseSelect = 'please_select';
 const yourPasswordHasBeenSuccessfullyChanged =
     'your_password_has_been_successfully_changed';
