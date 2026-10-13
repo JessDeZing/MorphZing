@@ -1,3 +1,4 @@
+import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class RegistrationController extends GetxController {
     _isLoading.value = true;
     final image = await ImagePicker().pickImage(source: ImageSource.camera);
     Get.back();
+    _isLoading.value = false;
     if (image == null) return;
 
     final imageTemporary = File(image.path);
@@ -78,15 +80,15 @@ class RegistrationController extends GetxController {
     _isLoading.value = false;
   }
 
+  // Gallery uses FilePicker (same as journal + profile); ImagePicker gallery is broken here
   pickImageFromGallery() async {
     _isLoading.value = true;
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    final result = await FilePicker.platform.pickFiles(type: FileType.image);
     Get.back();
-    if (image == null) return;
-
-    final imageTemporary = File(image.path);
-    _currentImage.value = imageTemporary;
     _isLoading.value = false;
+    final path = result?.files.single.path;
+    if (path == null) return;
+    _currentImage.value = File(path);
   }
 
   bool isValidate() {

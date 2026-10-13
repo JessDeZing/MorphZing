@@ -314,7 +314,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '*',
+                                      '',
                                       style: customTextStyle(
                                         fontSize: 16,
                                         color: greyTextColor,
@@ -460,7 +460,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       ),
                                     ),
                                     Text(
-                                      '*',
+                                      '',
                                       style: customTextStyle(
                                         fontSize: 16,
                                         color: isDark
