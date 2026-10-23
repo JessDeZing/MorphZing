@@ -535,7 +535,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                                       onTap: () {
                                                         controller.currentSex =
                                                             0;
-                                                        Get.back();
+                                                        Navigator.of(context).pop();
                                                       },
                                                       child: Container(
                                                         height: 40,
@@ -780,7 +780,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                               ),
                                               child: ElevatedButton(
                                                 onPressed: () {
-                                                  Get.back();
+                                                  Navigator.of(context).pop();
                                                 },
                                                 child: Text(
                                                   save.tr,

@@ -10,6 +10,7 @@ const String webViewRoute = '/webView';
 const String verificationRoute = '/verification';
 const String recoveryPasswordRoute = '/recoveryPassword';
 const String phoneRoute = '/phoneRoute';
+const String emailSignUpRoute = '/emailSignUpRoute';
 const String missionStatementRoute = '/missionStatement';
 const String aboutTheAppRoute = "/about_the_app";
 const String faqRoute = "/faq";

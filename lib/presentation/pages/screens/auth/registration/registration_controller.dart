@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
+import 'package:dio/dio.dart';
 
 import 'package:flutter/material.dart';
 // import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -290,7 +291,8 @@ class RegistrationController extends GetxController {
       Get.offAllNamed(homeRoute);
     } catch (e) {
       LoadingOverlay.hide();
-      showAttentionSnackBar(message: e.toString());
+      // Server errors are already shown by the app's error interceptor.
+      if (e is! DioException) showAttentionSnackBar(message: somethingWentWrongRetry.tr);
     }
   }
 

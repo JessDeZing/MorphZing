@@ -313,7 +313,7 @@ class _SignInScreenState extends State<SignInScreen> {
       const SizedBox(height: 8),
       Center(
         child: TextButton(
-          onPressed: () {}, // wired up in piece 3
+          onPressed: () => Get.toNamed(emailSignUpRoute),
           child: Text(
             newHereCreate.tr,
             style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 15, fontWeight: FontWeight.w500),

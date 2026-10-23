@@ -8,6 +8,7 @@ import 'package:morphzing/presentation/pages/screens/auth/create_password/create
 import 'package:morphzing/presentation/pages/screens/auth/login/login_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/sign_in/sign_in_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
+import 'package:morphzing/presentation/pages/screens/auth/email_sign_up/email_sign_up_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/recovery_password/recovery_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/reset_password/reset_password_screen.dart';
@@ -104,6 +105,9 @@ class AppRouter {
       case phoneRoute:
         return GetPageRoute(
             page: () => const PhoneScreen(), settings: settings);
+      case emailSignUpRoute:
+        return GetPageRoute(
+            page: () => const EmailSignUpScreen(), settings: settings);
       case verificationRoute:
         return GetPageRoute(
             page: () => const VerificationScreen(), settings: settings);
