@@ -82,4 +82,33 @@ abstract class AuthApi {
 
   @POST(USER_LOGIN_FB)
   Future<Social> socialFacebook({@Body() required SocialFacebookProvider socialFacebookProvider});
+
+
+  // ---------- Email sign-up ----------
+  @POST(USER_EMAIL_SEND_CODE)
+  Future<void> emailSendCode({@Body() required Map<String, dynamic> body});
+
+  @POST(USER_EMAIL_VERIFY)
+  Future<dynamic> emailVerify({@Body() required Map<String, dynamic> body});
+
+  @POST(USER_SIGNUP_EMAIL)
+  @MultiPart()
+  Future<GetTokenProvider> signUpEmail({
+    @Part(name: 'secret') required String secret,
+    @Part(name: 'full_name') required String fullName,
+    @Part(name: 'bio') String? bio,
+    @Part(name: 'birth_date') required String birthDate,
+    @Part(name: 'sex') String? sex,
+    @Part(name: 'time_zone') required String timeZone,
+    @Part(name: 'phone') required String phone,
+    @Part(name: 'password') required String password,
+    @Part(name: 'profile_image') required File file,
+  });
+
+  // ---------- Forgot password by email ----------
+  @POST(USER_FORGOT_PASSWORD_EMAIL)
+  Future<void> forgotPasswordEmail({@Body() required Map<String, dynamic> body});
+
+  @POST(USER_FORGOT_PASSWORD_EMAIL_VERIFY)
+  Future<dynamic> forgotPasswordEmailVerify({@Body() required Map<String, dynamic> body});
 }

@@ -25,6 +25,13 @@ const USER_LOGIN_FB = "/social/facebook/";
 const USER_LOGIN_GOOGLE = "/social/google/";
 const USER_LOGIN_APPLE = "/social/apple/";
 
+//email sign-up + forgot password
+const USER_EMAIL_SEND_CODE = "/user/email/send-code/";
+const USER_EMAIL_VERIFY = "/user/email/verify/";
+const USER_SIGNUP_EMAIL = "/user/signup/email/";
+const USER_FORGOT_PASSWORD_EMAIL = "/user/forgot-password/email/";
+const USER_FORGOT_PASSWORD_EMAIL_VERIFY = "/user/forgot-password/email/verify/";
+
 //subscription
 const USER_FREE_TRIAL = "/subscription/subscribe";
 const FREE_PACKAGE = "/subscription/subscribe/free";
