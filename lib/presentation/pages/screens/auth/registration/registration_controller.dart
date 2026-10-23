@@ -94,7 +94,7 @@ class RegistrationController extends GetxController {
   bool isValidate() {
     // Required: name + profile picture. Optional: bio and gender.
     final hasBasics = _fio.value.isNotEmpty && _currentImage.value != null;
-    if (hasBasics && _param.isSocial) return true;
+    if (hasBasics && (_param.isSocial || _param.isEmail)) return true;
 
     if (hasBasics &&
         _email.value.isNotEmpty &&
@@ -106,7 +106,9 @@ class RegistrationController extends GetxController {
   Future<void> onPressedSignUp() async {
     final box = GetStorage();
     box.write('isSubscriptionShown', false);
-    if (_param.isSocial) {
+    if (_param.isEmail) {
+      _registerEmail();
+    } else if (_param.isSocial) {
       _registerSocial();
     } else {
       _registerPhone();
@@ -240,6 +242,57 @@ class RegistrationController extends GetxController {
 //     LoadingOverlay.hide();
 //   });
 // }
+
+  Future<void> _registerEmail() async {
+    final timeZone = await FlutterTimezone.getLocalTimezone();
+    final box = GetStorage();
+    final image = _currentImage.value;
+
+    // Same under-age check as phone sign-up
+    final age = DateTime.now().difference(_birthDate.value).inDays ~/ 365;
+    if (age < 3) {
+      showAttentionSnackBar(message: birthdateValidation.tr);
+      _isLoading.value = false;
+      LoadingOverlay.hide();
+      return;
+    }
+    if (image == null) {
+      LoadingOverlay.hide();
+      return; // photo is required; the button stays disabled without one
+    }
+
+    try {
+      final value = await _authRepository.signUpEmail(
+        secret: _param.secretKey,
+        fullName: _fio.value,
+        bio: _bio.value.isEmpty ? null : _bio.value,
+        birthDate: DateFormat('yyyy-MM-dd').format(_birthDate.value),
+        sex: _currentSex.value == 0 ? null : GENDER_LIST_WORD[_currentSex.value - 1],
+        timeZone: timeZone,
+        phone: _param.phone ?? '',
+        password: _param.password ?? '',
+        file: image,
+      );
+      await _tokenRepository.saveToken(value.access, value.refresh!);
+
+      // Start the free trial, same as phone sign-up. Ignore failures so a
+      // working account never shows up as a failed sign-up.
+      try {
+        await SubscriptionRepositories.makePostRequest(token: value.access);
+      } catch (_) {}
+
+      _appController.user = await _userRepository.getUserInfo();
+      await box.write('showFreeTrialPopup', false);
+      await _commonRepository.setAuth(true);
+      await _commonRepository.setIsVisibleSubscribeKey(true);
+
+      LoadingOverlay.hide();
+      Get.offAllNamed(homeRoute);
+    } catch (e) {
+      LoadingOverlay.hide();
+      showAttentionSnackBar(message: e.toString());
+    }
+  }
 
   Future<void> _registerSocial() async {
     // final timeZone = await FlutterNativeTimezone.getLocalTimezone();

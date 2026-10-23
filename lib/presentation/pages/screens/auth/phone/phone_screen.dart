@@ -10,8 +10,10 @@ import 'package:morphzing/utils/style/colors.dart';
 class PhoneScreenParam {
   final String secretKey;
   final String? email;
+  final String? password; // email sign-up only
+  final bool isEmail; // true = email sign-up, false = Google/Apple
 
-  PhoneScreenParam({required this.secretKey, this.email});
+  PhoneScreenParam({required this.secretKey, this.email, this.password, this.isEmail = false});
 }
 
 /// Sign-up step for Google/Apple/email users: add a phone number (any country).

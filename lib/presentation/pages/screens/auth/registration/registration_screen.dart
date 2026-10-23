@@ -17,6 +17,7 @@ class RegistrationScreenParam {
   final String? password;
   final String? phone;
   final String? email;
+  final bool isEmail; // true = email sign-up
 
   RegistrationScreenParam({
     required this.secretKey,
@@ -24,6 +25,7 @@ class RegistrationScreenParam {
     this.password,
     this.phone,
     this.email,
+    this.isEmail = false,
   });
 }
 

@@ -104,4 +104,48 @@ class AuthRepository {
   Future<Social> socialFacebook(SocialFacebookProvider provide) async {
     return await _authApi.socialFacebook(socialFacebookProvider: provide);
   }
+
+  // ---------- Email sign-up ----------
+  Future<void> emailSendCode(String email) async {
+    return await _authApi.emailSendCode(body: {'email': email});
+  }
+
+  /// Returns the secret for the next sign-up step.
+  Future<String> emailVerify(String email, String code) async {
+    final res = await _authApi.emailVerify(body: {'email': email, 'code': code});
+    return res['secret'].toString();
+  }
+
+  Future<GetTokenProvider> signUpEmail(
+      {required String secret,
+      required String fullName,
+      String? bio,
+      required String birthDate,
+      String? sex,
+      required String timeZone,
+      required String phone,
+      required String password,
+      required File file}) async {
+    return await _authApi.signUpEmail(
+        secret: secret,
+        fullName: fullName,
+        bio: bio,
+        birthDate: birthDate,
+        sex: sex,
+        timeZone: timeZone,
+        phone: phone,
+        password: password,
+        file: file);
+  }
+
+  // ---------- Forgot password by email ----------
+  Future<void> forgotPasswordEmail(String email) async {
+    return await _authApi.forgotPasswordEmail(body: {'email': email});
+  }
+
+  /// Returns the secret for reset-password/.
+  Future<String> forgotPasswordEmailVerify(String email, String code) async {
+    final res = await _authApi.forgotPasswordEmailVerify(body: {'email': email, 'code': code});
+    return res['secret'].toString();
+  }
 }

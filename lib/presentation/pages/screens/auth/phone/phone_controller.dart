@@ -26,6 +26,8 @@ class PhoneController extends GetxController {
         isSocial: true,
         phone: phone,
         email: _param.email,
+        password: _param.password,
+        isEmail: _param.isEmail,
       ),
     );
   }
