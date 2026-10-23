@@ -108,6 +108,9 @@ class AppRouter {
       case emailSignUpRoute:
         return GetPageRoute(
             page: () => const EmailSignUpScreen(), settings: settings);
+      case forgotPasswordEmailRoute:
+        return GetPageRoute(
+            page: () => const EmailSignUpScreen(isReset: true), settings: settings);
       case verificationRoute:
         return GetPageRoute(
             page: () => const VerificationScreen(), settings: settings);

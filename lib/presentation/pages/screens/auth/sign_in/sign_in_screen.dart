@@ -270,7 +270,7 @@ class _SignInScreenState extends State<SignInScreen> {
       Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         Text(fieldPassword.tr, style: labelStyle),
         TextButton(
-          onPressed: () {}, // wired up in piece 3
+          onPressed: () => Get.toNamed(forgotPasswordEmailRoute),
           child: Text(
             forgotPassword.tr,
             style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 14, fontWeight: FontWeight.w500),

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:morphzing/data/models/user/reset_password_provider.dart';
 import 'package:morphzing/data/repositories/auth/auth_repository.dart';
 import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/localization/translation_keys.dart';
@@ -12,7 +13,10 @@ import 'package:morphzing/utils/loading_overlay.dart';
 /// Email sign-up: (1) email -> (2) 6-digit code -> (3) password,
 /// then the phone step and the profile step (isEmail: true).
 class EmailSignUpScreen extends StatefulWidget {
-  const EmailSignUpScreen({Key? key}) : super(key: key);
+  /// true = "Forgot password?" reset by email instead of sign-up.
+  final bool isReset;
+
+  const EmailSignUpScreen({Key? key, this.isReset = false}) : super(key: key);
 
   @override
   State<EmailSignUpScreen> createState() => _EmailSignUpScreenState();
@@ -77,7 +81,11 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
     }
     LoadingOverlay.show(context);
     try {
-      await _authRepository.emailSendCode(email);
+      if (widget.isReset) {
+        await _authRepository.forgotPasswordEmail(email);
+      } else {
+        await _authRepository.emailSendCode(email);
+      }
       LoadingOverlay.hide();
       setState(() {
         _email = email;
@@ -100,7 +108,9 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
     }
     LoadingOverlay.show(context);
     try {
-      final secret = await _authRepository.emailVerify(_email, code);
+      final secret = widget.isReset
+          ? await _authRepository.forgotPasswordEmailVerify(_email, code)
+          : await _authRepository.emailVerify(_email, code);
       LoadingOverlay.hide();
       setState(() {
         _secret = secret;
@@ -132,6 +142,39 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         isEmail: true,
       ),
     );
+  }
+
+  Future<void> _resetPassword() async {
+    FocusScope.of(context).unfocus();
+    final password = _passwordController.text;
+    if (password.length < 8) {
+      _showMessage(passwordLengthMustBeAt.tr);
+      return;
+    }
+    if (password != _confirmController.text) {
+      _showMessage(passwordDoesNotMatch.tr);
+      return;
+    }
+    LoadingOverlay.show(context);
+    try {
+      await _authRepository.resetPassword(ResetPasswordProvider(
+        secret: _secret,
+        password: password,
+        confirmPassword: _confirmController.text,
+      ));
+      LoadingOverlay.hide();
+      if (!mounted) return;
+      final messenger = ScaffoldMessenger.of(context);
+      Navigator.of(context).pop(); // back to sign-in
+      messenger.showSnackBar(SnackBar(
+        content: Text(passwordUpdatedLogin.tr),
+        backgroundColor: const Color(0xFF383E42),
+        behavior: SnackBarBehavior.floating,
+      ));
+    } catch (e) {
+      LoadingOverlay.hide();
+      _showMessage(_errorText(e));
+    }
   }
 
   void _startOver() {
@@ -250,9 +293,9 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
       );
 
   List<Widget> _emailStage(Color textColor, Color subColor, bool isDark) => [
-        _title(emailSignUpTitle.tr, textColor),
+        _title((widget.isReset ? resetPasswordTitle : emailSignUpTitle).tr, textColor),
         const SizedBox(height: 8),
-        _sub(emailSignUpDesc.tr, subColor),
+        _sub((widget.isReset ? resetPasswordDesc : emailSignUpDesc).tr, subColor),
         const SizedBox(height: 24),
         _field(_emailController, emailFieldHint.tr, isDark,
             type: TextInputType.emailAddress, autofill: const [AutofillHints.email]),
@@ -263,7 +306,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
   List<Widget> _codeStage(Color textColor, Color subColor, Color linkColor, bool isDark) => [
         _title(checkYourEmailTitle.tr, textColor),
         const SizedBox(height: 8),
-        _sub('${codeSentTo.tr} $_email', subColor),
+        _sub('${(widget.isReset ? resetCodeSentTo : codeSentTo).tr} $_email', subColor),
         const SizedBox(height: 24),
         _field(_codeController, codeFieldHint.tr, isDark,
             type: TextInputType.number,
@@ -277,7 +320,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
       ];
 
   List<Widget> _passwordStage(Color textColor, Color subColor, bool isDark) => [
-        _title(createPasswordTitle.tr, textColor),
+        _title((widget.isReset ? newPasswordTitle : createPasswordTitle).tr, textColor),
         const SizedBox(height: 8),
         _sub(passwordRuleDesc.tr, subColor),
         const SizedBox(height: 24),
@@ -287,6 +330,6 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         _field(_confirmController, confirmPasswordFieldHint.tr, isDark,
             obscure: true, autofill: const [AutofillHints.newPassword]),
         const SizedBox(height: 24),
-        _button(_toPhoneStep),
+        _button(widget.isReset ? _resetPassword : _toPhoneStep),
       ];
 }
