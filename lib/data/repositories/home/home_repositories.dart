@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'package:dio/dio.dart';
 import 'package:morphzing/core/constants/urls.dart';
 
@@ -5,7 +6,7 @@ class HomeRepositories {
   static Future<Response<dynamic>> getUserData(String token) async {
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true),
       ]);
 
     var result = await dio.get(BASE_URL + USER_INFO,
@@ -20,7 +21,7 @@ class HomeRepositories {
     static Future<Response<dynamic>> expireFreeSubscription(String token) async {
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true),
       ]);
 
     var result = await dio.post(BASE_URL + SUB_EXP,

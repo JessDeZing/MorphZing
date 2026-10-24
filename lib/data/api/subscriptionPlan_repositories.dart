@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'package:dio/dio.dart';
 import 'package:morphzing/core/constants/urls.dart';
 
@@ -7,7 +8,7 @@ class SubscriptionRepositories {
   }) async {
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true),
       ]);
 
     try {
@@ -34,7 +35,7 @@ class SubscriptionRepositories {
   }) async {
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true),
       ]);
 
     try {

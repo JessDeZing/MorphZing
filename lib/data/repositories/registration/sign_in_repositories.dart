@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:morphzing/data/models/user/login_provider.dart';
@@ -8,7 +9,7 @@ class SignInRepositories {
   static signIn(String phone, String password) async {
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       ]);
 
     var result = await dio.post(BASE_URL + USER_LOGIN,

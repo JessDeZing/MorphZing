@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -24,7 +25,7 @@ class SignUpRepository {
     final _requiredFormatBirthDate = DateFormat("yyyy-MM-dd").format(birthDate);
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, request: true),
       ]);
 
     // final timeZone = await FlutterNativeTimezone.getLocalTimezone();
@@ -67,7 +68,7 @@ class SignUpRepository {
 
   static afterSocialSignUp(String secret, String fullName, String bio, String birthDate, String sex, String phone,
       File? profileImage) async {
-    Dio dio = Dio()..interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
+    Dio dio = Dio()..interceptors.add(LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true));
 
     final timeZone = await await FlutterTimezone.getLocalTimezone();
 

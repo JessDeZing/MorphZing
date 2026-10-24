@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:morphzing/core/constants/urls.dart';
@@ -9,7 +10,7 @@ class SendPhoneNumberRepositories {
   static verifyPhoneNumber(String phone) async {
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       ]);
     final result = await dio.post(BASE_URL + USER_AUTH,
         data: PhoneVerificationPost(phone: phone).toJson(),
@@ -24,7 +25,7 @@ class SendPhoneNumberRepositories {
   static Future<Response> forgotPassword(String phone) async {
     Dio dio = Dio()
       ..interceptors.addAll([
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       ]);
     final result = await dio.post(BASE_URL + USER_FORGOT_PASSWORD,
         data: {"phone": phone},
@@ -41,7 +42,7 @@ class SendPhoneNumberRepositories {
 
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(request: true, requestBody: true, responseBody: true),
+        LogInterceptor(logPrint: safeLogPrint, request: true, requestBody: true, responseBody: true),
       );
     final result = await dio.post(
       BASE_URL + USER_VERIFY,
@@ -62,7 +63,7 @@ class SendPhoneNumberRepositories {
 
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(request: true, requestBody: true, responseBody: true),
+        LogInterceptor(logPrint: safeLogPrint, request: true, requestBody: true, responseBody: true),
       );
     final result = await dio.post(
       BASE_URL + USER_PHONE_UPDATE,
@@ -82,7 +83,7 @@ class SendPhoneNumberRepositories {
   static Future<Response> resetPassword(String password, String confirmPassword, String secret) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(request: true, requestBody: true, responseBody: true),
+        LogInterceptor(logPrint: safeLogPrint, request: true, requestBody: true, responseBody: true),
       );
     final result = await dio.post(
       BASE_URL + USER_RESET_PASSWORD,

@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -22,7 +23,7 @@ class JourneyRepositories {
   }) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       );
 
     final data = JourneyModelPhotos(
@@ -114,7 +115,7 @@ class JourneyRepositories {
   }) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       );
 
     final data = JourneyModelPhotos(
@@ -185,7 +186,7 @@ class JourneyRepositories {
   }) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       );
 
     var result = await dio.delete(

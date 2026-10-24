@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:morphzing/core/constants/urls.dart';
@@ -7,7 +8,7 @@ class JournalRepositories {
   static getJournalStats(String token) async {
     debugPrint('token $token');
     debugPrint('url ${BASE_URL + JOURNAL_GET_STATS}');
-    Dio dio = Dio()..interceptors.add(LogInterceptor());
+    Dio dio = Dio()..interceptors.add(LogInterceptor(logPrint: safeLogPrint, ));
     var result = await dio.get(BASE_URL + JOURNAL_GET_STATS,
         options: Options(headers: {
           "Content-Type": "application/json",
@@ -23,7 +24,7 @@ class JournalRepositories {
   static Future<Response<List>> getTodayJournals(String token) async {
     print("ggpw");
     Dio dio = Dio()
-      ..interceptors.add(LogInterceptor(
+      ..interceptors.add(LogInterceptor(logPrint: safeLogPrint, 
           responseBody: true, request: true, requestBody: true, error: true));
     var result = await dio.get<List>(
       BASE_URL + JOURNAL_POST_JOURNEY,
@@ -47,7 +48,7 @@ class JournalRepositories {
       String token, DateTime dateTime) async {
     print('sawqeqweqw');
     Dio dio = Dio()
-      ..interceptors.add(LogInterceptor(
+      ..interceptors.add(LogInterceptor(logPrint: safeLogPrint, 
           responseBody: true, request: true, requestBody: true, error: true));
     var result = await dio.get<List>(
       BASE_URL + JOURNAL_POST_JOURNEY,

@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/safe_log.dart';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -21,7 +22,7 @@ class ProfileRepository {
   }) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       );
 
     // final timeZone = await FlutterNativeTimezone.getLocalTimezone();
@@ -72,7 +73,7 @@ class ProfileRepository {
   }) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       );
 
     var result = await dio.post(
@@ -100,7 +101,7 @@ class ProfileRepository {
   }) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       );
 
     var result = await dio.post(
@@ -123,7 +124,7 @@ class ProfileRepository {
   static deleteAccount(String token) async {
     Dio dio = Dio()
       ..interceptors.add(
-        LogInterceptor(responseBody: true, requestBody: true, request: true),
+        LogInterceptor(logPrint: safeLogPrint, responseBody: true, requestBody: true, request: true),
       );
 
     var result = await dio.delete(
