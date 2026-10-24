@@ -64,6 +64,7 @@ class Es {
         translation.photoLoadFailed: "No se pudieron cargar tus fotos. Inténtalo de nuevo.",
         translation.noteTitleRequired: "Agrega un título.",
         translation.phoneChangeUsOnly: "Escribe un número de EE. UU. o Canadá con el código 1 (11 dígitos).",
+        translation.birthdayCelebrateNote: "Para celebrarte en tu cumpleaños 🎂",
         translation.googleSignInFailed: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
         translation.createAccountTitle: "Crear cuenta",
         translation.phoneStepTitle: "Agrega tu número de teléfono",

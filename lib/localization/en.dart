@@ -64,6 +64,7 @@ class En {
         translation.photoLoadFailed: "Couldn't load your photos. Please try again.",
         translation.noteTitleRequired: "Please add a title.",
         translation.phoneChangeUsOnly: "Enter a US or Canada number with country code 1 (11 digits).",
+        translation.birthdayCelebrateNote: "So we can celebrate you on your birthday 🎂",
         translation.googleSignInFailed: "Google sign-in didn't work. Please try again.",
         translation.createAccountTitle: "Create account",
         translation.phoneStepTitle: "Add your phone number",

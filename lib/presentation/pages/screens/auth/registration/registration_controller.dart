@@ -39,6 +39,7 @@ class RegistrationController extends GetxController {
   final RxString _fio = ''.obs;
   final RxString _bio = ''.obs;
   final Rx<DateTime> _birthDate = Rx<DateTime>(DateTime.now());
+  final RxBool _birthDatePicked = false.obs; // starts empty until chosen
   final Rx<String> _email = ''.obs;
   final RxInt _currentSex = 0.obs;
   final RxBool _isLoading = false.obs;
@@ -57,7 +58,10 @@ class RegistrationController extends GetxController {
 
   DateTime get birthDate => _birthDate.value;
 
-  set birthDate(value) => _birthDate.value = value;
+  set birthDate(value) {
+    _birthDate.value = value;
+    _birthDatePicked.value = true;
+  }
 
   String get email => _email.value;
 
@@ -94,7 +98,7 @@ class RegistrationController extends GetxController {
 
   bool isValidate() {
     // Required: name + profile picture. Optional: bio and gender.
-    final hasBasics = _fio.value.isNotEmpty && _currentImage.value != null;
+    final hasBasics = _fio.value.isNotEmpty && _currentImage.value != null && _birthDatePicked.value;
     if (hasBasics && (_param.isSocial || _param.isEmail)) return true;
 
     if (hasBasics &&
@@ -337,7 +341,7 @@ class RegistrationController extends GetxController {
   }
 
   String getFormatBirthDate() {
-    String formattedDate = DateFormat('MM/dd/yyyy').format(_birthDate.value);
-    return formattedDate;
+    if (!_birthDatePicked.value) return pleaseSelect.tr;
+    return DateFormat('MM/dd/yyyy').format(_birthDate.value);
   }
 }

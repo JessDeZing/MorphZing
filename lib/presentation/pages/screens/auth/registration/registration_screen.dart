@@ -420,6 +420,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       ),
                                     ));
                               }),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 6),
+                                child: Text(
+                                  birthdayCelebrateNote.tr,
+                                  style: staticTextStyle(13, greyTextColor),
+                                ),
+                              ),
                               if (!controller.param.isSocial)
                                 Padding(
                                   padding: const EdgeInsets.only(
