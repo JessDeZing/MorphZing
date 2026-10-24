@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -168,14 +170,18 @@ class _SignInScreenState extends State<SignInScreen> {
                 style: TextStyle(color: subColor, fontFamily: _font, fontSize: 15),
               ),
               const SizedBox(height: 36),
-              _socialButton(
-                label: continueWithApple.tr,
-                icon: Icon(Icons.apple, size: 22, color: isDark ? Colors.black : Colors.white),
-                background: isDark ? Colors.white : Colors.black,
-                foreground: isDark ? Colors.black : Colors.white,
-                onPressed: () {},
-              ),
-              const SizedBox(height: 14),
+              // Apple: hidden on Android (needs Service ID setup there).
+              // Not wired yet on iPhone either: hook up to socialApple in the iOS update.
+              if (!Platform.isAndroid) ...[
+                _socialButton(
+                  label: continueWithApple.tr,
+                  icon: Icon(Icons.apple, size: 22, color: isDark ? Colors.black : Colors.white),
+                  background: isDark ? Colors.white : Colors.black,
+                  foreground: isDark ? Colors.black : Colors.white,
+                  onPressed: () {},
+                ),
+                const SizedBox(height: 14),
+              ],
               _socialButton(
                 label: continueWithGoogle.tr,
                 background: isDark ? const Color(0xFF1E1E2A) : Colors.white,
