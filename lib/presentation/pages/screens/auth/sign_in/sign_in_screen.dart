@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/logic/controllers/social_controller.dart';
@@ -184,6 +185,7 @@ class _SignInScreenState extends State<SignInScreen> {
               ],
               _socialButton(
                 label: continueWithGoogle.tr,
+                icon: SvgPicture.asset('assets/icons/google.svg', width: 20, height: 20),
                 background: isDark ? const Color(0xFF1E1E2A) : Colors.white,
                 foreground: textColor,
                 border: _purple,
