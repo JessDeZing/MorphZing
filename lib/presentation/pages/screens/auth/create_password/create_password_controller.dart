@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:morphzing/utils/show_error.dart';
 import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/presentation/pages/screens/auth/create_password/create_password_screen.dart';
 import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
@@ -32,10 +33,10 @@ class CreatePasswordController extends GetxController {
           ),
         );
       } else {
-        Get.snackbar('', passwordDoesNotMatch.tr);
+        showErrorSnackBar(message: passwordDoesNotMatch.tr);
       }
     } else {
-      Get.snackbar('', passwordLengthMustBeAt.tr);
+      showErrorSnackBar(message: passwordLengthMustBeAt.tr);
     }
   }
 

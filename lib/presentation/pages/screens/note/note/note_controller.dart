@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:dio/dio.dart';
+import 'package:morphzing/localization/translation_keys.dart';
+import 'package:morphzing/utils/show_error.dart';
 import 'package:morphzing/data/models/journal/note.dart';
 import 'package:morphzing/data/repositories/journal/note_repository.dart';
 import 'package:morphzing/di/di_config.dart';
@@ -35,8 +38,7 @@ class NoteController extends GetxController {
     final title = titleController.text.trim();
     if (title.isEmpty) {
       if (silent) { Get.back(); return; }
-      Get.snackbar('Error', 'Title cannot be empty',
-          snackPosition: SnackPosition.BOTTOM);
+      showErrorSnackBar(message: noteTitleRequired.tr);
       return;
     }
     isSaving.value = true;
@@ -56,7 +58,7 @@ class NoteController extends GetxController {
       }
       Get.back(result: true);
     } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      if (e is! DioException) showErrorSnackBar(message: somethingWentWrongRetry.tr);
     } finally {
       isSaving.value = false;
     }
@@ -79,7 +81,7 @@ class NoteController extends GetxController {
       await _noteRepository.deleteNote(id: existingNote!.id!);
       Get.back(result: true);
     } catch (e) {
-      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      if (e is! DioException) showErrorSnackBar(message: somethingWentWrongRetry.tr);
     }
   }
 

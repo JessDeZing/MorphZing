@@ -514,3 +514,6 @@ const resetPasswordDesc = 'reset_password_desc';
 const resetCodeSentTo = 'reset_code_sent_to';
 const newPasswordTitle = 'new_password_title';
 const passwordUpdatedLogin = 'password_updated_login';
+const photoLoadFailed = 'photo_load_failed';
+const noteTitleRequired = 'note_title_required';
+const phoneChangeUsOnly = 'phone_change_us_only';

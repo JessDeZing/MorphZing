@@ -8,6 +8,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:morphzing/localization/translation_keys.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -131,7 +132,7 @@ class JourneyController extends GetxController {
       photos.addAll(newPhotos);
       photos.refresh();
     } catch (e) {
-      Get.snackbar('Error', 'Could not load photos: $e', snackPosition: SnackPosition.BOTTOM);
+      showErrorSnackBar(message: photoLoadFailed.tr);
     }
   }
 

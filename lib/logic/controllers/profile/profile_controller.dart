@@ -142,7 +142,7 @@ class ProfileController extends GetxController {
       }
       loading(false);
     } else {
-      Get.snackbar('', 'Phone number length must be 11 characters');
+      showErrorSnackBar(message: phoneChangeUsOnly.tr);
     }
     loading(false);
   }
