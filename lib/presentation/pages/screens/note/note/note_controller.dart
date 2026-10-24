@@ -35,10 +35,13 @@ class NoteController extends GetxController {
   bool get isEditing => existingNote != null;
 
   void saveNote({bool silent = false}) async {
-    final title = titleController.text.trim();
+    if (isSaving.value) return; // back + Save at the same time: save once
+    final description = descriptionController.text.trim();
+    var title = titleController.text.trim();
+    // Title is optional: use the first 3 words of the note (like Journal)
+    if (title.isEmpty) title = _titleFromText(description);
     if (title.isEmpty) {
-      if (silent) { Get.back(); return; }
-      showErrorSnackBar(message: noteTitleRequired.tr);
+      Get.back(); // nothing typed: leave without saving
       return;
     }
     isSaving.value = true;
@@ -47,13 +50,13 @@ class NoteController extends GetxController {
         await _noteRepository.updateNote(
           id: existingNote!.id!,
           noteName: title,
-          description: descriptionController.text.trim(),
+          description: description,
         );
       } else {
         await _noteRepository.createNote(
           noteName: title,
           noteTime: DateTime.now().toIso8601String(),
-          description: descriptionController.text.trim(),
+          description: description,
         );
       }
       Get.back(result: true);
@@ -62,6 +65,12 @@ class NoteController extends GetxController {
     } finally {
       isSaving.value = false;
     }
+  }
+
+  // First 3 words of the note, max 50 characters
+  String _titleFromText(String text) {
+    final words = text.split(RegExp(r'\s+')).where((w) => w.isNotEmpty).take(3).join(' ');
+    return words.length > 50 ? words.substring(0, 50) : words;
   }
 
   void deleteNote() async {
