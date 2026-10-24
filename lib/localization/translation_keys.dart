@@ -518,3 +518,4 @@ const photoLoadFailed = 'photo_load_failed';
 const noteTitleRequired = 'note_title_required';
 const phoneChangeUsOnly = 'phone_change_us_only';
 const birthdayCelebrateNote = 'birthday_celebrate_note';
+const lastUsedBadge = 'last_used_badge';

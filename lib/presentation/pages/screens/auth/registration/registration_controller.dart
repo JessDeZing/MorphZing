@@ -20,6 +20,7 @@ import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:morphzing/utils/loading_overlay.dart';
+import 'package:morphzing/utils/last_login.dart';
 import 'package:morphzing/utils/show_error.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 
@@ -290,6 +291,7 @@ class RegistrationController extends GetxController {
       await box.write('showFreeTrialPopup', false);
       await _commonRepository.setAuth(true);
       await _commonRepository.setIsVisibleSubscribeKey(true);
+      LastLogin.save('email');
 
       LoadingOverlay.hide();
       Get.offAllNamed(homeRoute);
@@ -323,6 +325,7 @@ class RegistrationController extends GetxController {
         .then((value) => _commonRepository.setAuth(true))
         .then((value) => _commonRepository.setIsVisibleSubscribeKey(true))
         .then((value) {
+      LastLogin.save('google'); // only Google is live; update when Apple is wired
       LoadingOverlay.hide();
       Get.offAllNamed(homeRoute);
     }).catchError((e) {

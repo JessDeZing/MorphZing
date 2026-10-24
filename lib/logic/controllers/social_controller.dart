@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:morphzing/utils/last_login.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:morphzing/app_controller.dart';
@@ -20,10 +21,12 @@ class SocialController extends GetxController {
   final UserRepository _userRepository = getIt<UserRepository>();
   final AppController _appController = Get.find<AppController>();
   final CommonRepository _commonRepository = getIt<CommonRepository>();
+  String? _lastMethod; // set while a Google sign-in is running
 
   Future<void> socialGoogle() async {
     GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
     if (googleSignInAccount == null) return;
+    _lastMethod = 'google';
 
     UserCredential? userCredential;
     await googleSignInAccount.authentication
@@ -123,6 +126,7 @@ class SocialController extends GetxController {
         _appController.user = value;
       }).then((value) => _commonRepository.setAuth(true))
           .then((value) {
+        if (_lastMethod != null) LastLogin.save(_lastMethod!);
         Get.offAllNamed(homeRoute);
       }).onError((error, stackTrace) {
         return Future.error(error.toString());

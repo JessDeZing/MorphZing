@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:morphzing/utils/last_login.dart';
 import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/logic/controllers/social_controller.dart';
 import 'package:morphzing/app_controller.dart';
@@ -40,6 +41,17 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _expanded = false;
   int _tab = 0; // 0 = email (default, free), 1 = phone
   bool _hidePassword = true;
+  String? _lastUsed; // 'google', 'email' or 'phone'
+
+  @override
+  void initState() {
+    super.initState();
+    _lastUsed = LastLogin.get();
+    if (_lastUsed == 'email' || _lastUsed == 'phone') {
+      _expanded = true;
+      _tab = _lastUsed == 'phone' ? 1 : 0;
+    }
+  }
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -113,6 +125,7 @@ class _SignInScreenState extends State<SignInScreen> {
       await _tokenRepository.saveToken(tokens.access, tokens.refresh!);
       Get.find<AppController>().user = await _userRepository.getUserInfo();
       await _commonRepository.setAuth(true);
+      LastLogin.save(_tab == 0 ? 'email' : 'phone');
       LoadingOverlay.hide();
       Get.offAllNamed(homeRoute);
     } catch (e) {
@@ -186,6 +199,7 @@ class _SignInScreenState extends State<SignInScreen> {
               _socialButton(
                 label: continueWithGoogle.tr,
                 icon: SvgPicture.asset('assets/icons/google.svg', width: 20, height: 20),
+                lastUsed: _lastUsed == 'google',
                 background: isDark ? const Color(0xFF1E1E2A) : Colors.white,
                 foreground: textColor,
                 border: _purple,
@@ -331,6 +345,16 @@ class _SignInScreenState extends State<SignInScreen> {
     ];
   }
 
+  // Small mint "Last used" tag
+  Widget _lastUsedBadge() => Container(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+        decoration: BoxDecoration(color: const Color(0xFF86EFAC), borderRadius: BorderRadius.circular(6)),
+        child: Text(
+          lastUsedBadge.tr,
+          style: const TextStyle(color: Color(0xFF050A41), fontFamily: _font, fontSize: 11, fontWeight: FontWeight.w600),
+        ),
+      );
+
   Widget _tabs(bool isDark, Color subColor) {
     final track = isDark ? const Color(0xFF1E1E2A) : const Color(0xFFEEECF5);
     const active = Color(0xFF6A4FD6);
@@ -344,15 +368,18 @@ class _SignInScreenState extends State<SignInScreen> {
             minimumSize: const Size.fromHeight(44),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
           ),
-          child: Text(
-            label,
-            style: TextStyle(
-              color: selected ? Colors.white : subColor,
-              fontFamily: _font,
-              fontSize: 15,
-              fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Text(
+              label,
+              style: TextStyle(
+                color: selected ? Colors.white : subColor,
+                fontFamily: _font,
+                fontSize: 15,
+                fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
+              ),
             ),
-          ),
+            if (_lastUsed == (index == 0 ? 'email' : 'phone')) ...[const SizedBox(width: 6), _lastUsedBadge()],
+          ]),
         ),
       );
     }
@@ -371,6 +398,7 @@ class _SignInScreenState extends State<SignInScreen> {
     required Color foreground,
     Color? border,
     required VoidCallback onPressed,
+    bool lastUsed = false,
   }) {
     return SizedBox(
       height: 56,
@@ -394,6 +422,7 @@ class _SignInScreenState extends State<SignInScreen> {
               label,
               style: TextStyle(color: foreground, fontFamily: _font, fontSize: 17, fontWeight: FontWeight.w600),
             ),
+            if (lastUsed) ...[const SizedBox(width: 8), _lastUsedBadge()],
           ],
         ),
       ),
