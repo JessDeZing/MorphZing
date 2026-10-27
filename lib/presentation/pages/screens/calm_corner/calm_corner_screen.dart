@@ -1,3 +1,4 @@
+import 'calm_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
@@ -9,17 +10,17 @@ class CalmCornerScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1a1f30),
+      backgroundColor: CalmColors.bg,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF141828),
+        backgroundColor: CalmColors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFb8a8d8)),
+          icon: Icon(Icons.arrow_back_ios, color: CalmColors.lavender),
           onPressed: () => Get.back(),
         ),
         title: Text(
           translation.calmCorner.tr,
-          style: TextStyle(color: Color(0xFFeceaf8), fontSize: 18, fontWeight: FontWeight.w500),
+          style: TextStyle(color: CalmColors.title, fontSize: 18, fontWeight: FontWeight.w500),
         ),
       ),
       body: Padding(
@@ -30,12 +31,12 @@ class CalmCornerScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               translation.takeAMomentForYourself.tr,
-              style: TextStyle(color: Color(0xFF8a8aaa), fontSize: 15),
+              style: TextStyle(color: CalmColors.body, fontSize: 15),
             ),
             const SizedBox(height: 32),
             _CalmTile(
               icon: Icons.self_improvement,
-              iconColor: const Color(0xFF89b4e8),
+              iconColor: CalmColors.blue,
               title: translation.groundingExercise.tr,
               subtitle: translation.groundingExerciseSubtitle.tr,
               onTap: () => Get.toNamed(groundingRoute),
@@ -43,7 +44,7 @@ class CalmCornerScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _CalmTile(
               icon: Icons.air,
-              iconColor: const Color(0xFFb8a8d8),
+              iconColor: CalmColors.lavender,
               title: translation.breathingExercise.tr,
               subtitle: translation.breathingExerciseSubtitle.tr,
               onTap: () => Get.toNamed(breathingRoute),
@@ -51,7 +52,7 @@ class CalmCornerScreen extends StatelessWidget {
             const SizedBox(height: 16),
             _CalmTile(
               icon: Icons.palette_outlined,
-              iconColor: const Color(0xFFd4a0b8),
+              iconColor: CalmColors.rose,
               title: translation.colorAndDiscover.tr,
               subtitle: translation.comingSoonZingPhotography.tr,
               onTap: null,
@@ -88,9 +89,9 @@ class _CalmTile extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(18),
         decoration: BoxDecoration(
-          color: const Color(0xFF141828),
+          color: CalmColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: const Color(0xFF252a3a), width: 0.5),
+          border: Border.all(color: CalmColors.border, width: 0.5),
         ),
         child: Row(
           children: [
@@ -111,17 +112,17 @@ class _CalmTile extends StatelessWidget {
                   Text(
                     title,
                     style: TextStyle(
-                      color: locked ? const Color(0xFF4a4a62) : const Color(0xFFeceaf8),
+                      color: locked ? CalmColors.dim : CalmColors.title,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
                   const SizedBox(height: 3),
-                  Text(subtitle, style: const TextStyle(color: Color(0xFF6a6a88), fontSize: 12)),
+                  Text(subtitle, style: TextStyle(color: CalmColors.muted, fontSize: 12)),
                 ],
               ),
             ),
-            Icon(locked ? Icons.lock_outline : Icons.chevron_right, color: const Color(0xFF4a4a62), size: 20),
+            Icon(locked ? Icons.lock_outline : Icons.chevron_right, color: CalmColors.dim, size: 20),
           ],
         ),
       ),

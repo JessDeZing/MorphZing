@@ -1,3 +1,4 @@
+import 'calm_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,11 +14,11 @@ class GroundingGameScreen extends StatefulWidget {
 
 class _GroundingGameScreenState extends State<GroundingGameScreen> {
   final List<Map<String, dynamic>> _senses = [
-    {'label': 'SEE', 'emoji': '👀', 'count': 5, 'color': const Color(0xFF89b4e8)},
-    {'label': 'TOUCH', 'emoji': '✋', 'count': 4, 'color': const Color(0xFFb8a8d8)},
-    {'label': 'HEAR', 'emoji': '👂', 'count': 3, 'color': const Color(0xFFd4a0b8)},
-    {'label': 'SMELL', 'emoji': '👃', 'count': 2, 'color': const Color(0xFFa8c8a8)},
-    {'label': 'TASTE', 'emoji': '👅', 'count': 1, 'color': const Color(0xFF89b4e8)},
+    {'label': 'SEE', 'emoji': '👀', 'count': 5, 'color': CalmColors.blue},
+    {'label': 'TOUCH', 'emoji': '✋', 'count': 4, 'color': CalmColors.lavender},
+    {'label': 'HEAR', 'emoji': '👂', 'count': 3, 'color': CalmColors.rose},
+    {'label': 'SMELL', 'emoji': '👃', 'count': 2, 'color': CalmColors.sage},
+    {'label': 'TASTE', 'emoji': '👅', 'count': 1, 'color': CalmColors.blue},
   ];
 
   String _senseLabel(String key) {
@@ -64,17 +65,17 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1a1f30),
+      backgroundColor: CalmColors.bg,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF141828),
+        backgroundColor: CalmColors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFb8a8d8)),
+          icon: Icon(Icons.arrow_back_ios, color: CalmColors.lavender),
           onPressed: () => Get.back(),
         ),
         title: Text(
           translation.groundingExercise.tr,
-          style: TextStyle(color: Color(0xFFeceaf8), fontSize: 17, fontWeight: FontWeight.w500),
+          style: TextStyle(color: CalmColors.title, fontSize: 17, fontWeight: FontWeight.w500),
         ),
       ),
       body: _finished ? _buildFinishScreen() : _buildGameScreen(),
@@ -96,7 +97,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
             borderRadius: BorderRadius.circular(2),
             child: LinearProgressIndicator(
               value: progress,
-              backgroundColor: const Color(0xFF252a3a),
+              backgroundColor: CalmColors.border,
               valueColor: AlwaysStoppedAnimation<Color>(color),
               minHeight: 3,
             ),
@@ -112,13 +113,13 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
           Text(
             '${translation.groundingFindPrompt.tr.replaceAll('{count}', '$remaining').replaceAll('{plural}', remaining == 1 ? '' : 's')} ${_senseLabel(sense['label'])} ${sense['emoji']}',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Color(0xFFeceaf8)),
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: CalmColors.title),
           ),
           const SizedBox(height: 8),
           Text(
             translation.groundingInstructions.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: Color(0xFF6a6a88)),
+            style: TextStyle(fontSize: 14, color: CalmColors.muted),
           ),
           const SizedBox(height: 40),
           GestureDetector(
@@ -128,7 +129,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
               height: 160,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: const Color(0xFF141828),
+                color: CalmColors.surface,
                 border: Border.all(color: color.withOpacity(0.4), width: 2),
               ),
               child: Center(
@@ -174,16 +175,16 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
               return Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 decoration: BoxDecoration(
-                  color: done || active ? chipColor.withOpacity(0.1) : const Color(0xFF141828),
+                  color: done || active ? chipColor.withOpacity(0.1) : CalmColors.surface,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: done || active ? chipColor.withOpacity(0.5) : const Color(0xFF252a3a),
+                    color: done || active ? chipColor.withOpacity(0.5) : CalmColors.border,
                     width: 0.5,
                   ),
                 ),
                 child: Text(
                   done ? '${_senseLabel(_senses[i]['label'])} ✓' : '${_senseLabel(_senses[i]['label'])} ${_senses[i]['count']}',
-                  style: TextStyle(fontSize: 11, color: done || active ? chipColor : const Color(0xFF6a6a88)),
+                  style: TextStyle(fontSize: 11, color: done || active ? chipColor : CalmColors.muted),
                 ),
               );
             }),
@@ -202,26 +203,26 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
           const Text('🌿', style: TextStyle(fontSize: 64)),
           const SizedBox(height: 20),
           Text(translation.groundingYouDidIt.tr,
-                style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: Color(0xFFeceaf8))),
+                style: TextStyle(fontSize: 26, fontWeight: FontWeight.w500, color: CalmColors.title)),
           const SizedBox(height: 12),
           Text(
               translation.groundingCompleteMessage.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 15, color: Color(0xFF8a8aaa), height: 1.7),
+            style: TextStyle(fontSize: 15, color: CalmColors.body, height: 1.7),
           ),
           const SizedBox(height: 32),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: const Color(0xFF141828),
+              color: CalmColors.surface,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: const Color(0xFF252a3a), width: 0.5),
+              border: Border.all(color: CalmColors.border, width: 0.5),
             ),
             child: Column(
               children: [
                 Text(translation.groundingAllSensesComplete.tr,
-                    style: TextStyle(fontSize: 11, color: Color(0xFFa8c8a8), letterSpacing: 1.2)),
+                    style: TextStyle(fontSize: 11, color: CalmColors.sage, letterSpacing: 1.2)),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
@@ -249,13 +250,13 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
             child: ElevatedButton(
               onPressed: () => Get.back(),
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF89b4e8).withOpacity(0.15),
-                foregroundColor: const Color(0xFF89b4e8),
+                backgroundColor: CalmColors.blue.withOpacity(0.15),
+                foregroundColor: CalmColors.blue,
                 elevation: 0,
                 padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(14),
-                  side: const BorderSide(color: Color(0xFF89b4e8), width: 0.5),
+                  side: BorderSide(color: CalmColors.blue, width: 0.5),
                 ),
               ),
               child: Text(translation.backToCalmCorner.tr, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
@@ -264,7 +265,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
           const SizedBox(height: 16),
           GestureDetector(
             onTap: _reset,
-            child: Text(translation.playAgain.tr, style: const TextStyle(fontSize: 13, color: Color(0xFF4a4a62))),
+            child: Text(translation.playAgain.tr, style: TextStyle(fontSize: 13, color: CalmColors.dim)),
           ),
         ],
       ),

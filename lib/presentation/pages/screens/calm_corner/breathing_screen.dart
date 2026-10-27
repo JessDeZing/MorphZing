@@ -1,3 +1,4 @@
+import 'calm_colors.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -103,11 +104,11 @@ class _BreathingScreenState extends State<BreathingScreen>
 
   Color get _phaseColor {
     switch (_phaseIndex) {
-      case 0: return const Color(0xFF89b4e8);
-      case 1: return const Color(0xFFb8a8d8);
-      case 2: return const Color(0xFFd4a0b8);
-      case 3: return const Color(0xFFa8c8a8);
-      default: return const Color(0xFF89b4e8);
+      case 0: return CalmColors.blue;
+      case 1: return CalmColors.lavender;
+      case 2: return CalmColors.rose;
+      case 3: return CalmColors.sage;
+      default: return CalmColors.blue;
     }
   }
 
@@ -117,12 +118,12 @@ class _BreathingScreenState extends State<BreathingScreen>
     final color = _phaseColor;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF1a1f30),
+      backgroundColor: CalmColors.bg,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF141828),
+        backgroundColor: CalmColors.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Color(0xFFb8a8d8)),
+          icon: Icon(Icons.arrow_back_ios, color: CalmColors.lavender),
           onPressed: () {
             _stop();
             Get.back();
@@ -130,7 +131,7 @@ class _BreathingScreenState extends State<BreathingScreen>
         ),
         title: Text(
             translation.breathingExercise.tr,
-          style: TextStyle(color: Color(0xFFeceaf8), fontSize: 17, fontWeight: FontWeight.w500),
+          style: TextStyle(color: CalmColors.title, fontSize: 17, fontWeight: FontWeight.w500),
         ),
       ),
       body: Padding(
@@ -145,7 +146,7 @@ class _BreathingScreenState extends State<BreathingScreen>
             const SizedBox(height: 8),
             Text(
                 translation.breathingCount.tr,
-              style: TextStyle(fontSize: 13, color: Color(0xFF4a4a62), letterSpacing: 2),
+              style: TextStyle(fontSize: 13, color: CalmColors.dim, letterSpacing: 2),
             ),
             const SizedBox(height: 60),
             AnimatedBuilder(
@@ -169,7 +170,7 @@ class _BreathingScreenState extends State<BreathingScreen>
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w500,
-                            color: _running ? color : const Color(0xFF4a4a62),
+                            color: _running ? color : CalmColors.dim,
                           ),
                         ),
                         if (_running) ...[
@@ -209,7 +210,7 @@ class _BreathingScreenState extends State<BreathingScreen>
             const SizedBox(height: 20),
             Text(
             translation.breathingFooter.tr,
-              style: TextStyle(fontSize: 12, color: Color(0xFF4a4a62), letterSpacing: 1),
+              style: TextStyle(fontSize: 12, color: CalmColors.dim, letterSpacing: 1),
             ),
           ],
         ),
