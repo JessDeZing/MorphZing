@@ -8,13 +8,16 @@ part of 'home_page_images.dart';
 
 HomePageImages _$HomePageImagesFromJson(Map<String, dynamic> json) =>
     HomePageImages(
-      id: json['id'] as int?,
+      id: (json['id'] as num?)?.toInt(),
       phoneImage: json['phone_image'] as String?,
       zingArtImage: json['zingart_image'] == null
           ? null
           : ZingArtImage.fromJson(
               json['zingart_image'] as Map<String, dynamic>),
       quoteImage: json['quota_image'] as String?,
+      quote: json['quote'] == null
+          ? null
+          : Quote.fromJson(json['quote'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$HomePageImagesToJson(HomePageImages instance) =>
@@ -23,6 +26,7 @@ Map<String, dynamic> _$HomePageImagesToJson(HomePageImages instance) =>
       'phone_image': instance.phoneImage,
       'zingart_image': instance.zingArtImage,
       'quota_image': instance.quoteImage,
+      'quote': instance.quote,
     };
 
 ZingArtImage _$ZingArtImageFromJson(Map<String, dynamic> json) => ZingArtImage(
@@ -34,4 +38,16 @@ Map<String, dynamic> _$ZingArtImageToJson(ZingArtImage instance) =>
     <String, dynamic>{
       'image': instance.image,
       'zingart_url': instance.url,
+    };
+
+Quote _$QuoteFromJson(Map<String, dynamic> json) => Quote(
+      text: json['text'] as String?,
+      textEs: json['text_es'] as String?,
+      author: json['author'] as String?,
+    );
+
+Map<String, dynamic> _$QuoteToJson(Quote instance) => <String, dynamic>{
+      'text': instance.text,
+      'text_es': instance.textEs,
+      'author': instance.author,
     };

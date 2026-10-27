@@ -17,6 +17,7 @@ import 'package:morphzing/data/repositories/home/home_repositories.dart';
 import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/presentation/pages/screens/home/home_controller.dart';
 import 'package:morphzing/presentation/pages/screens/home/images_widgets/quote_image.dart';
+import 'package:morphzing/presentation/pages/screens/home/images_widgets/quote_card.dart';
 import 'package:morphzing/presentation/pages/screens/home/images_widgets/uploaded_image.dart';
 import 'package:morphzing/presentation/pages/screens/home/images_widgets/zingrart_image.dart';
   // import removed - pending invitations deleted
@@ -520,9 +521,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                     url: logic
                                         .homePageImages.value.zingArtImage?.url,
                                   ),
-                                  QuoteImage(
-                                      imageUrl: logic
-                                          .homePageImages.value.quoteImage),
+                                  logic.homePageImages.value.quote != null &&
+                                          logic.homePageImages.value.quote!.displayText().isNotEmpty
+                                      ? QuoteCard(quote: logic.homePageImages.value.quote!)
+                                      : QuoteImage(imageUrl: logic.homePageImages.value.quoteImage),
                                 ],
                                 carouselController: _controller,
                                 options: CarouselOptions(
