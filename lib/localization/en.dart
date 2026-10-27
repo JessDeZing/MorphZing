@@ -574,5 +574,10 @@ class En {
         translation.searchTasks: 'Search tasks...',
         translation.activeTab: 'Active',
         translation.whatDoYouNeedToDo: 'What do you need to do?',
+        translation.homeTodoLabel: "To-Do",
+        translation.homeTodoSub: "Tackle today's tasks",
+        translation.homeJournalSub: "Write about your day",
+        translation.homeNotesSub: "Quick thoughts & ideas",
+        translation.homeCalmSub: "Breathe. Color. Reset.",
       };
 }

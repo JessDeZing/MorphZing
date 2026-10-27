@@ -591,5 +591,10 @@ class Es {
         translation.searchTasks: 'Buscar tareas...',
         translation.activeTab: 'Activas',
         translation.whatDoYouNeedToDo: '¿Qué necesitas hacer?',
+        translation.homeTodoLabel: 'Tareas',
+        translation.homeTodoSub: 'Organiza las tareas de hoy',
+        translation.homeJournalSub: 'Escribe sobre tu día',
+        translation.homeNotesSub: 'Ideas y pensamientos rápidos',
+        translation.homeCalmSub: 'Respira. Colorea. Renueva.',
       };
 }
