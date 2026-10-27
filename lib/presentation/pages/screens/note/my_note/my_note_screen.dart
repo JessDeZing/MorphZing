@@ -1,3 +1,4 @@
+import 'package:morphzing/localization/translation_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -45,7 +46,7 @@ class MyNoteScreen extends StatelessWidget {
                           onPressed: () {
                             controller.onCancel();
                           },
-                          child: Text('Cancel'),
+                          child: Text(cancel.tr),
                         ),
                         leadingWidth: 100,
                         backgroundColor: isDark ? darkBgColor : bgColor,
@@ -64,7 +65,7 @@ class MyNoteScreen extends StatelessWidget {
                             onPressed: () {
                               controller.onSelectAll();
                             },
-                            child: Text('Select all'),
+                            child: Text(noteSelectAll.tr),
                           )
                         ],
                       )
@@ -232,7 +233,7 @@ class MyNoteScreen extends StatelessWidget {
                                             controller.removeFromFolder();
                                           }
                                         : null,
-                                    child: Text('Remove from folder'),
+                                    child: Text(noteRemoveFromFolder.tr),
                                   ),
                                 ),
                                 8.verticalSpace,
@@ -245,7 +246,7 @@ class MyNoteScreen extends StatelessWidget {
                                                 .openMoveFolderBottom(context);
                                           }
                                         : null,
-                                    child: Text('Move to Folder'),
+                                    child: Text(noteMoveToFolder.tr),
                                   ),
                                 )
                               ],

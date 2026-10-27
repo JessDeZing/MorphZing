@@ -596,5 +596,16 @@ class Es {
         translation.homeJournalSub: 'Escribe sobre tu día',
         translation.homeNotesSub: 'Ideas y pensamientos rápidos',
         translation.homeCalmSub: 'Respira. Colorea. Renueva.',
+        translation.noteAllNotes: "Todas las notas",
+        translation.noteSelectAll: "Seleccionar todo",
+        translation.noteSearch: "Buscar notas...",
+        translation.noteSortCustom: "Personalizado",
+        translation.noteNoResults: "No se encontraron resultados",
+        translation.noteNoNotes: "Aún no hay notas",
+        translation.noteMoveToFolder: "Mover a carpeta",
+        translation.noteRemoveFromFolder: "Quitar de la carpeta",
+        translation.noteDeleteQuestion: "¿Eliminar nota?",
+        translation.noteScreenTitle: "Nota",
+        translation.noteTitleHint: "Título",
       };
 }

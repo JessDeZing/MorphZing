@@ -1,3 +1,4 @@
+import 'package:morphzing/localization/translation_keys.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,13 +52,13 @@ class _AllNoteScreenState extends State<AllNoteScreen> {
                     shadowColor: Colors.black26,
                     leading: TextButton(
                       onPressed: () => controller.onCancel(),
-                      child: const Text('Cancel'),
+                      child: Text(cancel.tr),
                     ),
                     leadingWidth: 100,
                     backgroundColor: isDark ? darkBgColor : bgColor,
                     centerTitle: true,
                     title: Text(
-                      'All note',
+                      noteAllNotes.tr,
                       style: TextStyle(
                         color: isDark ? whiteColor : blackTextColor,
                         fontFamily: 'SF Pro Display',
@@ -68,7 +69,7 @@ class _AllNoteScreenState extends State<AllNoteScreen> {
                     actions: [
                       TextButton(
                         onPressed: () => controller.onSelectAll(),
-                        child: const Text('Select all'),
+                        child: Text(noteSelectAll.tr),
                       )
                     ],
                   )
@@ -82,14 +83,14 @@ class _AllNoteScreenState extends State<AllNoteScreen> {
                             style: TextStyle(
                                 color: isDark ? whiteColor : blackTextColor),
                             decoration: InputDecoration(
-                              hintText: 'Search notes...',
+                              hintText: noteSearch.tr,
                               hintStyle: TextStyle(color: greyTextColor),
                               border: InputBorder.none,
                             ),
                             onChanged: (v) => setState(() => _searchQuery = v),
                           )
                         : Text(
-                            'Notes',
+                            notes.tr,
                             style: TextStyle(
                               color: isDark ? whiteColor : blackTextColor,
                               fontFamily: 'SF Pro Display',
@@ -151,7 +152,7 @@ class _AllNoteScreenState extends State<AllNoteScreen> {
                                   ),
                                 ),
                                 Text(
-                                  'All note',
+                                  noteAllNotes.tr,
                                   style: TextStyle(
                                     color: isDark ? whiteColor : blackTextColor,
                                     fontFamily: 'SF Pro Display',
@@ -182,14 +183,14 @@ class _AllNoteScreenState extends State<AllNoteScreen> {
                                     color: isDark ? whiteColor : blackTextColor,
                                     fontSize: 12,
                                   ),
-                                  items: const [
+                                  items: [
                                     DropdownMenuItem(
-                                        value: 'all', child: Text('All')),
+                                        value: 'all', child: Text(all.tr)),
                                     DropdownMenuItem(
                                         value: 'alphabetical',
                                         child: Text('A-Z')),
                                     DropdownMenuItem(
-                                        value: 'custom', child: Text('Custom')),
+                                        value: 'custom', child: Text(noteSortCustom.tr)),
                                   ],
                                   onChanged: (String? newValue) {
                                     if (newValue != null) {
@@ -214,8 +215,8 @@ class _AllNoteScreenState extends State<AllNoteScreen> {
                             ? Center(
                                 child: Text(
                                   _searchQuery.isNotEmpty
-                                      ? 'No results found'
-                                      : 'No notes yet',
+                                      ? noteNoResults.tr
+                                      : noteNoNotes.tr,
                                   style: TextStyle(
                                     color: isDark ? whiteColor : blackTextColor,
                                     fontSize: 16,
@@ -347,7 +348,7 @@ class _AllNoteScreenState extends State<AllNoteScreen> {
                                 ? () =>
                                     controller.openMoveFolderBottom(context)
                                 : null,
-                            child: const Text('Move to Folder'),
+                            child: Text(noteMoveToFolder.tr),
                           ),
                         )
                     ],

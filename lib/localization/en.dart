@@ -579,5 +579,16 @@ class En {
         translation.homeJournalSub: "Write about your day",
         translation.homeNotesSub: "Quick thoughts & ideas",
         translation.homeCalmSub: "Breathe. Color. Reset.",
+        translation.noteAllNotes: "All notes",
+        translation.noteSelectAll: "Select all",
+        translation.noteSearch: "Search notes...",
+        translation.noteSortCustom: "Custom",
+        translation.noteNoResults: "No results found",
+        translation.noteNoNotes: "No notes yet",
+        translation.noteMoveToFolder: "Move to folder",
+        translation.noteRemoveFromFolder: "Remove from folder",
+        translation.noteDeleteQuestion: "Delete note?",
+        translation.noteScreenTitle: "Note",
+        translation.noteTitleHint: "Title",
       };
 }

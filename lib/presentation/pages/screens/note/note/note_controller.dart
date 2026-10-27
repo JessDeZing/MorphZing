@@ -77,11 +77,11 @@ class NoteController extends GetxController {
     if (!isEditing) return;
     final confirm = await Get.dialog<bool>(
       AlertDialog(
-        title: const Text('Delete note?'),
-        content: const Text('This cannot be undone.'),
+        title: Text(noteDeleteQuestion.tr),
+        content: Text(cannotBeUndone.tr),
         actions: [
-          TextButton(onPressed: () => Get.back(result: false), child: const Text('Cancel')),
-          TextButton(onPressed: () => Get.back(result: true), child: const Text('Delete', style: TextStyle(color: Colors.red))),
+          TextButton(onPressed: () => Get.back(result: false), child: Text(cancel.tr)),
+          TextButton(onPressed: () => Get.back(result: true), child: Text(delete.tr, style: const TextStyle(color: Colors.red))),
         ],
       ),
     );

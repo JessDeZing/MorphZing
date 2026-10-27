@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+import 'package:morphzing/localization/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/utils/style/colors.dart';
@@ -30,7 +32,7 @@ class NoteScreen extends StatelessWidget {
           onPressed: () => controller.saveNote(silent: true),
         ),
         title: Text(
-          'Note',
+          noteScreenTitle.tr,
           style: TextStyle(
             color: isDark ? whiteColor : blackTextColor,
             fontFamily: 'SF Pro Display',
@@ -84,7 +86,7 @@ class NoteScreen extends StatelessWidget {
                 fontSize: 16,
               ),
               decoration: InputDecoration(
-                hintText: 'Title Name',
+                hintText: noteTitleHint.tr,
                 hintStyle: TextStyle(color: isDark ? Colors.white38 : Colors.grey),
                 filled: true,
                 fillColor: isDark ? Colors.white10 : Colors.grey.shade100,
@@ -104,7 +106,7 @@ class NoteScreen extends StatelessWidget {
                   fontSize: 15,
                 ),
                 decoration: InputDecoration(
-                  hintText: 'Descriptions',
+                  hintText: description.tr,
                   hintStyle: TextStyle(color: isDark ? Colors.white38 : Colors.grey),
                   filled: true,
                   fillColor: isDark ? Colors.white10 : Colors.grey.shade100,
@@ -120,7 +122,6 @@ class NoteScreen extends StatelessWidget {
   }
 
   String _monthName(int month) {
-    const months = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
-    return months[month - 1];
+    return DateFormat.MMM(Get.locale?.languageCode).format(DateTime(2000, month));
   }
 }
