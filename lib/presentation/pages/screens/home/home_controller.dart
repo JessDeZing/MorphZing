@@ -67,6 +67,28 @@ class HomeController extends GetxController {
     bannerLoading.value = false;
   }
 
+  /// Quietly get a new random quote (no spinner). Keeps the same photo.
+  /// Asks once more if the quote is the same as the one showing.
+  Future<void> refreshQuote() async {
+    try {
+      final oldText = homePageImages.value.quote?.text;
+      var fresh = await _homePageRepository.getHomePageImage();
+      if (oldText != null && fresh.quote?.text == oldText) {
+        fresh = await _homePageRepository.getHomePageImage();
+      }
+      final current = homePageImages.value;
+      homePageImages.value = HomePageImages(
+        id: current.id,
+        phoneImage: current.phoneImage,
+        zingArtImage: current.zingArtImage,
+        quoteImage: fresh.quoteImage,
+        quote: fresh.quote,
+      );
+    } on Object catch (_) {
+      // Keep the current banner if the refresh fails.
+    }
+  }
+
   Future<Banner?> uploadPhoto(File image) async {
     try {
       uploadedImage.value = await _homePageRepository.uploadBannerPhoto(image);

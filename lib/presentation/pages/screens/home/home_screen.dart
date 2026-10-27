@@ -83,10 +83,15 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   void didPopNext() {
     fetchUserInfo();
     checkPremiumLightValidity();
+    logic.refreshQuote();
     setState(() {
       current = current == 0 ? 1 : 0;
-      _controller.jumpToPage(current);
     });
+    try {
+      _controller.jumpToPage(current);
+    } catch (_) {
+      // Carousel not on screen yet: skip the jump instead of crashing.
+    }
   }
 
   Future checkPremiumLightValidity() async {
@@ -523,7 +528,9 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                                   ),
                                   logic.homePageImages.value.quote != null &&
                                           logic.homePageImages.value.quote!.displayText().isNotEmpty
-                                      ? QuoteCard(quote: logic.homePageImages.value.quote!)
+                                      ? QuoteCard(
+                                        key: ValueKey(logic.homePageImages.value.quote!.text),
+                                        quote: logic.homePageImages.value.quote!)
                                       : QuoteImage(imageUrl: logic.homePageImages.value.quoteImage),
                                 ],
                                 carouselController: _controller,
