@@ -98,6 +98,7 @@ flutter:
     - assets/icons/
     - assets/images/
     - assets/images/subscription/
+    - assets/images/intro/
   fonts:
     - family: SF Pro Display
       fonts:

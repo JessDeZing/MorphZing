@@ -607,5 +607,11 @@ class Es {
         translation.noteDeleteQuestion: "¿Eliminar nota?",
         translation.noteScreenTitle: "Nota",
         translation.noteTitleHint: "Título",
+        translation.introWelcome: "Te damos la bienvenida a MorphZing",
+        translation.introCalmLine: "Tu espacio de calma para planear, reflexionar y crecer, un día a la vez.",
+        translation.introEverything: "Todo en un solo lugar",
+        translation.introBilingual: "En inglés y español",
+        translation.introFreshQuote: "Y una frase nueva cada vez que visitas Inicio",
+        translation.introSkip: "Omitir",
       };
 }

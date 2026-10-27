@@ -590,5 +590,11 @@ class En {
         translation.noteDeleteQuestion: "Delete note?",
         translation.noteScreenTitle: "Note",
         translation.noteTitleHint: "Title",
+        translation.introWelcome: "Welcome to MorphZing",
+        translation.introCalmLine: "Your calm space to plan, reflect, and grow, one day at a time.",
+        translation.introEverything: "Everything in one place",
+        translation.introBilingual: "In English and Spanish",
+        translation.introFreshQuote: "Plus a fresh quote every time you visit Home",
+        translation.introSkip: "Skip",
       };
 }
