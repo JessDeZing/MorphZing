@@ -355,7 +355,7 @@ class En {
         translation.yourMembershipSupport:
             'Your membership helps to support the following foundations:',
         translation.youMakeDifference: 'Thank you! You make a difference!',
-        translation.missionStatement: 'Mission statement',
+        translation.missionStatement: 'Our Mission',
         translation.aboutTheApp: 'About the app',
         translation.ourMission: 'Our Mission',
         translation.ourMissionDescription:

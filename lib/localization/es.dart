@@ -362,7 +362,7 @@ class Es {
         translation.yourMembershipSupport:
             'Su membresía ayuda a apoyar las siguientes fundaciones: ',
         translation.youMakeDifference: '¡Gracias! ¡Tú haces la diferencia!',
-        translation.missionStatement: 'Estado de la misión',
+        translation.missionStatement: 'Nuestra Misión',
         translation.aboutTheApp: 'Sobre la aplicación',
         translation.ourMission: 'Nuestra misión',
         translation.ourMissionDescription:
