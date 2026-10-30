@@ -382,6 +382,9 @@ class Es {
         translation.misc: 'Misc',
         translation.failedFetchHomeBanner:
             'No se pudo obtener la imagen del banner de la página de inicio',
+        translation.chooseLanguageBoth: 'Choose your language\nElige tu idioma',
+        translation.languageNameEn: 'English',
+        translation.languageNameEs: 'Español',
         translation.failedUploadHomeBanner:
             'No se pudo cargar la imagen del banner de la página de inicio',
         translation.oldPassword: 'Contraseña anterior',

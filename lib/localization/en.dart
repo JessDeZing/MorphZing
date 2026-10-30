@@ -374,6 +374,9 @@ class En {
         translation.misc: 'Misc',
         translation.failedFetchHomeBanner:
             'Could not fetch home page banner image',
+        translation.chooseLanguageBoth: 'Choose your language\nElige tu idioma',
+        translation.languageNameEn: 'English',
+        translation.languageNameEs: 'Español',
         translation.failedUploadHomeBanner:
             'Could not upload home page banner image',
         translation.oldPassword: 'Old password',

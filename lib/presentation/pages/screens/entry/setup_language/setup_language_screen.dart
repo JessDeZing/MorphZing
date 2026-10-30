@@ -1,13 +1,14 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/localization/locale_enum.dart';
 import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/presentation/pages/screens/entry/setup_language/setup_language_controller.dart';
-import 'package:morphzing/presentation/routers/rout_names.dart';
-import 'package:morphzing/utils/style/colors.dart';
-import 'package:simple_gradient_text/simple_gradient_text.dart';
 
+/// First screen on a new install: one tap picks English or Spanish,
+/// then goes to the intro pages (the intro saves the choice).
 class SetupLanguageScreen extends StatefulWidget {
   const SetupLanguageScreen({Key? key}) : super(key: key);
 
@@ -17,231 +18,75 @@ class SetupLanguageScreen extends StatefulWidget {
 
 class _SetupLanguageScreenState extends State<SetupLanguageScreen> {
   final SetupLanguageController controller = SetupLanguageController();
+  static const _white = TextStyle(color: Colors.white, fontFamily: 'SF Pro Display');
+  bool _busy = false;
+
+  void _pick(LocaleEnum locale) {
+    if (_busy) return;
+    _busy = true;
+    controller.changeLanguage(locale);
+    // Short pause so the new language is applied before the intro opens.
+    Future.delayed(const Duration(milliseconds: 200), controller.onPressedNext);
+    // Allow picking again if the user comes back to this screen.
+    Future.delayed(const Duration(milliseconds: 900), () => _busy = false);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return GetBuilder<SetupLanguageController>(
-      init: controller,
-      builder: (controller) {
-        return Scaffold(
-          body: Column(
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        bottomRight: Radius.circular(30),
-                      ),
-                      image: DecorationImage(
-                          image:
-                              AssetImage('assets/images/3x/language_logo.png'),
-                          fit: BoxFit.cover)),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: 30.0,
-                  left: 30,
-                  right: 30,
-                  bottom: 5,
-                ),
-                child: Text(
-                  setupLanguageDescription.tr,
-                  style: TextStyle(
-                    color: isDark ? Colors.white : blackTextColor,
-                    fontSize: 22,
-                    fontFamily: 'SF Pro Display',
-                    fontWeight: FontWeight.bold,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(28, 24, 28, 32),
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: Image.asset('assets/images/intro/intro_language.jpg',
+                        fit: BoxFit.contain),
                   ),
-                  textAlign: TextAlign.center,
                 ),
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(
-                    top: 5,
-                    left: 30,
-                    right: 30,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      GradientText(
-                        'M',
-                        style: TextStyle(
-                          color: isDark ? Colors.white : blackTextColor,
-                          fontSize: 34,
-                          fontFamily: 'SF Pro Display',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        colors: const [
-                          Colors.red,
-                          Colors.pink,
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.deepPurple,
-                          Colors.indigo,
-                          Colors.blue,
-                          Colors.lightBlue,
-                          Colors.cyan,
-                          Colors.teal,
-                          Colors.green,
-                          Colors.lightGreen,
-                          Colors.lime,
-                          Colors.yellow,
-                          Colors.amber,
-                          Colors.orange,
-                          Colors.deepOrange,
-                        ],
-                      ),
-                      Text('orph your future',
-                          style: TextStyle(
-                            color: isDark ? Colors.white : blackTextColor,
-                            fontSize: 34,
-                            fontFamily: 'SF Pro Display',
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ],
-                  )),
-              Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 30,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('into something',
-                          style: TextStyle(
-                            color: isDark ? Colors.white : blackTextColor,
-                            fontSize: 34,
-                            fontFamily: 'SF Pro Display',
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ],
-                  )),
-              Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: 5,
-                    left: 30,
-                    right: 30,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('ama',
-                          style: TextStyle(
-                            color: isDark ? Colors.white : blackTextColor,
-                            fontSize: 34,
-                            fontFamily: 'SF Pro Display',
-                            fontWeight: FontWeight.bold,
-                          )),
-                      GradientText(
-                        'Z',
-                        style: TextStyle(
-                          color: isDark ? Colors.white : blackTextColor,
-                          fontSize: 34,
-                          fontFamily: 'SF Pro Display',
-                          fontWeight: FontWeight.bold,
-                        ),
-                        colors: const [
-                          Colors.red,
-                          Colors.pink,
-                          Colors.purple,
-                          Colors.deepPurple,
-                          Colors.deepPurple,
-                          Colors.indigo,
-                          Colors.blue,
-                          Colors.lightBlue,
-                          Colors.cyan,
-                          Colors.teal,
-                          Colors.green,
-                          Colors.lightGreen,
-                          Colors.lime,
-                          Colors.yellow,
-                          Colors.amber,
-                          Colors.orange,
-                          Colors.deepOrange,
-                        ],
-                      ),
-                      Text('ing',
-                          style: TextStyle(
-                            color: isDark ? Colors.white : blackTextColor,
-                            fontSize: 34,
-                            fontFamily: 'SF Pro Display',
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ],
-                  )),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 25),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        controller.changeLanguage(LocaleEnum.en);
-                      },
-                      child: Text(
-                        english.tr,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'SF Pro Display',
-                          color: Get.locale == LocaleEnum.en.getLocale()
-                              ? blueColor
-                              : isDark
-                                  ? Colors.white
-                                  : greyTextColor,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: Container(
-                        width: 1,
-                        height: 16,
-                        color: isDark
-                            ? Colors.white
-                            : greyTextColor.withOpacity(0.5),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.changeLanguage(LocaleEnum.es);
-                      },
-                      child: Text(
-                        spanish.tr,
-                        style: TextStyle(
-                          fontSize: 18,
-                          // fontWeight: FontWeight.bold,
-                          fontFamily: 'SF Pro Display',
-                          color: Get.locale == LocaleEnum.es.getLocale()
-                              ? blueColor
-                              : isDark
-                                  ? Colors.white
-                                  : greyTextColor,
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: ElevatedButton(
-                  onPressed: () => controller.onPressedNext(),
-                  child: Text(next.tr),
-                ),
-              ),
-              24.verticalSpace,
-              SizedBox(
-                height: MediaQuery.of(context).padding.bottom,
-              )
-            ],
+                const SizedBox(height: 24),
+                Text(chooseLanguageBoth.tr,
+                    textAlign: TextAlign.center,
+                    style: _white.copyWith(fontSize: 22, fontWeight: FontWeight.w700, height: 1.3)),
+                const SizedBox(height: 28),
+                _langButton(languageNameEn.tr, () => _pick(LocaleEnum.en)),
+                const SizedBox(height: 12),
+                _langButton(languageNameEs.tr, () => _pick(LocaleEnum.es)),
+              ],
+            ),
           ),
-        );
-      },
+        ),
+      ),
+    );
+  }
+
+  Widget _langButton(String label, VoidCallback onTap) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 12, sigmaY: 12),
+        child: Material(
+          color: Colors.white.withOpacity(0.14),
+          child: InkWell(
+            onTap: onTap,
+            child: Container(
+              height: 56,
+              width: double.infinity,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.white.withOpacity(0.25), width: 0.6),
+              ),
+              child: Text(label,
+                  style: _white.copyWith(fontSize: 18, fontWeight: FontWeight.w600)),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
