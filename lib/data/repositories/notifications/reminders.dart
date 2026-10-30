@@ -35,12 +35,12 @@ class Reminders {
 
   static const Map<String, Map<String, dynamic>> _defaults = {
     'journal': {'on': true, 'h': 20, 'm': 0},
-    'quote': {'on': false, 'h': 8, 'm': 0},
+    'quote': {'on': true, 'h': 8, 'm': 0},
     'breather': {'on': false, 'h': 12, 'm': 30},
-    'sunday': {'on': false, 'h': 18, 'm': 0},
-    'birthday': {'on': false},
-    'streak': {'on': false},
-    'comeback': {'on': false},
+    'sunday': {'on': true, 'h': 18, 'm': 0},
+    'birthday': {'on': true},
+    'streak': {'on': true},
+    'comeback': {'on': true},
   };
 
   /// Current settings: defaults, overwritten by whatever the person saved.
@@ -269,7 +269,13 @@ class Reminders {
       await requestPermission();
       await rescheduleAll();
     } else {
-      await setOn('journal', false);
+      // Not now: turn everything off (older phones show notifications without asking).
+      final s = settings;
+      for (final k in s.keys) {
+        s[k]?['on'] = false;
+      }
+      await _box.write(_settingsKey, s);
+      await rescheduleAll();
     }
   }
 }

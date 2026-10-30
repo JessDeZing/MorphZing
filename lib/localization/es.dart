@@ -401,7 +401,7 @@ class Es {
         translation.remindersBlocked: "Las notificaciones de MorphZing están desactivadas en este teléfono.",
         translation.remindersOpenSettings: "Abrir ajustes",
         translation.notifAskTitle: "¿Quieres un recordatorio amable?",
-        translation.notifAskBody: "Podemos recordarte escribir en tu diario cada noche. Puedes cambiarlo cuando quieras en Ajustes.",
+        translation.notifAskBody: "Podemos enviarte recordatorios amables, como uno nocturno para tu diario y una frase por la mañana. Puedes cambiarlos cuando quieras en Ajustes.",
         translation.notifAskYes: "Sí, recuérdame",
         translation.notifAskNo: "Ahora no",
         translation.notifJournalTitle: "Hora de tu diario 🌙",

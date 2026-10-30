@@ -393,7 +393,7 @@ class En {
         translation.remindersBlocked: "Notifications are turned off for MorphZing on this phone.",
         translation.remindersOpenSettings: "Open settings",
         translation.notifAskTitle: "Want a gentle reminder?",
-        translation.notifAskBody: "We can remind you to journal each evening. You can change this anytime in Settings.",
+        translation.notifAskBody: "We can send you gentle reminders, like an evening journal nudge and a morning quote. You can change them anytime in Settings.",
         translation.notifAskYes: "Yes, remind me",
         translation.notifAskNo: "Not now",
         translation.notifJournalTitle: "Time to journal 🌙",
