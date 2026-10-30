@@ -1,3 +1,4 @@
+import 'package:morphzing/data/repositories/auth/token_repository.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -58,6 +59,12 @@ class HomeController extends GetxController {
   }
 
   Future<void> getBannerImage() async {
+    // Not signed in yet (first screens): skip quietly, no red error.
+    final token = getIt<TokenRepository>().getAccessToken();
+    if (token == null || token.isEmpty) {
+      bannerLoading.value = false;
+      return;
+    }
     bannerLoading.value = true;
     try {
       homePageImages.value = await _homePageRepository.getHomePageImage();

@@ -62,6 +62,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
       //   logic.setSubscriptionShown();
       // }
       DynamicDeepLinkService.instance.initDynamicLinks(context);
+      // Safety net: load the banner if it was skipped before sign-in.
+      if (logic.homePageImages.value.id == null && logic.bannerLoading.value == false) {
+        await logic.getBannerImage();
+      }
       await fetchUserInfo();
       await checkPremiumLightValidity();
     });
