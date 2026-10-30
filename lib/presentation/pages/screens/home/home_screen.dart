@@ -50,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
   // final CarouselController _controller = CarouselController();
   final CarouselSliderController _controller = CarouselSliderController();
   final box = GetStorage();
+  // Turn on when subscriptions are built. Off now: nothing is paid yet.
+  static const bool _showTrialExpiredPopup = false;
 
   @override
   void initState() {
@@ -115,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
             DateTime currentDate =
                 DateTime.now(); // Get the current date and time
 
-            if (endDate.isBefore(currentDate)) {
+            if (_showTrialExpiredPopup && endDate.isBefore(currentDate)) {
               // The end date has passed
               showDialog(
                 context: context,
@@ -345,6 +347,12 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
     DateTime endDateTime = DateTime.parse(endDateString ?? "");
     DateTime currentDateTime = DateTime.now();
+    // Only welcome brand-new sign-ups (trial started in the last 24 hours),
+    // not people signing in again after a reinstall.
+    final startDateTime = DateTime.tryParse(startDateString ?? "");
+    if (startDateTime == null || currentDateTime.difference(startDateTime).inHours > 24) {
+      return;
+    }
     if (currentDateTime.isBefore(endDateTime) && !showPopup) {
       _showTrialPopup();
     }
