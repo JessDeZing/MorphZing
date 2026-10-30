@@ -1,3 +1,4 @@
+import 'package:morphzing/data/repositories/notifications/reminders.dart';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:io';
@@ -108,6 +109,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
       if (result.statusCode == 200) {
         var resultDecoded = jsonDecode(result.toString());
+        Reminders.instance.rememberBirthday(resultDecoded['birth_date']);
         var userSubscription = resultDecoded['user_subscription'];
         if (userSubscription != null) {
           if (userSubscription['tariff_type'] == 'premium' &&
