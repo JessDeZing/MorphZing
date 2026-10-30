@@ -1,3 +1,4 @@
+import 'package:morphzing/data/repositories/notifications/reminders.dart';
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:image_picker/image_picker.dart';
@@ -121,6 +122,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
     }
     // Navigator.pop instead of Get.back: Get.back tries to close a
     // snackbar first and crashes if it isn't ready (LateInitializationError)
+    Reminders.instance.onJournalSaved();
     if (mounted) Navigator.of(context).pop(true);
   }
 
