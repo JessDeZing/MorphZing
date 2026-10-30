@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/localization/translation_keys.dart' as translation;
+import 'package:morphzing/data/repositories/tasks/task_sync.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
@@ -68,6 +69,7 @@ class _TodoScreenState extends State<TodoScreen>
       "completed": t.completed,
     }).toList();
     _box.write("tasks", data);
+    TaskSync.instance.syncNow();
   }
 
   void _loadItems() {
@@ -195,11 +197,19 @@ class _TodoScreenState extends State<TodoScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    TaskSync.instance.prepareForCurrentUser();
     _loadItems();
+    TaskSync.instance.changes.addListener(_onSyncChanged);
+    TaskSync.instance.syncNow();
+  }
+
+  void _onSyncChanged() {
+    if (mounted) _loadItems();
   }
 
   @override
   void dispose() {
+    TaskSync.instance.changes.removeListener(_onSyncChanged);
     _tabController.dispose();
     _searchController.dispose();
     super.dispose();
@@ -254,7 +264,10 @@ class _TodoScreenState extends State<TodoScreen>
           _saveItems();
           Navigator.pop(ctx);
         },
-        onUpdate: () => setState(() {}),
+        onUpdate: () {
+          setState(() {});
+          _saveItems();
+        },
       ),
     );
   }

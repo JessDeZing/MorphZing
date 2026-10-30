@@ -4,7 +4,6 @@ const BASE_URL = "https://api.morphzing.com/api/v1";
 //local baseURL (Hassan)
 // const BASE_URL = "http://192.168.0.212:8000/api/v1";
 
-const BASE_URL_STAGING = "https://api.morphzing.jafton.com/api/v1";
 
 //registration
 const USER_AUTH = "/user/authorize/";

@@ -55,6 +55,10 @@ class CommonRequestInterceptor extends QueuedInterceptor {
     myPrint('${err.requestOptions.method} <<< ${err.requestOptions.uri}');
     myPrint('Error data: ${err.response?.data}');
     myPrint('Error status: ${err.response?.statusCode}');
+    // Background requests (like To-Do sync) set extra['silent'] = true: no pop-ups.
+    if (err.requestOptions.extra['silent'] == true) {
+      return handler.next(err);
+    }
     switch (err.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -169,6 +173,7 @@ class AuthorizedRequestInterceptor extends CommonRequestInterceptor {
     final Options options = Options(
       method: requestOptions.method,
       headers: newHeader,
+      extra: requestOptions.extra,
     );
 
     return _localDio.request<dynamic>(
