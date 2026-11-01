@@ -45,6 +45,15 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
     if (mounted) setState(() => _allowed = ok);
   }
 
+  /// Ask Android first; only if they said no before, open the phone's settings.
+  Future<void> _turnOn() async {
+    await _r.requestPermission();
+    await _checkAllowed();
+    if (_allowed == false) {
+      await AppSettings.openAppSettings(type: AppSettingsType.notification);
+    }
+  }
+
   Future<void> _toggle(String type, bool on) async {
     if (on && _allowed == false) {
       await _r.requestPermission();
@@ -102,7 +111,7 @@ class _NotificationSettingsScreenState extends State<NotificationSettingsScreen>
                     style: customTextStyle(fontSize: 14, color: text, fontWeight: FontWeight.w500),
                   ),
                   TextButton(
-                    onPressed: () => AppSettings.openAppSettings(type: AppSettingsType.notification),
+                    onPressed: _turnOn,
                     child: Text(remindersOpenSettings.tr),
                   ),
                 ],
