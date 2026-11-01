@@ -54,14 +54,13 @@ dependencies:
   # assets_audio_player removed due to Android build issues
   file_picker: ^10.2.0
   open_file: ^3.2.1
-  flutter_contacts: ^1.1.9+2
   equatable: ^2.0.5
   record: ^6.0.0
   table_calendar: ^3.0.9
   flutter_html: ^3.0.0-alpha.6
   flutter_timezone: ^4.1.1
   image_cropper: ^9.1.0
-  purchases_flutter: ^9.2.1
+  purchases_flutter: ^10.0.0
   flutter_slidable: ^4.0.0
   share_plus: ^11.0.0
   # social_share: ^2.3.1

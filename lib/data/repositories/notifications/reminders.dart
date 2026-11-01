@@ -101,14 +101,26 @@ class Reminders {
   AndroidFlutterLocalNotificationsPlugin? get _android =>
       _plugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
 
+  IOSFlutterLocalNotificationsPlugin? get _ios =>
+      _plugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>();
+
   Future<bool> notificationsAllowed() async {
     await init();
-    return await _android?.areNotificationsEnabled() ?? true;
+    final android = _android;
+    final ios = _ios;
+    if (android == null && ios == null) return true;
+    if (ios == null) return await android?.areNotificationsEnabled() ?? true;
+    final p = await ios.checkPermissions();
+    return p?.isEnabled ?? false;
   }
 
   Future<bool> requestPermission() async {
     await init();
-    return await _android?.requestNotificationsPermission() ?? true;
+    final android = _android;
+    final ios = _ios;
+    if (android == null && ios == null) return true;
+    if (ios == null) return await android?.requestNotificationsPermission() ?? true;
+    return await ios.requestPermissions(alert: true, badge: true, sound: true) ?? false;
   }
 
   NotificationDetails get _details => const NotificationDetails(

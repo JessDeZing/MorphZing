@@ -63,8 +63,6 @@
 		<true/>
 		<key>NSCameraUsageDescription</key>
 		<string>Use your camera to capture yourself and upload to your profile avatar</string>
-		<key>NSContactsUsageDescription</key>
-		<string>Choose whom to invite to your event from your contact list. Invited contacts information will be sent to and used in the server</string>
 		<key>NSMicrophoneUsageDescription</key>
 		<string>We need to access to the microphone to record audio file</string>
 		<key>NSPhotoLibraryUsageDescription</key>
@@ -95,5 +93,26 @@
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
 		<false/>
+		<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneClassName</key>
+					<string>UIWindowScene</string>
+					<key>UISceneDelegateClassName</key>
+					<string>FlutterSceneDelegate</string>
+					<key>UISceneConfigurationName</key>
+					<string>flutter</string>
+					<key>UISceneStoryboardFile</key>
+					<string>Main</string>
+				</dict>
+			</array>
+		</dict>
 	</dict>
+</dict>
 </plist>
