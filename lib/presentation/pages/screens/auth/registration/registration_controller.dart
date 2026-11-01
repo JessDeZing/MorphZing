@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
@@ -325,7 +326,10 @@ class RegistrationController extends GetxController {
         .then((value) => _commonRepository.setAuth(true))
         .then((value) => _commonRepository.setIsVisibleSubscribeKey(true))
         .then((value) {
-      LastLogin.save('google'); // only Google is live; update when Apple is wired
+      final isApple = FirebaseAuth.instance.currentUser?.providerData
+              .any((p) => p.providerId == 'apple.com') ??
+          false;
+      LastLogin.save(isApple ? 'apple' : 'google');
       LoadingOverlay.hide();
       Get.offAllNamed(homeRoute);
     }).catchError((e) {

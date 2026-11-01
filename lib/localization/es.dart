@@ -67,6 +67,7 @@ class Es {
         translation.birthdayCelebrateNote: "Para celebrarte en tu cumpleaños 🎂",
         translation.lastUsedBadge: "Último uso",
         translation.googleSignInFailed: "No se pudo iniciar sesión con Google. Inténtalo de nuevo.",
+        translation.appleSignInFailed: "No se pudo iniciar sesión con Apple. Inténtalo de nuevo.",
         translation.createAccountTitle: "Crear cuenta",
         translation.phoneStepTitle: "Agrega tu número de teléfono",
         translation.phoneStepDesc: "Se usa para recordatorios y para recuperar tu cuenta.",

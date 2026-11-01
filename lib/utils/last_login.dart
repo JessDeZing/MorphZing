@@ -1,6 +1,6 @@
 import 'package:get_storage/get_storage.dart';
 
-/// Remembers how the user last signed in: 'google', 'email' or 'phone'.
+/// Remembers how the user last signed in: 'apple', 'google', 'email' or 'phone'.
 /// Survives log out (log out only removes the login tokens).
 class LastLogin {
   static const _key = 'lastLoginMethod';

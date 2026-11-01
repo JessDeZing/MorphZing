@@ -21,7 +21,7 @@ class SocialController extends GetxController {
   final UserRepository _userRepository = getIt<UserRepository>();
   final AppController _appController = Get.find<AppController>();
   final CommonRepository _commonRepository = getIt<CommonRepository>();
-  String? _lastMethod; // set while a Google sign-in is running
+  String? _lastMethod; // set while a Google or Apple sign-in is running
 
   Future<void> socialGoogle() async {
     GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
@@ -74,6 +74,7 @@ class SocialController extends GetxController {
     ])
         .then((value) {
           appleCredential = value;
+          _lastMethod = 'apple';
           return OAuthProvider("apple.com")
               .credential(idToken: value.identityToken);
         })

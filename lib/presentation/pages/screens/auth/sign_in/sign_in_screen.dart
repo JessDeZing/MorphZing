@@ -41,7 +41,7 @@ class _SignInScreenState extends State<SignInScreen> {
   bool _expanded = false;
   int _tab = 0; // 0 = email (default, free), 1 = phone
   bool _hidePassword = true;
-  String? _lastUsed; // 'google', 'email' or 'phone'
+  String? _lastUsed; // 'apple', 'google', 'email' or 'phone'
 
   @override
   void initState() {
@@ -76,6 +76,22 @@ class _SignInScreenState extends State<SignInScreen> {
       final text = error.toString();
       if (!text.contains('DioException') && !text.contains('DioError')) {
         _showError(googleSignInFailed.tr);
+      }
+    } finally {
+      LoadingOverlay.hide();
+    }
+  }
+
+  // Apple sign-in (iPhone only). Same as Google: server errors show in the app's
+  // error pop-up; tapping Cancel on Apple's sheet does nothing.
+  Future<void> _apple() async {
+    LoadingOverlay.show(context);
+    try {
+      await _social.socialApple();
+    } catch (error) {
+      final text = error.toString();
+      if (text.contains('DioException') == false && text.contains('DioError') == false) {
+        _showError(appleSignInFailed.tr);
       }
     } finally {
       LoadingOverlay.hide();
@@ -185,14 +201,14 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               const SizedBox(height: 36),
               // Apple: hidden on Android (needs Service ID setup there).
-              // Not wired yet on iPhone either: hook up to socialApple in the iOS update.
               if (!Platform.isAndroid) ...[
                 _socialButton(
                   label: continueWithApple.tr,
                   icon: Icon(Icons.apple, size: 22, color: isDark ? Colors.black : Colors.white),
                   background: isDark ? Colors.white : Colors.black,
                   foreground: isDark ? Colors.black : Colors.white,
-                  onPressed: () {},
+                  lastUsed: _lastUsed == 'apple',
+                  onPressed: _apple,
                 ),
                 const SizedBox(height: 14),
               ],
