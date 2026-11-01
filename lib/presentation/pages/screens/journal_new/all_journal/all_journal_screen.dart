@@ -262,8 +262,8 @@ class _AllJournalScreenState extends State<AllJournalScreen> {
                                   children: [
                                     Text(
                                       _searchQuery.isNotEmpty
-                                          ? 'No results found'
-                                          : noJourneyForTodayTitle.tr,
+                                          ? searchNoResultsTitle.tr
+                                          : [journalEmptyTitle1, journalEmptyTitle2, journalEmptyTitle3][DateTime.now().difference(DateTime(2026)).inDays % 3].tr,
                                       style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.w700,
@@ -275,8 +275,8 @@ class _AllJournalScreenState extends State<AllJournalScreen> {
                                     SizedBox(height: 8),
                                     Text(
                                       _searchQuery.isNotEmpty
-                                          ? 'Try a different search term'
-                                          : noJourneyForTodayDesc.tr,
+                                          ? searchNoResultsDesc.tr
+                                          : [journalEmptyBody1, journalEmptyBody2, journalEmptyBody3][DateTime.now().difference(DateTime(2026)).inDays % 3].tr,
                                       style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w400,

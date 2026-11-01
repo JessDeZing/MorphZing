@@ -60,7 +60,7 @@ class _MissionStatementScreenState extends State<MissionStatementScreen>
               children: [
                 const SizedBox(height: 36),
                 Text(
-                  'OUR MISSION',
+                  missionStatement.tr.toUpperCase(),
                   style: TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -74,8 +74,8 @@ class _MissionStatementScreenState extends State<MissionStatementScreen>
                   shaderCallback: (bounds) => const LinearGradient(
                     colors: [Color(0xFF8B6FE8), Color(0xFFE88FC7), Color(0xFF86EFAC)],
                   ).createShader(bounds),
-                  child: const Text(
-                    'Life is complicated.\nMorphZing is not.',
+                  child: Text(
+                    missionLine1.tr,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: 'SF Pro Display',
@@ -99,7 +99,7 @@ class _MissionStatementScreenState extends State<MissionStatementScreen>
                 ),
                 const SizedBox(height: 20),
                 Text(
-                  'Get organized, inspired, and at peace.\nOne simple app. One beautiful journey.',
+                  missionLine2.tr,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'SF Pro Display',

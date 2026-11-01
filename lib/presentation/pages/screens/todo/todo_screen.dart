@@ -298,16 +298,6 @@ class _TodoScreenState extends State<TodoScreen>
                     fontWeight: FontWeight.w700)),
         actions: [
           IconButton(
-            icon: const Icon(Icons.file_upload_outlined, color: Colors.white70),
-            tooltip: 'Export backup',
-            onPressed: _exportTasks,
-          ),
-          IconButton(
-            icon: const Icon(Icons.file_download_outlined, color: Colors.white70),
-            tooltip: 'Import backup',
-            onPressed: _importTasks,
-          ),
-          IconButton(
             icon: Icon(_searchExpanded ? Icons.close : Icons.search,
                 color: Colors.white70),
             onPressed: () {
@@ -329,7 +319,7 @@ class _TodoScreenState extends State<TodoScreen>
           labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           tabs: [
             Tab(text: translation.activeTab.tr),
-            Tab(text: translation.completed.tr),
+            Tab(text: translation.completedTab.tr),
           ],
         ),
       ),
