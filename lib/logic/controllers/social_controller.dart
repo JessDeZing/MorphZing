@@ -1,3 +1,7 @@
+import 'dart:convert' show utf8;
+import 'dart:math' show Random;
+
+import 'package:crypto/crypto.dart' show sha256;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:morphzing/utils/last_login.dart';
@@ -65,18 +69,40 @@ class SocialController extends GetxController {
         });
   }
 
+  // Random one-time code for Apple sign-in; Firebase checks it matches.
+  String _createNonce([int length = 32]) {
+    const charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
   Future<void> socialApple() async {
     UserCredential? userCredential;
     AuthorizationCredentialAppleID? appleCredential;
-    await SignInWithApple.getAppleIDCredential(scopes: [
+    // Apple gets the SHA-256 hash of the nonce; Firebase gets the raw one.
+    final rawNonce = _createNonce();
+    final hashedNonce = sha256.convert(utf8.encode(rawNonce)).toString();
+    await SignInWithApple.getAppleIDCredential(nonce: hashedNonce, scopes: [
       AppleIDAuthorizationScopes.fullName,
       AppleIDAuthorizationScopes.email,
     ])
         .then((value) {
           appleCredential = value;
           _lastMethod = 'apple';
-          return OAuthProvider("apple.com")
-              .credential(idToken: value.identityToken);
+          final idToken = value.identityToken;
+          if (idToken == null) {
+            throw StateError('Apple did not return an identity token');
+          }
+          return AppleAuthProvider.credentialWithIDToken(
+            idToken,
+            rawNonce,
+            AppleFullPersonName(
+              givenName: value.givenName,
+              familyName: value.familyName,
+            ),
+          );
         })
         .then((oAuthCredential) =>
             FirebaseAuth.instance.signInWithCredential(oAuthCredential))
