@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
+import 'todo_colors.dart';
 
 class TodoItem {
   final String id;
@@ -235,7 +236,7 @@ class _TodoScreenState extends State<TodoScreen>
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      backgroundColor: const Color(0xFF1A1A1A),
+      backgroundColor: TodoColors.sheet,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -253,7 +254,7 @@ class _TodoScreenState extends State<TodoScreen>
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      backgroundColor: const Color(0xFF1A1A1A),
+      backgroundColor: TodoColors.sheet,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -275,31 +276,31 @@ class _TodoScreenState extends State<TodoScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F0F0F),
+      backgroundColor: TodoColors.bg,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF0F0F0F),
+        backgroundColor: TodoColors.bg,
         elevation: 0,
         title: _searchExpanded
             ? TextField(
                 controller: _searchController,
                 autofocus: true,
-                style: const TextStyle(color: Colors.white),
+                style: TextStyle(color: TodoColors.text),
                 decoration: InputDecoration(
                   hintText: translation.searchTasks.tr,
-                  hintStyle: TextStyle(color: Colors.white38),
+                  hintStyle: TextStyle(color: TodoColors.hint),
                   border: InputBorder.none,
                 ),
                 onChanged: (v) => setState(() => _searchQuery = v),
               )
             : Text(translation.myToDo.tr,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: TodoColors.text,
                     fontSize: 22,
                     fontWeight: FontWeight.w700)),
         actions: [
           IconButton(
             icon: Icon(_searchExpanded ? Icons.close : Icons.search,
-                color: Colors.white70),
+                color: TodoColors.text70),
             onPressed: () {
               setState(() {
                 _searchExpanded = !_searchExpanded;
@@ -315,7 +316,7 @@ class _TodoScreenState extends State<TodoScreen>
           controller: _tabController,
           indicatorColor: const Color(0xFF7C4DFF),
           labelColor: const Color(0xFF7C4DFF),
-          unselectedLabelColor: Colors.white38,
+          unselectedLabelColor: TodoColors.hint,
           labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           tabs: [
             Tab(text: translation.activeTab.tr),
@@ -344,10 +345,10 @@ class _TodoScreenState extends State<TodoScreen>
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.check_circle_outline, size: 56, color: Colors.white12),
+            Icon(Icons.check_circle_outline, size: 56, color: TodoColors.line),
             const SizedBox(height: 12),
             Text(translation.nothingHere.tr,
-                style: TextStyle(color: Colors.white24, fontSize: 16)),
+                style: TextStyle(color: TodoColors.faint, fontSize: 16)),
           ],
         ),
       );
@@ -381,7 +382,7 @@ class _TodoRowState extends State<_TodoRow> {
   @override
   Widget build(BuildContext context) {
     final item = widget.item;
-    final accent = item.color ?? Colors.white24;
+    final accent = item.color ?? TodoColors.faint;
 
     return GestureDetector(
       onScaleStart: (_) => _startHeight = item.rowHeight,
@@ -393,7 +394,7 @@ class _TodoRowState extends State<_TodoRow> {
         height: item.rowHeight,
         margin: const EdgeInsets.only(bottom: 8),
         decoration: BoxDecoration(
-          color: const Color(0xFF1C1C1C),
+          color: TodoColors.card,
           borderRadius: BorderRadius.circular(12),
           border: Border(left: BorderSide(color: accent, width: 3)),
         ),
@@ -409,7 +410,7 @@ class _TodoRowState extends State<_TodoRow> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                      color: item.completed ? accent : Colors.white30, width: 2),
+                      color: item.completed ? accent : TodoColors.subtle, width: 2),
                   color: item.completed ? accent : Colors.transparent,
                 ),
                 child: item.completed
@@ -422,12 +423,12 @@ class _TodoRowState extends State<_TodoRow> {
               child: Text(
                 item.title,
                 style: TextStyle(
-                  color: item.completed ? Colors.white30 : Colors.white,
+                  color: item.completed ? TodoColors.subtle : TodoColors.text,
                   fontSize: 15,
                   decoration: item.completed
                       ? TextDecoration.lineThrough
                       : TextDecoration.none,
-                  decorationColor: Colors.white30,
+                  decorationColor: TodoColors.subtle,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
@@ -438,7 +439,7 @@ class _TodoRowState extends State<_TodoRow> {
                 padding: const EdgeInsets.only(right: 12),
                 child: Text(
                   _shortDate(item.dueDate!),
-                  style: const TextStyle(color: Colors.white38, fontSize: 11),
+                  style: TextStyle(color: TodoColors.hint, fontSize: 11),
                 ),
               ),
           ],
@@ -467,13 +468,13 @@ class ColorPickerRow extends StatelessWidget {
             margin: const EdgeInsets.only(right: 8),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: c ?? const Color(0xFF333333),
+              color: c ?? TodoColors.noColor,
               border: isSelected
-                  ? Border.all(color: Colors.white, width: 2.5)
-                  : Border.all(color: Colors.white12, width: 1),
+                  ? Border.all(color: TodoColors.text, width: 2.5)
+                  : Border.all(color: TodoColors.line, width: 1),
             ),
             child: c == null
-                ? const Icon(Icons.block, size: 13, color: Colors.white38)
+                ? Icon(Icons.block, size: 13, color: TodoColors.hint)
                 : null,
           ),
         );
@@ -513,10 +514,10 @@ Future<TimeOfDay?> showDigitalTimePicker(
       }
 
       return AlertDialog(
-        backgroundColor: const Color(0xFF1A1A1A),
+        backgroundColor: TodoColors.sheet,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: Text(translation.setTime.tr,
-            style: TextStyle(color: Colors.white, fontSize: 16)),
+            style: TextStyle(color: TodoColors.text, fontSize: 16)),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -538,11 +539,11 @@ Future<TimeOfDay?> showDigitalTimePicker(
                     hourCtrl.text = _fmtNum(use24Hour ? hour : _to12(hour));
                   }),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 6),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
                   child: Text(':',
                       style: TextStyle(
-                          color: Colors.white,
+                          color: TodoColors.text,
                           fontSize: 36,
                           fontWeight: FontWeight.w300)),
                 ),
@@ -572,13 +573,13 @@ Future<TimeOfDay?> showDigitalTimePicker(
                           width: 48,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                            color: isAM ? const Color(0xFF7C4DFF) : const Color(0xFF2A2A2A),
+                            color: isAM ? const Color(0xFF7C4DFF) : TodoColors.chip,
                             borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
                           ),
                           child: Text(translation.amLabel.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: isAM ? Colors.white : Colors.white38,
+                                  color: isAM ? Colors.white : TodoColors.hint,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600)),
                         ),
@@ -593,13 +594,13 @@ Future<TimeOfDay?> showDigitalTimePicker(
                           width: 48,
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           decoration: BoxDecoration(
-                            color: !isAM ? const Color(0xFF7C4DFF) : const Color(0xFF2A2A2A),
+                            color: !isAM ? const Color(0xFF7C4DFF) : TodoColors.chip,
                             borderRadius: const BorderRadius.vertical(bottom: Radius.circular(8)),
                           ),
                           child: Text(translation.pmLabel.tr,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                  color: !isAM ? Colors.white : Colors.white38,
+                                  color: !isAM ? Colors.white : TodoColors.hint,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600)),
                         ),
@@ -611,14 +612,14 @@ Future<TimeOfDay?> showDigitalTimePicker(
             ),
             const SizedBox(height: 8),
             Text(translation.tapNumbersHint.tr,
-                style: TextStyle(color: Colors.white24, fontSize: 11)),
+                style: TextStyle(color: TodoColors.faint, fontSize: 11)),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
             child: Text(translation.cancel.tr,
-                style: const TextStyle(color: Colors.white54, fontSize: 15)),
+                style: TextStyle(color: TodoColors.text54, fontSize: 15)),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, TimeOfDay(hour: hour, minute: minute)),
@@ -655,7 +656,7 @@ class _TimeBox extends StatelessWidget {
       children: [
         IconButton(
           onPressed: onUp,
-          icon: const Icon(Icons.keyboard_arrow_up, color: Colors.white70, size: 28),
+          icon: Icon(Icons.keyboard_arrow_up, color: TodoColors.text70, size: 28),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
         ),
@@ -668,11 +669,11 @@ class _TimeBox extends StatelessWidget {
             keyboardType: TextInputType.number,
             maxLength: 2,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            style: const TextStyle(color: Colors.white, fontSize: 36, fontWeight: FontWeight.w600),
+            style: TextStyle(color: TodoColors.text, fontSize: 36, fontWeight: FontWeight.w600),
             decoration: InputDecoration(
               counterText: '',
               filled: true,
-              fillColor: const Color(0xFF252525),
+              fillColor: TodoColors.field,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none,
@@ -685,7 +686,7 @@ class _TimeBox extends StatelessWidget {
         const SizedBox(height: 4),
         IconButton(
           onPressed: onDown,
-          icon: const Icon(Icons.keyboard_arrow_down, color: Colors.white70, size: 28),
+          icon: Icon(Icons.keyboard_arrow_down, color: TodoColors.text70, size: 28),
           padding: EdgeInsets.zero,
           constraints: const BoxConstraints(),
         ),
@@ -719,9 +720,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
       firstDate: DateTime.now().subtract(const Duration(days: 1)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
       builder: (ctx, child) => Theme(
-        data: ThemeData.dark().copyWith(
-          colorScheme: const ColorScheme.dark(primary: Color(0xFF7C4DFF)),
-        ),
+        data: TodoColors.pickerTheme,
         child: child!,
       ),
     );
@@ -762,17 +761,17 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(translation.newTask.tr,
-                  style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w700)),
+                  style: TextStyle(color: TodoColors.text, fontSize: 20, fontWeight: FontWeight.w700)),
               const SizedBox(height: 16),
               TextField(
                 controller: _titleController,
                 autofocus: true,
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: TodoColors.text, fontSize: 16),
                 decoration: InputDecoration(
                   hintText: translation.whatDoYouNeedToDo.tr,
-                  hintStyle: const TextStyle(color: Colors.white38),
+                  hintStyle: TextStyle(color: TodoColors.hint),
                   filled: true,
-                  fillColor: const Color(0xFF252525),
+                  fillColor: TodoColors.field,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10),
                     borderSide: BorderSide.none,
@@ -781,7 +780,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
               ),
               const SizedBox(height: 20),
               Text(translation.colorOptional.tr,
-                  style: TextStyle(color: Colors.white54, fontSize: 12)),
+                  style: TextStyle(color: TodoColors.text54, fontSize: 12)),
               const SizedBox(height: 8),
               ColorPickerRow(
                   selected: _selectedColor,
@@ -792,12 +791,12 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF252525),
+                    color: TodoColors.field,
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
-                      const Icon(Icons.calendar_today_outlined, size: 18, color: Colors.white54),
+                      Icon(Icons.calendar_today_outlined, size: 18, color: TodoColors.text54),
                       const SizedBox(width: 10),
                       Expanded(
                         child: Text(
@@ -805,7 +804,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                               ? translation.addDateTimeOptional.tr
                               : _formatDateTime(_dueDate!, _use24Hour),
                           style: TextStyle(
-                            color: _dueDate == null ? Colors.white38 : Colors.white,
+                            color: _dueDate == null ? TodoColors.hint : TodoColors.text,
                             fontSize: 14,
                           ),
                         ),
@@ -813,7 +812,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                       if (_dueDate != null)
                         GestureDetector(
                           onTap: () => setState(() => _dueDate = null),
-                          child: const Icon(Icons.close, size: 16, color: Colors.white38),
+                          child: Icon(Icons.close, size: 16, color: TodoColors.hint),
                         ),
                     ],
                   ),
@@ -876,9 +875,7 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
       firstDate: DateTime.now().subtract(const Duration(days: 365)),
       lastDate: DateTime.now().add(const Duration(days: 365)),
       builder: (ctx, child) => Theme(
-        data: ThemeData.dark().copyWith(
-          colorScheme: const ColorScheme.dark(primary: Color(0xFF7C4DFF)),
-        ),
+        data: TodoColors.pickerTheme,
         child: child!,
       ),
     );
@@ -899,13 +896,13 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1A1A1A),
-        title: Text(translation.deleteTaskConfirm.tr, style: const TextStyle(color: Colors.white)),
-        content: Text(translation.cannotBeUndone.tr, style: const TextStyle(color: Colors.white54)),
+        backgroundColor: TodoColors.sheet,
+        title: Text(translation.deleteTaskConfirm.tr, style: TextStyle(color: TodoColors.text)),
+        content: Text(translation.cannotBeUndone.tr, style: TextStyle(color: TodoColors.text54)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: Text(translation.cancel.tr, style: const TextStyle(color: Colors.white54, fontSize: 15)),
+            child: Text(translation.cancel.tr, style: TextStyle(color: TodoColors.text54, fontSize: 15)),
           ),
           TextButton(
             onPressed: () {
@@ -937,11 +934,11 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
                 Expanded(
                   child: TextField(
                     controller: _titleController,
-                    style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: TodoColors.text, fontSize: 20, fontWeight: FontWeight.w600),
                     decoration: InputDecoration(
                         border: InputBorder.none,
                         hintText: translation.taskName.tr,
-                        hintStyle: TextStyle(color: Colors.white38)),
+                        hintStyle: TextStyle(color: TodoColors.hint)),
                     onChanged: (v) {
                       item.title = v;
                       widget.onUpdate();
@@ -963,7 +960,7 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
               ),
             ),
             const SizedBox(height: 20),
-            Text(translation.colorLabel.tr, style: const TextStyle(color: Colors.white54, fontSize: 12)),
+            Text(translation.colorLabel.tr, style: TextStyle(color: TodoColors.text54, fontSize: 12)),
             const SizedBox(height: 8),
             ColorPickerRow(
               selected: item.color,
@@ -978,12 +975,12 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF252525),
+                  color: TodoColors.field,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.calendar_today_outlined, size: 18, color: Colors.white54),
+                    Icon(Icons.calendar_today_outlined, size: 18, color: TodoColors.text54),
                     const SizedBox(width: 10),
                     Expanded(
                       child: Text(
@@ -991,12 +988,12 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
                             ? translation.addDateTime.tr
                             : _formatDateTime(item.dueDate!, _use24Hour),
                         style: TextStyle(
-                          color: item.dueDate == null ? Colors.white38 : Colors.white,
+                          color: item.dueDate == null ? TodoColors.hint : TodoColors.text,
                           fontSize: 14,
                         ),
                       ),
                     ),
-                    const Icon(Icons.edit_outlined, size: 16, color: Colors.white38),
+                    Icon(Icons.edit_outlined, size: 16, color: TodoColors.hint),
                   ],
                 ),
               ),
@@ -1010,21 +1007,21 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
                 decoration: BoxDecoration(
-                  color: item.completed ? Colors.green.withOpacity(0.12) : const Color(0xFF252525),
+                  color: item.completed ? Colors.green.withOpacity(0.12) : TodoColors.field,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       item.completed ? Icons.check_circle : Icons.radio_button_unchecked,
-                      color: item.completed ? Colors.greenAccent : Colors.white38,
+                      color: item.completed ? TodoColors.done : TodoColors.hint,
                       size: 20,
                     ),
                     const SizedBox(width: 10),
                     Text(
                       item.completed ? translation.completed.tr : translation.markAsComplete.tr,
                       style: TextStyle(
-                        color: item.completed ? Colors.greenAccent : Colors.white70,
+                        color: item.completed ? TodoColors.done : TodoColors.text70,
                         fontSize: 14,
                         fontWeight: FontWeight.w500,
                       ),
