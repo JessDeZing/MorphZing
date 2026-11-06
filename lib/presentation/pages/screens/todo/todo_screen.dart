@@ -14,6 +14,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:intl/intl.dart';
 import 'todo_colors.dart';
 
 class TodoItem {
@@ -1038,21 +1039,12 @@ class _TaskDetailSheetState extends State<TaskDetailSheet> {
 }
 
 String _formatDateTime(DateTime dt, bool use24Hour) {
-  final months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  final dateStr = '${months[dt.month - 1]} ${dt.day}';
-  if (use24Hour) {
-    final h = dt.hour.toString().padLeft(2, '0');
-    final m = dt.minute.toString().padLeft(2, '0');
-    return '$dateStr  $h:$m';
-  } else {
-    final hour = dt.hour == 0 ? 12 : dt.hour > 12 ? dt.hour - 12 : dt.hour;
-    final period = dt.hour < 12 ? 'AM' : 'PM';
-    final m = dt.minute.toString().padLeft(2, '0');
-    return '$dateStr  $hour:$m $period';
-  }
+  final lc = Get.locale?.languageCode;
+  final dateStr = DateFormat.MMMd(lc).format(dt);
+  final timeStr = DateFormat(use24Hour ? 'HH:mm' : 'h:mm a', lc).format(dt);
+  return '$dateStr  $timeStr';
 }
 
 String _shortDate(DateTime dt) {
-  final months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  return '${months[dt.month - 1]} ${dt.day}';
+  return DateFormat.MMMd(Get.locale?.languageCode).format(dt);
 }
