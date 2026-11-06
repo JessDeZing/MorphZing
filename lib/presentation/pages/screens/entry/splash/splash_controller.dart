@@ -7,6 +7,7 @@ import 'package:morphzing/data/repositories/user/user_repository.dart';
 import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/localization/locale_enum.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
+import 'package:morphzing/data/repositories/app_update/app_update_check.dart';
 
 class SplashController extends GetxController {
   final AppController _appController = Get.find<AppController>();
@@ -18,6 +19,7 @@ class SplashController extends GetxController {
   void onReady() {
     _init();
     super.onReady();
+    AppUpdateCheck.runAfterStartup();
   }
 
   Future<void> _init() async {
