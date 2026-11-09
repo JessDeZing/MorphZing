@@ -530,6 +530,9 @@ class En {
         translation.letsgopremium: 'Let’s Go Premium!',
         translation.myAccount: 'My Account',
         translation.logout: 'Log out',
+        translation.logoutConfirm: 'Are you sure you want to log out?',
+        translation.logoutNo: 'No',
+        translation.logoutYes: 'Yes',
         translation.premiumLiteText:
             'Don’t Go Breaking Our Hearts — give us another chance. Stick Around for Just \$3.99/ Next Month!',
         translation.subscribeNow: 'Subscribe now',

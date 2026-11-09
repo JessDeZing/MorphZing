@@ -545,7 +545,10 @@ class Es {
             'En la publicación y el diseño gráfico, Lorem ipsum es un texto de marcador de posición comúnmente utilizado para demostrar la forma visual de un documento o una tipografía sin depender',
         translation.letsgopremium: '¡Vamos a Premium!',
         translation.myAccount: 'Mi Cuenta',
-        translation.logout: 'cerrar sesión',
+        translation.logout: 'Cerrar sesión',
+        translation.logoutConfirm: '¿Seguro que quieres cerrar sesión?',
+        translation.logoutNo: 'No',
+        translation.logoutYes: 'Sí',
         translation.premiumLiteText:
             'Mantente con Premium por solo \$3.99/mes.',
         translation.subscribeNow: 'Suscríbete Ahora',

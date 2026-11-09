@@ -854,13 +854,13 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
               context: context,
               builder: (context) {
                 return CupertinoAlertDialog(
-                  title: const Text('Are you sure you want to log out?'),
+                  title: Text(logoutConfirm.tr),
                   actions: <Widget>[
                     CupertinoButton(
                       onPressed: () {
                         Navigator.pop(context); //close Dialog
                       },
-                      child: const Text('No'),
+                      child: Text(logoutNo.tr),
                     ),
                     CupertinoButton(
                       onPressed: () async {
@@ -868,8 +868,8 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                         await Get.find<SubscriptionController>().logOut();
                         Get.offAllNamed(loginRoute);
                       },
-                      child: const Text(
-                        'Yes',
+                      child: Text(
+                        logoutYes.tr,
                         style: TextStyle(color: Colors.red),
                       ),
                     ),
