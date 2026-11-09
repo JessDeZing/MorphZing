@@ -549,6 +549,9 @@ class Es {
         translation.logoutConfirm: '¿Seguro que quieres cerrar sesión?',
         translation.logoutNo: 'No',
         translation.logoutYes: 'Sí',
+        translation.connectGoogle: 'Conectar Google',
+        translation.connectGoogleDone: 'Google conectado. La próxima vez puedes iniciar sesión con Google.',
+        translation.connectGoogleFailed: 'No se pudo conectar Google. Vuelve a intentarlo.',
         translation.premiumLiteText:
             'Mantente con Premium por solo \$3.99/mes.',
         translation.subscribeNow: 'Suscríbete Ahora',

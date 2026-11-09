@@ -533,6 +533,9 @@ class En {
         translation.logoutConfirm: 'Are you sure you want to log out?',
         translation.logoutNo: 'No',
         translation.logoutYes: 'Yes',
+        translation.connectGoogle: 'Connect Google',
+        translation.connectGoogleDone: 'Google connected. Next time you can sign in with Google.',
+        translation.connectGoogleFailed: "Couldn't connect Google. Please try again.",
         translation.premiumLiteText:
             'Don’t Go Breaking Our Hearts — give us another chance. Stick Around for Just \$3.99/ Next Month!',
         translation.subscribeNow: 'Subscribe now',

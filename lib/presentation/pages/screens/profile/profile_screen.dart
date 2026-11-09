@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:morphzing/logic/controllers/connect_social.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -935,6 +936,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ),
                     ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: CupertinoButton(
+                      padding: const EdgeInsets.all(0),
+                      onPressed: ConnectSocial.connectGoogle,
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          color: isDark
+                              ? darkBorderColor
+                              : const Color(0xFFFAFAFB),
+                        ),
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.link,
+                              size: 20,
+                              color: isDark ? Colors.white : blackTextColor,
+                            ),
+                            const SizedBox(width: 14),
+                            Text(
+                              connectGoogle.tr,
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontFamily: 'SF Pro Display',
+                                color: isDark ? Colors.white : blackTextColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                   // Subscription button hidden until payment is ready
                   Padding(
