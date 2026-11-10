@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +23,20 @@ import 'package:morphzing/utils/theme_service.dart';
 
 final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
-void main() async {
+// Silence print() in store (release) builds so user info never reaches the
+// phone's system log. Emulator runs (debug/profile) still print.
+void main() {
+  runZoned(
+    _appMain,
+    zoneSpecification: ZoneSpecification(
+      print: (self, parent, zone, line) {
+        if (kReleaseMode == false) parent.print(zone, line);
+      },
+    ),
+  );
+}
+
+Future<void> _appMain() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   await Firebase.initializeApp();
