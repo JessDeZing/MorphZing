@@ -315,7 +315,7 @@ class RegistrationController extends GetxController {
             birthDate: DateFormat('yyyy-MM-dd').format(_birthDate.value),
             sex: _currentSex.value == 0 ? '' : GENDER_LIST_WORD[_currentSex.value - 1],
             timeZone: timeZone,
-            phone: _param.phone,
+            phone: _param.phone ?? '',
             password: _param.password,
             email: _param.email,
             file: _currentImage.value)

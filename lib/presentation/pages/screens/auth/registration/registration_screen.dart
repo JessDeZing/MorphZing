@@ -427,7 +427,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   style: staticTextStyle(13, greyTextColor),
                                 ),
                               ),
-                              if (!controller.param.isSocial)
+                              if (controller.param.isSocial == false && controller.param.isEmail == false)
                                 Padding(
                                   padding: const EdgeInsets.only(
                                       top: 14, bottom: 10),
@@ -457,7 +457,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                     ],
                                   ),
                                 ),
-                              if (!controller.param.isSocial)
+                              if (controller.param.isSocial == false && controller.param.isEmail == false)
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 10.0),
                                   child: CustomInputField(
@@ -474,7 +474,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      '${howDoYouIdentity.tr}?',
+                                      '${howDoYouIdentity.tr}',
                                       style: TextStyle(
                                         color: isDark
                                             ? Colors.white

@@ -15,7 +15,7 @@ import 'package:morphzing/data/repositories/auth/token_repository.dart';
 import 'package:morphzing/data/repositories/common/common_repository.dart';
 import 'package:morphzing/data/repositories/user/user_repository.dart';
 import 'package:morphzing/di/di_config.dart';
-import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
+import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
@@ -138,10 +138,12 @@ class SocialController extends GetxController {
 
   Future<void> _navigateScreen({required Social social}) async {
     if (social.secretKey != null) {
+      // Phone is optional for Google/Apple sign-up: go straight to the profile step.
       Get.toNamed(
-        phoneRoute,
-        arguments: PhoneScreenParam(
+        registrationRoute,
+        arguments: RegistrationScreenParam(
           secretKey: social.secretKey!,
+          isSocial: true,
           email: social.email,
         ),
       );

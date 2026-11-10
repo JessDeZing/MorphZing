@@ -38,8 +38,8 @@ class _SignInScreenState extends State<SignInScreen> {
   static const Color _purple = Color(0xFF8B6FE8);
   static const String _font = 'SF Pro Display';
 
-  bool _expanded = false;
-  int _tab = 0; // 0 = email (default, free), 1 = phone
+  int _tab = 0; // 0 = email (default), 1 = phone (small link at the bottom)
+  bool _loginFailed = false; // shows the create-an-account nudge
   bool _hidePassword = true;
   String? _lastUsed; // 'apple', 'google', 'email' or 'phone'
 
@@ -47,10 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
   void initState() {
     super.initState();
     _lastUsed = LastLogin.get();
-    if (_lastUsed == 'email' || _lastUsed == 'phone') {
-      _expanded = true;
-      _tab = _lastUsed == 'phone' ? 1 : 0;
-    }
+    _tab = _lastUsed == 'phone' ? 1 : 0;
   }
   final _phoneController = TextEditingController();
   final _emailController = TextEditingController();
@@ -118,6 +115,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
   Future<void> _continue() async {
     FocusScope.of(context).unfocus();
+    setState(() => _loginFailed = false);
     final password = _passwordController.text;
     final LoginProvider provider;
     if (_tab == 0) {
@@ -148,7 +146,7 @@ class _SignInScreenState extends State<SignInScreen> {
       LoadingOverlay.hide();
       // Server said no (e.g. wrong password)
       if (e is DioException && e.response != null) {
-        _showError((_tab == 0 ? checkEmailPassword : checkPhonePassword).tr);
+        setState(() => _loginFailed = true);
       }
     }
   }
@@ -172,7 +170,7 @@ class _SignInScreenState extends State<SignInScreen> {
       backgroundColor: isDark ? darkBgColor : bgColor,
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(28, 48, 28, 32),
+          padding: const EdgeInsets.fromLTRB(28, 40, 28, 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -187,21 +185,21 @@ class _SignInScreenState extends State<SignInScreen> {
                 GradientText('Z', style: tagline, colors: _rainbow),
                 Text('ing', style: tagline),
               ]),
-              const SizedBox(height: 48),
+              const SizedBox(height: 36),
               Text(
-                signInOrCreate.tr,
+                signInTitle.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(color: textColor, fontFamily: _font, fontSize: 24, fontWeight: FontWeight.w600),
+                style: TextStyle(color: textColor, fontFamily: _font, fontSize: 26, fontWeight: FontWeight.w700),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 6),
               Text(
-                oneTapIn.tr,
+                signInSubtitle.tr,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: subColor, fontFamily: _font, fontSize: 15),
               ),
-              const SizedBox(height: 36),
+              const SizedBox(height: 28),
               // Apple: hidden on Android (needs Service ID setup there).
-              if (!Platform.isAndroid) ...[
+              if (Platform.isAndroid == false) ...[
                 _socialButton(
                   label: continueWithApple.tr,
                   icon: Icon(Icons.apple, size: 22, color: isDark ? Colors.black : Colors.white),
@@ -221,7 +219,7 @@ class _SignInScreenState extends State<SignInScreen> {
                 border: _purple,
                 onPressed: _google,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 22),
               Row(children: [
                 Expanded(child: Divider(color: lineColor, thickness: 1)),
                 Padding(
@@ -230,18 +228,8 @@ class _SignInScreenState extends State<SignInScreen> {
                 ),
                 Expanded(child: Divider(color: lineColor, thickness: 1)),
               ]),
-              const SizedBox(height: 8),
-              Center(
-                child: TextButton.icon(
-                  onPressed: () => setState(() => _expanded = !_expanded),
-                  icon: Icon(_expanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down, color: linkColor),
-                  label: Text(
-                    _expanded ? fewerOptions.tr : moreOptions.tr,
-                    style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 16, fontWeight: FontWeight.w500),
-                  ),
-                ),
-              ),
-              if (_expanded) ..._moreOptions(isDark, textColor, subColor, linkColor),
+              const SizedBox(height: 18),
+              ..._form(isDark, textColor, subColor, linkColor),
             ],
           ),
         ),
@@ -249,10 +237,13 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  // "More options": Phone | Email tabs, fields, Continue (wired up in piece 3)
-  List<Widget> _moreOptions(bool isDark, Color textColor, Color subColor, Color linkColor) {
+  // Email (default) or phone (small link at the bottom), password, Sign in,
+  // then a clear Create an account button.
+  List<Widget> _form(bool isDark, Color textColor, Color subColor, Color linkColor) {
     final fieldFill = isDark ? const Color(0xFF1E1E2A) : Colors.white;
     final fieldBorder = isDark ? const Color(0xFF2E3456) : borderColor;
+    final errBg = isDark ? const Color(0xFF3A1E22) : const Color(0xFFFDECEC);
+    final errText = isDark ? const Color(0xFFFF8A80) : const Color(0xFFB3261E);
     final labelStyle = TextStyle(color: subColor, fontFamily: _font, fontSize: 14);
     final fieldText = TextStyle(color: textColor, fontFamily: _font, fontSize: 16);
     InputDecoration deco(String hint) => InputDecoration(
@@ -263,7 +254,7 @@ class _SignInScreenState extends State<SignInScreen> {
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: BorderSide(color: fieldBorder),
+            borderSide: BorderSide(color: _loginFailed ? errText : fieldBorder),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
@@ -272,9 +263,6 @@ class _SignInScreenState extends State<SignInScreen> {
         );
 
     return [
-      const SizedBox(height: 8),
-      _tabs(isDark, subColor),
-      const SizedBox(height: 20),
       if (_tab == 1) ...[
         Text(fieldPhoneNumber.tr, style: labelStyle),
         const SizedBox(height: 6),
@@ -283,7 +271,7 @@ class _SignInScreenState extends State<SignInScreen> {
           keyboardType: TextInputType.phone,
           style: fieldText,
           decoration: deco('(312) 555-1234').copyWith(
-            // Phone tab is US/Canada only, so +1 is built in
+            // Phone login is US/Canada only, so +1 is built in
             prefixIcon: Padding(
               padding: const EdgeInsets.only(left: 16, right: 6),
               child: Text('+1', style: TextStyle(color: subColor, fontFamily: _font, fontSize: 16, fontWeight: FontWeight.w600)),
@@ -321,12 +309,35 @@ class _SignInScreenState extends State<SignInScreen> {
         style: fieldText,
         decoration: deco(passwordHint.tr).copyWith(
           suffixIcon: IconButton(
-            onPressed: () => setState(() => _hidePassword = !_hidePassword),
+            onPressed: () => setState(() => _hidePassword = _hidePassword == false),
             icon: Icon(_hidePassword ? Icons.visibility_off : Icons.visibility, color: subColor),
           ),
         ),
       ),
-      const SizedBox(height: 24),
+      if (_loginFailed) ...[
+        const SizedBox(height: 12),
+        Container(
+          padding: const EdgeInsets.fromLTRB(14, 12, 14, 4),
+          decoration: BoxDecoration(color: errBg, borderRadius: BorderRadius.circular(12)),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(loginFailedTitle.tr, style: TextStyle(color: errText, fontFamily: _font, fontSize: 15, fontWeight: FontWeight.w600)),
+              const SizedBox(height: 4),
+              Text(loginFailedBody.tr, style: TextStyle(color: textColor, fontFamily: _font, fontSize: 14)),
+              TextButton(
+                onPressed: () => Get.toNamed(emailSignUpRoute),
+                style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                child: Text(
+                  '${createAnAccount.tr} \u2192',
+                  style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 15, fontWeight: FontWeight.w700),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+      const SizedBox(height: 20),
       SizedBox(
         height: 56,
         child: DecoratedBox(
@@ -342,19 +353,49 @@ class _SignInScreenState extends State<SignInScreen> {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             ),
             child: Text(
-              continueButton.tr,
+              signInButton.tr,
               style: const TextStyle(color: Colors.white, fontFamily: _font, fontSize: 17, fontWeight: FontWeight.w600),
             ),
           ),
         ),
       ),
-      const SizedBox(height: 8),
+      const SizedBox(height: 24),
+      Text(
+        newToMorphZing.tr,
+        textAlign: TextAlign.center,
+        style: TextStyle(color: subColor, fontFamily: _font, fontSize: 15),
+      ),
+      const SizedBox(height: 10),
+      SizedBox(
+        height: 56,
+        child: OutlinedButton(
+          onPressed: () => Get.toNamed(emailSignUpRoute),
+          style: OutlinedButton.styleFrom(
+            side: BorderSide(color: linkColor, width: 1.5),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          ),
+          child: Text(
+            createAnAccount.tr,
+            style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 17, fontWeight: FontWeight.w700),
+          ),
+        ),
+      ),
+      const SizedBox(height: 18),
       Center(
         child: TextButton(
-          onPressed: () => Get.toNamed(emailSignUpRoute),
+          onPressed: () => setState(() {
+            _tab = _tab == 0 ? 1 : 0;
+            _loginFailed = false;
+          }),
           child: Text(
-            newHereCreate.tr,
-            style: TextStyle(color: linkColor, fontFamily: _font, fontSize: 15, fontWeight: FontWeight.w500),
+            (_tab == 0 ? usePhoneInstead : useEmailInstead).tr,
+            style: TextStyle(
+              color: subColor,
+              fontFamily: _font,
+              fontSize: 13,
+              decoration: TextDecoration.underline,
+              decorationColor: subColor,
+            ),
           ),
         ),
       ),
@@ -370,42 +411,6 @@ class _SignInScreenState extends State<SignInScreen> {
           style: const TextStyle(color: Color(0xFF050A41), fontFamily: _font, fontSize: 11, fontWeight: FontWeight.w600),
         ),
       );
-
-  Widget _tabs(bool isDark, Color subColor) {
-    final track = isDark ? const Color(0xFF1E1E2A) : const Color(0xFFEEECF5);
-    const active = Color(0xFF6A4FD6);
-    Widget tab(String label, int index) {
-      final selected = _tab == index;
-      return Expanded(
-        child: TextButton(
-          onPressed: () => setState(() => _tab = index),
-          style: TextButton.styleFrom(
-            backgroundColor: selected ? active : Colors.transparent,
-            minimumSize: const Size.fromHeight(44),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(9)),
-          ),
-          child: Row(mainAxisSize: MainAxisSize.min, children: [
-            Text(
-              label,
-              style: TextStyle(
-                color: selected ? Colors.white : subColor,
-                fontFamily: _font,
-                fontSize: 15,
-                fontWeight: selected ? FontWeight.w600 : FontWeight.w500,
-              ),
-            ),
-            if (_lastUsed == (index == 0 ? 'email' : 'phone')) ...[const SizedBox(width: 6), _lastUsedBadge()],
-          ]),
-        ),
-      );
-    }
-
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(color: track, borderRadius: BorderRadius.circular(12)),
-      child: Row(children: [tab(tabEmail.tr, 0), const SizedBox(width: 4), tab(tabPhone.tr, 1)]),
-    );
-  }
 
   Widget _socialButton({
     required String label,

@@ -6,7 +6,7 @@ import 'package:morphzing/data/models/user/reset_password_provider.dart';
 import 'package:morphzing/data/repositories/auth/auth_repository.dart';
 import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/localization/translation_keys.dart';
-import 'package:morphzing/presentation/pages/screens/auth/phone/phone_screen.dart';
+import 'package:morphzing/presentation/pages/screens/auth/registration/registration_screen.dart';
 import 'package:morphzing/presentation/routers/rout_names.dart';
 import 'package:morphzing/utils/loading_overlay.dart';
 
@@ -133,12 +133,14 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
       _showMessage(passwordDoesNotMatch.tr);
       return;
     }
+    // Phone is optional for email sign-up: go straight to the profile step.
     Get.toNamed(
-      phoneRoute,
-      arguments: PhoneScreenParam(
+      registrationRoute,
+      arguments: RegistrationScreenParam(
         secretKey: _secret,
-        email: _email,
+        isSocial: false,
         password: password,
+        email: _email,
         isEmail: true,
       ),
     );
