@@ -398,9 +398,10 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
         appBar: StaticAppBar.homeAppBar(context, home.tr, true, ""),
         drawer: Drawer(
           backgroundColor: Theme.of(context).drawerTheme.backgroundColor,
+          child: SafeArea(
           child: Column(
             children: [
-              const SizedBox(height: 40),
+              const SizedBox(height: 16),
               // const SizedBox(height: 30),
               drawerButton(
                 profileRoute,
@@ -511,6 +512,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                 ),
               ),
             ],
+          ),
           ),
         ),
         body: SafeArea(
