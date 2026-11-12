@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/photo_nudge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -258,7 +259,11 @@ class Reminders {
           notificationDetails: _details,
         );
       }
-      if (_box.read(_askedKey) == null) await _askOnce();
+      if (_box.read(_askedKey) == null) {
+        await _askOnce();
+      } else {
+        await PhotoNudge.maybeShow(); // never on the same save as the reminder ask
+      }
     } catch (_) {}
   }
 

@@ -111,6 +111,10 @@ class Es {
         translation.myGoalHint: 'Escribir en mi diario 3 veces por semana, preocuparme menos, cuidarme, tener más calma con mis hijos…',
         translation.addProfilePhotoOptional: 'Agrega una foto de perfil (opcional)',
         translation.editMyGoal: 'Editar',
+        translation.photoNudgeTitle: 'Haz MorphZing tuyo',
+        translation.photoNudgeBody: 'Agrega una foto para que este espacio se sienta como tu hogar.',
+        translation.photoNudgeNo: 'Ahora no',
+        translation.photoNudgeYes: 'Agregar foto',
         translation.pleaseEnterYourBirthDate:
             "¿Cuándo es tu cumpleaños?",
         translation.pleaseEnterYourEmail:
