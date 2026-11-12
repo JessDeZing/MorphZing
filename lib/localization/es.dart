@@ -110,6 +110,7 @@ class Es {
         translation.myGoalIs: 'Mi meta es',
         translation.myGoalHint: 'Escribir en mi diario 3 veces por semana, preocuparme menos, cuidarme, tener más calma con mis hijos…',
         translation.addProfilePhotoOptional: 'Agrega una foto de perfil (opcional)',
+        translation.editMyGoal: 'Editar',
         translation.pleaseEnterYourBirthDate:
             "¿Cuándo es tu cumpleaños?",
         translation.pleaseEnterYourEmail:

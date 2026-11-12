@@ -44,6 +44,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> with RouteAware {
   final logic = Get.put(HomeController());
   final appController = Get.find<AppController>();
+  final RxString _myGoal = ''.obs; // the user's goal (server field "bio"), shown in the side menu
   final controller = Get.put<HomeController>(HomeController());
 
 
@@ -322,6 +323,65 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
     }
   }
 
+  Widget _goalCard(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final textColor = Theme.of(context).textTheme.bodyLarge?.color ?? blackTextColor;
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+      padding: const EdgeInsets.fromLTRB(16, 4, 8, 14),
+      decoration: BoxDecoration(
+        color: isDark ? const Color(0xFF272633) : Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: isDark ? const Color(0xFF34334A) : const Color(0xFFE5E5EC)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  myGoal.tr.toUpperCase(),
+                  style: TextStyle(
+                    color: isDark ? const Color(0xFF86EFAC) : const Color(0xFF15803D),
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Get.toNamed(profileRoute),
+                child: Text(
+                  editMyGoal.tr,
+                  style: TextStyle(
+                    color: isDark ? const Color(0xFFB9A6FF) : const Color(0xFF5B3FD0),
+                    fontFamily: 'SF Pro Display',
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Text(
+            _myGoal.value,
+            maxLines: 4,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              color: textColor,
+              fontFamily: 'SF Pro Display',
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              height: 1.35,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future fetchUserInfo() async {
     try {
       var result = await HomeRepositories.getUserData(
@@ -330,6 +390,7 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
 
       if (result.statusCode == 200) {
         var resultDecoded = jsonDecode(result.toString());
+        _myGoal.value = (resultDecoded['bio'] ?? '').toString().trim();
         var userSubscription = resultDecoded['user_subscription'];
 
         if (userSubscription != null) {
@@ -502,13 +563,18 @@ class _HomeScreenState extends State<HomeScreen> with RouteAware {
                 ),
               ),
               Expanded(
-                child: Container(
-                  alignment: Alignment.bottomCenter,
-                  child: logOutButton(
-                    '',
-                    'assets/icons/logout.svg',
-                    logout.tr,
-                  ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Obx(() => _myGoal.value.isEmpty
+                        ? const SizedBox.shrink()
+                        : _goalCard(context)),
+                    logOutButton(
+                      '',
+                      'assets/icons/logout.svg',
+                      logout.tr,
+                    ),
+                  ],
                 ),
               ),
             ],

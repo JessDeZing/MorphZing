@@ -110,6 +110,7 @@ class En {
         translation.myGoalIs: 'My goal is',
         translation.myGoalHint: 'Journal 3 times a week, worry less, take care of me, be calmer with my kids…',
         translation.addProfilePhotoOptional: 'Add a profile photo (optional)',
+        translation.editMyGoal: 'Edit',
         translation.pleaseEnterYourBirthDate: "When is your birthday?",
         translation.pleaseEnterYourEmail: 'Please enter your email',
         translation.email: 'Email',
