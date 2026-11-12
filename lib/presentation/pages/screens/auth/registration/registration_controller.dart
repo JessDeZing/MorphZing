@@ -1,3 +1,4 @@
+import 'package:morphzing/utils/crop_profile_photo.dart';
 import 'package:firebase_auth/firebase_auth.dart' show FirebaseAuth;
 import 'package:file_picker/file_picker.dart';
 import 'dart:io';
@@ -82,8 +83,9 @@ class RegistrationController extends GetxController {
     _isLoading.value = false;
     if (image == null) return;
 
-    final imageTemporary = File(image.path);
-    _currentImage.value = imageTemporary;
+    final cropped = await cropProfilePhoto(image.path);
+    if (cropped == null) return;
+    _currentImage.value = cropped;
     _isLoading.value = false;
   }
 
@@ -95,7 +97,9 @@ class RegistrationController extends GetxController {
     _isLoading.value = false;
     final path = result?.files.single.path;
     if (path == null) return;
-    _currentImage.value = File(path);
+    final cropped = await cropProfilePhoto(path);
+    if (cropped == null) return;
+    _currentImage.value = cropped;
   }
 
   bool isValidate() {

@@ -574,6 +574,7 @@ class En {
         translation.groundingExerciseSubtitle: '5-4-3-2-1  •  Brings you back to the present',
         translation.breathingExercise: 'Breathing Exercise',
         translation.breathingExerciseSubtitle: 'Box breathing • 4-4-4-4',
+        translation.adjustPhoto: 'Adjust your photo',
         translation.boxBreathing: 'Box Breathing',
         translation.breathingCount: '4 - 4 - 4 - 4',
         translation.breathingReady: 'Ready',

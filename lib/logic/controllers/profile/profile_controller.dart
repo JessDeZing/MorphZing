@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:morphzing/utils/crop_profile_photo.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -75,17 +76,16 @@ class ProfileController extends GetxController {
 
   pickImageFromCamera() async {
     loading(true);
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-      allowMultiple: false,
-    );
-    if (result == null || result.files.isEmpty) {
+    final image = await ImagePicker().pickImage(source: ImageSource.camera);
+    if (image == null) {
       loading(false);
       return;
     }
 
-    currentImage = File(result.files.single.path!);
+    final cropped = await cropProfilePhoto(image.path);
     loading(false);
+    if (cropped == null) return;
+    currentImage = cropped;
     Get.back();
   }
 
@@ -100,8 +100,10 @@ class ProfileController extends GetxController {
       return;
     }
 
-    currentImage = File(result.files.single.path!);
+    final cropped = await cropProfilePhoto(result.files.single.path!);
     loading(false);
+    if (cropped == null) return;
+    currentImage = cropped;
     Get.back();
   }
 

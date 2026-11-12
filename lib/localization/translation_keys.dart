@@ -475,6 +475,7 @@ const groundingExercise = 'groundingExercise';
 const groundingExerciseSubtitle = 'groundingExerciseSubtitle';
 const breathingExercise = 'breathingExercise';
 const breathingExerciseSubtitle = 'breathingExerciseSubtitle';
+const adjustPhoto = 'adjustPhoto';
 const boxBreathing = 'boxBreathing';
 const breathingCount = 'breathingCount';
 const breathingReady = 'breathingReady';

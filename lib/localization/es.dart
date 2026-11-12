@@ -591,6 +591,7 @@ class Es {
         translation.groundingExerciseSubtitle: '5-4-3-2-1  •  Te trae de vuelta al presente',
         translation.breathingExercise: 'Ejercicio de Respiración',
         translation.breathingExerciseSubtitle: 'Respiración cuadrada • 4-4-4-4',
+        translation.adjustPhoto: 'Ajusta tu foto',
         translation.boxBreathing: 'Respiración Cuadrada',
         translation.breathingCount: '4 - 4 - 4 - 4',
         translation.breathingReady: 'Listo',
