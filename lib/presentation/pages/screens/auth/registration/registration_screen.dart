@@ -321,7 +321,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 child: Row(
                                   children: [
                                     Text(
-                                      aboutMe.tr,
+                                      myGoal.tr,
                                       style: TextStyle(
                                         color: isDark
                                             ? Colors.white
@@ -345,8 +345,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: CustomInputField(
-                                  hintText: bio.tr,
-                                  labelText: bio.tr,
+                                  hintText: myGoalHint.tr,
+                                  labelText: myGoalIs.tr,
                                   textEditingController: bioTextController,
                                   textCapitalization:
                                       TextCapitalization.sentences,

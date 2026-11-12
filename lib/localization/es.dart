@@ -106,8 +106,9 @@ class Es {
         translation.gallery: 'Galería',
         translation.whatIsYourFio: "¿Cuál es tu nombre completo?",
         translation.whatIsYourBio: 'Cual es tu biografia',
-        translation.aboutMe: 'Acerca de mí',
-        translation.bio: 'Biografía',
+        translation.myGoal: 'Mi meta',
+        translation.myGoalIs: 'Mi meta es',
+        translation.myGoalHint: 'Escribir en mi diario 3 veces por semana, preocuparme menos, cuidarme, tener más calma con mis hijos…',
         translation.pleaseEnterYourBirthDate:
             "¿Cuándo es tu cumpleaños?",
         translation.pleaseEnterYourEmail:

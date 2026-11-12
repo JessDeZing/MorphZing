@@ -305,7 +305,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Row(
                       children: [
                         Text(
-                          aboutMe.tr,
+                          myGoal.tr,
                           style: TextStyle(
                             color: isDark ? Colors.white : blackTextColor,
                             fontWeight: FontWeight.bold,
@@ -325,9 +325,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                   CustomInputField(
-                    hintText: bio.tr,
+                    hintText: myGoalHint.tr,
                     textEditingController: controller.bioController,
-                    labelText: bio.tr,
+                    labelText: myGoalIs.tr,
                     maxLines: 4,
                     maxLength: 280,
                     textCapitalization: TextCapitalization.sentences,
