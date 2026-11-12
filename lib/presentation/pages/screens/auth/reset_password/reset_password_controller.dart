@@ -61,6 +61,7 @@ class ResetPasswordController extends GetxController {
                   shape: BoxShape.circle,
                   color: blueColor,
                 ),
+                child: const Icon(Icons.check_rounded, color: Colors.white, size: 44),
               ),
             ),
           ),
@@ -70,7 +71,7 @@ class ResetPasswordController extends GetxController {
               yourPasswordHasBeenSuccessfullyChanged.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: blackTextColor,
+                color: Get.isDarkMode ? Colors.white : blackTextColor,
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'SF Pro Display',
@@ -78,7 +79,7 @@ class ResetPasswordController extends GetxController {
             ),
           ),
           SizedBox(height: 20),
-          Divider(color: blackTextColor, height: 1),
+          Divider(color: Get.isDarkMode ? Colors.white24 : blackTextColor, height: 1),
           TextButton(
             child: Text(great.tr,
                 style: TextStyle(

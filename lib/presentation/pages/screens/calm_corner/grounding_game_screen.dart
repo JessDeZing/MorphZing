@@ -71,7 +71,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: CalmColors.lavender),
-          onPressed: () => Get.back(),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         title: Text(
           translation.groundingExercise.tr,
@@ -248,7 +248,7 @@ class _GroundingGameScreenState extends State<GroundingGameScreen> {
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
-              onPressed: () => Get.back(),
+              onPressed: () => Navigator.of(context).pop(),
               style: ElevatedButton.styleFrom(
                 backgroundColor: CalmColors.blue.withOpacity(0.15),
                 foregroundColor: CalmColors.blue,

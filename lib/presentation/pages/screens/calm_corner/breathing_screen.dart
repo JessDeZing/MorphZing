@@ -126,7 +126,7 @@ class _BreathingScreenState extends State<BreathingScreen>
           icon: Icon(Icons.arrow_back_ios, color: CalmColors.lavender),
           onPressed: () {
             _stop();
-            Get.back();
+            Navigator.of(context).pop();
           },
         ),
         title: Text(

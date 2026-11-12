@@ -415,7 +415,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                         child: Text(
                                           controller.getFormatBirthDate(),
                                           style: staticTextStyle(
-                                              16, blackTextColor),
+                                              16, isDark ? Colors.white : blackTextColor),
                                         ),
                                       ),
                                     ));
