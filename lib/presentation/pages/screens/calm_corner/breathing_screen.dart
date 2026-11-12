@@ -95,7 +95,7 @@ class _BreathingScreenState extends State<BreathingScreen>
       if (_countdown <= 0) {
         t.cancel();
         if (!_running) return;
-        Vibration.vibrate(duration: 50);
+        Vibration.vibrate(duration: 180, amplitude: 255);
           setState(() => _phaseIndex = (_phaseIndex + 1) % _phases.length);
         _runPhase();
       }
