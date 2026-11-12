@@ -50,6 +50,7 @@ const whatIsYourBio = 'what_is_your_bio';
 const myGoal = 'my_goal';
 const myGoalIs = 'my_goal_is';
 const myGoalHint = 'my_goal_hint';
+const addProfilePhotoOptional = 'add_profile_photo_optional';
 const pleaseEnterYourBirthDate = 'please_enter_your_birth_date';
 const pleaseEnterYourEmail = 'please_enter_your_email';
 const email = 'email';

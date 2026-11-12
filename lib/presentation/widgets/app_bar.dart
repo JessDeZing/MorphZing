@@ -1,3 +1,4 @@
+import 'package:morphzing/presentation/widgets/profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -108,18 +109,7 @@ class StaticAppBar {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           color: blueColor),
-                      child: (profileImage.isEmpty || profileImage == "null")
-                          ? const Center(
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.white,
-                                size: 26,
-                              ),
-                            )
-                          : CircleAvatar(
-                              radius: 20,
-                              backgroundImage: NetworkImage(profileImage),
-                            ),
+                      child: ProfileAvatar(imageUrl: profileImage, name: logic.user?.fullName ?? '', size: 40),
                     ),
                   )),
             );
@@ -209,18 +199,7 @@ class StaticAppBar {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: blueColor),
-                  child: (profileImage.isEmpty || profileImage == "null")
-                      ? const Center(
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 26,
-                          ),
-                        )
-                      : CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(profileImage),
-                        ),
+                  child: ProfileAvatar(imageUrl: profileImage, name: logic.user?.fullName ?? '', size: 40),
                 ),
               )),
         ),
@@ -290,18 +269,7 @@ class StaticAppBar {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: blueColor),
-                  child: (profileImage == '')
-                      ? const Center(
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 26,
-                          ),
-                        )
-                      : CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(profileImage),
-                        ),
+                  child: ProfileAvatar(imageUrl: profileImage, name: logic.user?.fullName ?? '', size: 40),
                 ),
               )),
         ),
@@ -357,18 +325,7 @@ class StaticAppBar {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: blueColor),
-                  child: (profileImage.isEmpty || profileImage == "null")
-                      ? const Center(
-                          child: Icon(
-                            Icons.person,
-                            color: Colors.white,
-                            size: 26,
-                          ),
-                        )
-                      : CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(profileImage),
-                        ),
+                  child: ProfileAvatar(imageUrl: profileImage, name: logic.user?.fullName ?? '', size: 40),
                 ),
               )),
         ),
