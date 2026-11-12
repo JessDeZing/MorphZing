@@ -125,7 +125,7 @@ class AuthRepository {
       required String timeZone,
       required String phone,
       required String password,
-      required File file}) async {
+      File? file}) async {
     return await _authApi.signUpEmail(
         secret: secret,
         fullName: fullName,

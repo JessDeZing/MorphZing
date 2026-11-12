@@ -104,7 +104,7 @@ class RegistrationController extends GetxController {
 
   bool isValidate() {
     // Required: name + profile picture. Optional: bio and gender.
-    final hasBasics = _fio.value.isNotEmpty && _currentImage.value != null && _birthDatePicked.value;
+    final hasBasics = _fio.value.isNotEmpty && _birthDatePicked.value;
     if (hasBasics && (_param.isSocial || _param.isEmail)) return true;
 
     if (hasBasics &&
@@ -266,10 +266,6 @@ class RegistrationController extends GetxController {
       _isLoading.value = false;
       LoadingOverlay.hide();
       return;
-    }
-    if (image == null) {
-      LoadingOverlay.hide();
-      return; // photo is required; the button stays disabled without one
     }
 
     try {

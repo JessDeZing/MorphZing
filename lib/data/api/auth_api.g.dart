@@ -457,7 +457,7 @@ class _AuthApi implements AuthApi {
     required String timeZone,
     required String phone,
     required String password,
-    required File file,
+    File? file,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -476,15 +476,19 @@ class _AuthApi implements AuthApi {
     _data.fields.add(MapEntry('time_zone', timeZone));
     _data.fields.add(MapEntry('phone', phone));
     _data.fields.add(MapEntry('password', password));
-    _data.files.add(
-      MapEntry(
-        'profile_image',
-        MultipartFile.fromFileSync(
-          file.path,
-          filename: file.path.split(Platform.pathSeparator).last,
-        ),
-      ),
-    );
+    if (file != null) {
+      if (file != null) {
+        _data.files.add(
+          MapEntry(
+            'profile_image',
+            MultipartFile.fromFileSync(
+              file.path,
+              filename: file.path.split(Platform.pathSeparator).last,
+            ),
+          ),
+        );
+      }
+    }
     final _options = _setStreamType<GetTokenProvider>(
       Options(
         method: 'POST',

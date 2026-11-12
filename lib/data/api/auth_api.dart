@@ -102,7 +102,7 @@ abstract class AuthApi {
     @Part(name: 'time_zone') required String timeZone,
     @Part(name: 'phone') required String phone,
     @Part(name: 'password') required String password,
-    @Part(name: 'profile_image') required File file,
+    @Part(name: 'profile_image') File? file,
   });
 
   // ---------- Forgot password by email ----------
