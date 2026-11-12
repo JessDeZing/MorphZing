@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// Profile photo in a circle. With no photo (empty, "null" or a broken link)
-/// it shows the first letter of the name on the MorphZing rainbow gradient.
+/// it shows the first letter of the name on a light blue to light pink gradient.
 /// Used everywhere the user's photo appears, so the look is changed here only.
 class ProfileAvatar extends StatelessWidget {
   final String? imageUrl;
@@ -11,9 +11,8 @@ class ProfileAvatar extends StatelessWidget {
   const ProfileAvatar({super.key, this.imageUrl, this.name = '', this.size = 40});
 
   static const List<Color> _gradient = [
-    Color(0xFF8B6FE8),
-    Color(0xFFE88FC7),
-    Color(0xFF86EFAC),
+    Color(0xFF7CC4FA),
+    Color(0xFFF9A8D4),
   ];
 
   Widget _initial() {
@@ -32,11 +31,11 @@ class ProfileAvatar extends StatelessWidget {
         ),
       ),
       child: letter.isEmpty
-          ? Icon(Icons.person, color: Colors.white, size: size * 0.6)
+          ? Icon(Icons.person, color: const Color(0xFF050A41), size: size * 0.6)
           : Text(
               letter,
               style: TextStyle(
-                color: Colors.white,
+                color: Color(0xFF050A41),
                 fontFamily: 'SF Pro Display',
                 fontWeight: FontWeight.w700,
                 fontSize: size * 0.45,
