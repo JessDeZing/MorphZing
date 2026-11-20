@@ -172,9 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                       height: 60,
                                       width: 60,
                                       decoration: BoxDecoration(
-                                        color: isDark
-                                            ? darkBorderColor
-                                            : greyButton,
+                                        color: greyButton,
                                         borderRadius: BorderRadius.circular(30),
                                       ),
                                       child: Center(

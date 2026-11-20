@@ -434,6 +434,7 @@ class ProfileController extends GetxController {
         if (identical(currentImage, before)) {
           currentImage = file;
           update();
+          loading.refresh(); // the screen redraws on loading, so nudge it
         }
       }, onError: (_) {});
     }
