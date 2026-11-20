@@ -5,7 +5,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:morphzing/app_controller.dart';
-import 'package:morphzing/data/models/error_model.dart';
 import 'package:morphzing/data/repositories/common/common_repository.dart';
 import 'package:morphzing/di/di_config.dart';
 import 'package:morphzing/localization/locale_enum.dart';
@@ -27,7 +26,6 @@ import 'package:morphzing/data/repositories/home/home_repositories.dart';
 import 'package:morphzing/data/repositories/profile/profile_repository.dart';
 import 'package:morphzing/data/repositories/user/user_repository.dart';
 import 'package:morphzing/data/repositories/registration/send_phone_number.dart';
-import 'package:morphzing/presentation/pages/screens/home/home_controller.dart';
 import 'package:morphzing/utils/show_error.dart';
 import 'package:http/http.dart' as http;
 
