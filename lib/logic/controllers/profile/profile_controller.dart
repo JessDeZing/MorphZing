@@ -424,10 +424,19 @@ class ProfileController extends GetxController {
     }
     newPhoneNumberController.text = userInfoModel.value?.phone ?? "";
     emailController.text = userInfoModel.value?.email ?? "";
-    if (userInfoModel.value?.imageUrl != null && userInfoModel.value?.imageUrl != "null" && (userInfoModel.value?.imageUrl ?? "").isNotEmpty) {
-      currentImage = await _fileFromImageUrl(userInfoModel.value!.imageUrl!);
+    loading(false); // show the screen right away
+    final url = userInfoModel.value?.imageUrl ?? "";
+    if (url.isNotEmpty && (url == "null") == false) {
+      // Download the current photo in the background. If a new photo was picked
+      // in the meantime, keep the new one (never overwrite it with the old download).
+      final before = currentImage;
+      _fileFromImageUrl(url).then<void>((file) {
+        if (identical(currentImage, before)) {
+          currentImage = file;
+          update();
+        }
+      }, onError: (_) {});
     }
-    loading(false);
   }
 
   Future<File> _fileFromImageUrl(String url) async {
