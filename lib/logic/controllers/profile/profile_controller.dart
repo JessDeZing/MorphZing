@@ -25,6 +25,7 @@ import 'package:morphzing/data/models/user/user_verify_provider.dart';
 import 'package:morphzing/data/models/verification/phone_verification_get_provider.dart';
 import 'package:morphzing/data/repositories/home/home_repositories.dart';
 import 'package:morphzing/data/repositories/profile/profile_repository.dart';
+import 'package:morphzing/data/repositories/user/user_repository.dart';
 import 'package:morphzing/data/repositories/registration/send_phone_number.dart';
 import 'package:morphzing/presentation/pages/screens/home/home_controller.dart';
 import 'package:morphzing/utils/show_error.dart';
@@ -32,6 +33,7 @@ import 'package:http/http.dart' as http;
 
 class ProfileController extends GetxController {
   final AppController _appController = Get.find<AppController>();
+  final _userRepo = getIt<UserRepository>();
 
   TextEditingController nameController = TextEditingController();
   TextEditingController bioController = TextEditingController();
@@ -363,6 +365,11 @@ class ProfileController extends GetxController {
             result.toString(),
           ),
         ));
+        // Keep the shared user (Home app bar, side menu) in sync after any profile change.
+        try {
+          _appController.user = await _userRepo.getUserInfo();
+          _appController.update();
+        } catch (_) {}
       }
     } catch (e) {
       showInternalError();
