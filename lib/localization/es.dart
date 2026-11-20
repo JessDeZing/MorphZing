@@ -352,7 +352,8 @@ class Es {
         translation.deletePhotos: 'Borrar fotos',
         translation.profile: 'Perfil',
         translation.fullName: 'Nombre completo',
-        translation.enterYourName: 'Introduzca su nombre',
+        translation.enterYourName: 'Introduce tu nombre',
+        translation.optionalLabel: '(opcional)',
         translation.birthDate: 'Fecha de nacimiento',
         translation.setYourPhone: 'Establece tu número de teléfono',
         translation.cannotChangeEmail:

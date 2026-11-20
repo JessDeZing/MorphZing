@@ -617,3 +617,4 @@ const introEverything = 'intro_everything';
 const introBilingual = 'intro_bilingual';
 const introFreshQuote = 'intro_fresh_quote';
 const introSkip = 'intro_skip';
+const optionalLabel = 'optionalLabel';

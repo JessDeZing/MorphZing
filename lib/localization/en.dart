@@ -347,6 +347,7 @@ class En {
         translation.profile: 'Profile',
         translation.fullName: 'Full name',
         translation.enterYourName: 'Enter your name',
+        translation.optionalLabel: '(optional)',
         translation.birthDate: 'Birth date',
         translation.setYourPhone: 'Set your phone number',
         translation.cannotChangeEmail: '''You can't change an email''',

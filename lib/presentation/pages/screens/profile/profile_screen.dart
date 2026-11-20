@@ -177,11 +177,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             : greyButton,
                                         borderRadius: BorderRadius.circular(30),
                                       ),
-                                      child: const Center(
+                                      child: Center(
                                         child: Icon(
                                           Icons.image,
                                           size: 30,
-                                          color: Colors.white,
+                                          color: blackTextColor,
                                         ),
                                       ),
                                     ),
@@ -314,7 +314,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         Text(
-                          '*',
+                          ' ${optionalLabel.tr}',
                           style: customTextStyle(
                             fontSize: 16,
                             color: greyTextColor,

@@ -224,17 +224,36 @@ class ProfileController extends GetxController {
     }
     loading(true);
 
-    var result = await ProfileRepository.edit(
-      token: token,
-      id: appController.user!.id,
-      bio: bioController.text,
-      fullName: nameController.text,
-      birthDate: birthDate.value,
-      sex: GENDER_LIST_WORD[currentSex.value - 1],
-      phone: newPhoneNumberController.text,
-      email: emailController.text,
-      image: currentImage,
-    );
+    dynamic result;
+    try {
+      result = await ProfileRepository.edit(
+        token: token,
+        id: appController.user!.id,
+        bio: bioController.text,
+        fullName: nameController.text,
+        birthDate: birthDate.value,
+        sex: GENDER_LIST_WORD[currentSex.value - 1],
+        phone: newPhoneNumberController.text,
+        email: emailController.text,
+        image: currentImage,
+      );
+    } on DioException catch (e) {
+      // Server said no: stop the spinner and show why.
+      loading(false);
+      final data = e.response?.data;
+      final errs = data is Map ? data['errors'] : null;
+      final msg = (errs is List && errs.isNotEmpty) ? errs[0]['message']?.toString() : null;
+      if (msg == null) {
+        showInternalError();
+      } else {
+        showInternalError(title: msg);
+      }
+      return;
+    } catch (_) {
+      loading(false);
+      showInternalError();
+      return;
+    }
     if (result.statusCode == 200 || result.statusCode == 201) {
       Get.back();
     } else {
@@ -363,11 +382,14 @@ class ProfileController extends GetxController {
             result.toString(),
           ),
         ));
-        // Keep the shared user (Home app bar, side menu) in sync after any profile change.
-        try {
-          _appController.user = await _userRepo.getUserInfo();
-          _appController.update();
-        } catch (_) {}
+        // Keep the shared user (Home app bar, side menu) in sync, in the background
+        // so the profile screen doesn't wait for it.
+        Future(() async {
+          try {
+            _appController.user = await _userRepo.getUserInfo();
+            _appController.update();
+          } catch (_) {}
+        });
       }
     } catch (e) {
       showInternalError();
