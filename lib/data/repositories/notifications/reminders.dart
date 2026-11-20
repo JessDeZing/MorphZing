@@ -189,9 +189,19 @@ class Reminders {
       final j = s['journal'] ?? const {};
       if (j['on'] == true) {
         final msgs = [journalReminder1, journalReminder2, journalReminder3, journalReminder4, journalReminder5];
-        for (var wd = 1; wd <= 7; wd++) {
-          await _schedule(_journalBaseId + wd - 1, notifJournalTitle.tr, msgs[(wd - 1) % 5].tr,
-              _next(_int(j['h'], 20), _int(j['m'], 0), weekday: wd), DateTimeComponents.dayOfWeekAndTime);
+        // One-time reminders for the next 7 days (not repeat-forever), so a day that already
+        // has a journal entry gets no nag. Re-planned on app start and after each journal save.
+        final h = _int(j['h'], 20);
+        final m = _int(j['m'], 0);
+        final now = tz.TZDateTime.now(tz.local);
+        final skipToday = _journaledToday();
+        var slot = 0;
+        for (var add = 0; add < 8 && slot < 7; add++) {
+          final t = tz.TZDateTime(tz.local, now.year, now.month, now.day + add, h, m);
+          if (t.isAfter(now) == false) continue;
+          if (add == 0 && skipToday) continue;
+          await _schedule(_journalBaseId + slot, notifJournalTitle.tr, msgs[(t.weekday - 1) % 5].tr, t, null);
+          slot++;
         }
       }
       final q = s['quote'] ?? const {};
@@ -226,6 +236,14 @@ class Reminders {
     }
   }
 
+  /// True if a journal entry was saved today (same day format as onJournalSaved).
+  bool _journaledToday() {
+    final now = DateTime.now();
+    final today = '${now.year}-${now.month}-${now.day}';
+    final days = _box.read<List>(_daysKey) ?? const [];
+    return days.contains(today);
+  }
+
   int _streak(Set<String> days) {
     var d = DateTime.now();
     var n = 0;
@@ -245,6 +263,7 @@ class Reminders {
       final days = Set<String>.from(_box.read<List>(_daysKey) ?? const []);
       days.add(today);
       await _box.write(_daysKey, days.toList());
+      await rescheduleAll(); // today is done: drop tonight's journal nudge, restart the comeback timer
       final streak = _streak(days);
       final shownKey = '$streak-$today';
       if (settings['streak']?['on'] == true &&
