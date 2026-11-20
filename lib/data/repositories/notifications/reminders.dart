@@ -1,5 +1,6 @@
 import 'package:morphzing/utils/photo_nudge.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:get/get.dart';
@@ -97,6 +98,10 @@ class Reminders {
       ),
     );
     _ready = true;
+    // Already allowed (e.g. said yes before push existed): register quietly, don't wait on it.
+    notificationsAllowed().then((ok) {
+      if (ok) _registerPush();
+    });
   }
 
   AndroidFlutterLocalNotificationsPlugin? get _android =>
@@ -120,8 +125,23 @@ class Reminders {
     final android = _android;
     final ios = _ios;
     if (android == null && ios == null) return true;
-    if (ios == null) return await android?.requestNotificationsPermission() ?? true;
-    return await ios.requestPermissions(alert: true, badge: true, sound: true) ?? false;
+    final ok = ios == null
+        ? await android?.requestNotificationsPermission() ?? true
+        : await ios.requestPermissions(alert: true, badge: true, sound: true) ?? false;
+    if (ok) await _registerPush();
+    return ok;
+  }
+
+  /// Lets this phone receive MorphZing push messages (update news) sent from the Firebase Console.
+  /// Only called once notifications are allowed, so it never shows a pop-up of its own.
+  Future<void> _registerPush() async {
+    try {
+      final fm = FirebaseMessaging.instance;
+      await fm.requestPermission(alert: true, badge: true, sound: true);
+      await fm.getToken();
+    } catch (_) {
+      // Never crash the app over push (iOS may not have its Apple token yet; it retries later).
+    }
   }
 
   NotificationDetails get _details => const NotificationDetails(
