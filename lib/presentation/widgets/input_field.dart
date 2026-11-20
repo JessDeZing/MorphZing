@@ -16,6 +16,7 @@ class CustomInputField extends StatefulWidget {
   final Function(String)? onChanged;
   final List<TextInputFormatter>? inputFormatters;
   final TextCapitalization? textCapitalization;
+  final bool hideHintOnFocus; // example shows until tapped, then the box is empty
 
   const CustomInputField({
     Key? key,
@@ -30,6 +31,7 @@ class CustomInputField extends StatefulWidget {
     this.onChanged,
     this.textCapitalization,
     this.obscureText = false,
+    this.hideHintOnFocus = false,
   }) : super(key: key);
 
   @override
@@ -39,16 +41,26 @@ class CustomInputField extends StatefulWidget {
 class _CustomInputFieldState extends State<CustomInputField> {
   late bool isPassword;
   bool _isHidden = true;
+  final FocusNode _focus = FocusNode();
 
   @override
   void initState() {
     super.initState();
+    _focus.addListener(() {
+      if (mounted) setState(() {});
+    });
     if (widget.labelText.contains('Password') ||
         widget.labelText.contains('password')) {
       isPassword = true;
     } else {
       isPassword = false;
     }
+  }
+
+  @override
+  void dispose() {
+    _focus.dispose();
+    super.dispose();
   }
 
   void _showPassword() {
@@ -62,6 +74,7 @@ class _CustomInputFieldState extends State<CustomInputField> {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     return TextField(
       controller: widget.textEditingController,
+      focusNode: _focus,
       keyboardType: widget.keyboardType,
       obscureText: isPassword ? _isHidden : false,
       inputFormatters: widget.inputFormatters,
@@ -90,11 +103,12 @@ class _CustomInputFieldState extends State<CustomInputField> {
               )
             : null,
         labelText: widget.labelText,
-        hintText: widget.hintText,
+        floatingLabelBehavior: widget.hideHintOnFocus ? FloatingLabelBehavior.always : null,
+        hintText: (widget.hideHintOnFocus && _focus.hasFocus) ? null : widget.hintText,
         hintStyle: TextStyle(
             fontSize: 16,
             fontFamily: 'SF Pro Display',
-            color: isDark ? Colors.white : hintTextColor),
+            color: isDark ? Colors.white54 : hintTextColor),
       ),
     );
   }

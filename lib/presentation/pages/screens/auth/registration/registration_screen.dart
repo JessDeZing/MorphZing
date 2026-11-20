@@ -346,6 +346,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: CustomInputField(
                                   hintText: myGoalHint.tr,
+                                  hideHintOnFocus: true,
                                   labelText: myGoalIs.tr,
                                   textEditingController: bioTextController,
                                   textCapitalization:

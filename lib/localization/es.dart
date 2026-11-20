@@ -108,7 +108,7 @@ class Es {
         translation.whatIsYourBio: 'Cual es tu biografia',
         translation.myGoal: 'Mi meta',
         translation.myGoalIs: 'Mi meta es',
-        translation.myGoalHint: 'Escribir en mi diario 3 veces por semana, preocuparme menos, cuidarme, tener más calma con mis hijos…',
+        translation.myGoalHint: 'Ej.: escribir en mi diario 3 veces por semana, mantener la calma y preocuparme menos',
         translation.addProfilePhotoOptional: 'Agrega una foto de perfil (opcional)',
         translation.editMyGoal: 'Editar',
         translation.photoNudgeTitle: 'Haz MorphZing tuyo',

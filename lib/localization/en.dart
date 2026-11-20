@@ -108,7 +108,7 @@ class En {
         translation.whatIsYourBio: 'What is your bio',
         translation.myGoal: 'My goal',
         translation.myGoalIs: 'My goal is',
-        translation.myGoalHint: 'Journal 3 times a week, worry less, take care of me, be calmer with my kids…',
+        translation.myGoalHint: 'Ex: journal 3 times a week, stay calm and worry less',
         translation.addProfilePhotoOptional: 'Add a profile photo (optional)',
         translation.editMyGoal: 'Edit',
         translation.photoNudgeTitle: 'Make MorphZing yours',

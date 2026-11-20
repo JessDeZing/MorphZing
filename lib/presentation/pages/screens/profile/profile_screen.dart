@@ -326,6 +326,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   CustomInputField(
                     hintText: myGoalHint.tr,
+                    hideHintOnFocus: true,
                     textEditingController: controller.bioController,
                     labelText: myGoalIs.tr,
                     maxLines: 4,
