@@ -14,7 +14,7 @@ class NoteScreen extends StatelessWidget {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final now = DateTime.now();
     final timeStr = TimeOfDay.fromDateTime(now).format(context);
-    final dateStr = '${_monthName(now.month)} ${now.day}, ${now.year}';
+    final dateStr = DateFormat.yMMMd(Get.locale?.languageCode ?? 'en').format(now);
 
     return PopScope(
       canPop: false,
