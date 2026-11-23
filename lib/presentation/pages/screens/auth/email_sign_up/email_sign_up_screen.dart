@@ -240,6 +240,8 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         style: TextStyle(color: color, fontFamily: _font, fontSize: 15, height: 1.4),
       );
 
+  bool _showPassword = false; // one eye button shows/hides both password boxes
+
   Widget _field(TextEditingController c, String hint, bool isDark,
       {TextInputType? type,
       bool obscure = false,
@@ -252,7 +254,7 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
     return TextField(
       controller: c,
       keyboardType: type,
-      obscureText: obscure,
+      obscureText: obscure && _showPassword == false,
       inputFormatters: formatters,
       autofillHints: autofill,
       autocorrect: false,
@@ -265,6 +267,13 @@ class _EmailSignUpScreenState extends State<EmailSignUpScreen> {
         enabledBorder: border,
         focusedBorder: border.copyWith(borderSide: const BorderSide(color: _purple, width: 1.5)),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        suffixIcon: obscure
+            ? IconButton(
+                onPressed: () => setState(() => _showPassword = _showPassword == false),
+                icon: Icon(_showPassword ? Icons.visibility : Icons.visibility_off,
+                    color: isDark ? const Color(0xFFA9A6BD) : const Color(0xFF676A8B)),
+              )
+            : null,
       ),
     );
   }
