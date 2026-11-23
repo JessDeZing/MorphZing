@@ -1,3 +1,4 @@
+import 'package:morphzing/localization/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -63,39 +64,49 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
     ).toList();
   }
 
+  // Light/dark palette (light matches To-Do: soft gray page, white cards, navy text)
+  bool get _cDark => Get.isDarkMode;
+  Color get _cBg => _cDark ? const Color(0xFF12121f) : const Color(0xFFF4F3F8);
+  Color get _cCard => _cDark ? const Color(0xFF1e1e35) : Colors.white;
+  Color get _cText => _cDark ? Colors.white : const Color(0xFF050A41);
+  Color get _cSub => _cDark ? Colors.white54 : Colors.black54;
+  Color get _cFaint => _cDark ? Colors.white38 : Colors.black38;
+  Color get _cLine => _cDark ? Colors.white12 : Colors.black12;
+  String get _loc => Get.locale?.languageCode ?? 'en';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF12121f),
+      backgroundColor: _cBg,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF12121f),
+        backgroundColor: _cBg,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          icon: Icon(Icons.arrow_back, color: _cText),
           onPressed: () => Get.back(),
         ),
         title: _searchOpen
             ? TextField(
                 controller: _searchController,
                 autofocus: true,
-                style: const TextStyle(color: Colors.white),
-                decoration: const InputDecoration(
-                  hintText: 'Search entries...',
-                  hintStyle: TextStyle(color: Colors.white38),
+                style: TextStyle(color: _cText),
+                decoration: InputDecoration(
+                  hintText: searchEntriesHint.tr,
+                  hintStyle: TextStyle(color: _cFaint),
                   border: InputBorder.none,
                 ),
                 onChanged: (v) => setState(() => _searchQuery = v),
               )
-            : const Text('My Life Journey',
+            : Text(myLifeJournal.tr,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: _cText,
                     fontSize: 18,
                     fontWeight: FontWeight.w600)),
         actions: [
           IconButton(
             icon: Icon(
                 _searchOpen ? Icons.close : Icons.search,
-                color: Colors.white70),
+                color: _cSub),
             onPressed: () => setState(() {
               _searchOpen = !_searchOpen;
               if (!_searchOpen) {
@@ -109,9 +120,9 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
       body: _loading
           ? const Center(child: CircularProgressIndicator(color: Color(0xFF6c63ff)))
           : _filtered.isEmpty
-              ? const Center(
-                  child: Text('No entries found',
-                      style: TextStyle(color: Colors.white38, fontSize: 16)))
+              ? Center(
+                  child: Text(noEntriesFound.tr,
+                      style: TextStyle(color: _cFaint, fontSize: 16)))
               : _buildGroupedList(),
     );
   }
@@ -120,7 +131,7 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
     final Map<String, List<dynamic>> grouped = {};
     for (var entry in _filtered) {
       final dt = entry.journeyTime;
-      final key = dt != null ? DateFormat('MMMM d, yyyy').format(dt) : 'Unknown';
+      final key = dt != null ? DateFormat.yMMMMd(_loc).format(dt) : 'Unknown';
       grouped.putIfAbsent(key, () => []);
       grouped[key]!.add(entry);
     }
@@ -143,7 +154,7 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
                 children: [
                   Text(
                     dateKey,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Color(0xFF6c63ff),
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
@@ -158,7 +169,7 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
             // Entries for this date
             Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF1e1e35),
+                color: _cCard,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Column(
@@ -177,11 +188,11 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
                             children: [
                               // Time on left
                               SizedBox(
-                                width: 55,
+                                width: 64,
                                 child: Text(
-                                  dt != null ? DateFormat('h:mm a').format(dt) : '',
-                                  style: const TextStyle(
-                                    color: Colors.white38,
+                                  dt != null ? DateFormat.jm(_loc).format(dt) : '',
+                                  style: TextStyle(
+                                    color: _cFaint,
                                     fontSize: 11,
                                   ),
                                 ),
@@ -193,8 +204,8 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
                                   children: [
                                     Text(
                                       entry.noteName,
-                                      style: const TextStyle(
-                                        color: Colors.white,
+                                      style: TextStyle(
+                                        color: _cText,
                                         fontSize: 15,
                                         fontWeight: FontWeight.w600,
                                       ),
@@ -205,8 +216,8 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
                                       const SizedBox(height: 3),
                                       Text(
                                         entry.description!,
-                                        style: const TextStyle(
-                                          color: Colors.white54,
+                                        style: TextStyle(
+                                          color: _cSub,
                                           fontSize: 13,
                                           height: 1.4,
                                         ),
@@ -223,7 +234,7 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
                       ),
                       // Thin divider between entries (not after last)
                       if (idx < entries.length - 1)
-                        const Divider(height: 1, thickness: 0.3, color: Colors.white12, indent: 16, endIndent: 16),
+                        Divider(height: 1, thickness: 0.3, color: _cLine, indent: 16, endIndent: 16),
                     ],
                   );
                 }).toList(),
