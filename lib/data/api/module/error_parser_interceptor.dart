@@ -1,3 +1,4 @@
+import 'package:package_info_plus/package_info_plus.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -22,6 +23,20 @@ class CommonRequestInterceptor extends QueuedInterceptor {
   // ignore: unused_field
   final Dio _dio;
 
+  static String? _cachedVersion;
+
+  // App version (e.g. 1.0.48) for the server's users page. Read once, then cached.
+  static Future<String> _appVersion() async {
+    final cached = _cachedVersion;
+    if (cached is String) return cached;
+    String v = '';
+    try {
+      v = (await PackageInfo.fromPlatform()).version;
+    } catch (_) {}
+    _cachedVersion = v;
+    return v;
+  }
+
   @override
   Future onRequest(
     RequestOptions options,
@@ -32,6 +47,8 @@ class CommonRequestInterceptor extends QueuedInterceptor {
       'Accept-Language':
           helper.Get.locale == LocaleEnum.es.getLocale() ? 'es-es' : 'en-us'
     });
+    final appVersion = await _appVersion();
+    if (appVersion.isNotEmpty) options.headers['X-App-Version'] = appVersion;
     myPrint('${options.method} >>> ${options.uri}');
     myPrint('Headers: ${options.headers}');
     myPrint('Query parameters: ${options.queryParameters}');
