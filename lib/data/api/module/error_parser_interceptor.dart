@@ -148,6 +148,13 @@ class AuthorizedRequestInterceptor extends CommonRequestInterceptor {
           showErrorSnackBar(
               message: '"You session has expired, please login again"');
         }
+      } else if (_getRefreshToken() == null &&
+          err.response?.data['code'] == 'token_not_valid') {
+        // Saved login is no longer valid and can't be refreshed:
+        // clear it and go to sign-in (fixes the app hanging on the MZ logo).
+        _tokenRepository.deleteTokens();
+        helper.Get.offAllNamed(loginRoute);
+        return handler.next(err);
       }
     }
     return super.onError(err, handler);

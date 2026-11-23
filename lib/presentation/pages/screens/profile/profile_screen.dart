@@ -370,7 +370,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
                             if (chosenTime != null) {
                               controller.birthDateString.value =
-                                  DateFormat('MM/dd/yyyy').format(chosenTime);
+                                  DateFormat.yMd(Get.locale?.languageCode).format(chosenTime);
                               controller.birthDate.value = chosenTime;
                             }
                           },
@@ -682,6 +682,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                   ),
+                  if (controller.userInfoModel.value?.authProvider == 'phone')
                   Padding(
                     padding: const EdgeInsets.only(top: 20, bottom: 10),
                     child: Row(
@@ -706,6 +707,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                   ),
+                  if (controller.userInfoModel.value?.authProvider == 'phone')
                   Obx(() {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 10.0),

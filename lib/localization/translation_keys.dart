@@ -379,6 +379,7 @@ const journalScreenTitle = 'journalScreenTitle';
 const journalTitleHint = 'journalTitleHint';
 const journalBodyHint = 'journalBodyHint';
 const journalSaving = 'journalSaving';
+const enterYourNameHint = 'enterYourNameHint';
 const searchEntriesHint = 'searchEntriesHint';
 const noEntriesFound = 'noEntriesFound';
 const birthdateValidation = 'You must be at least 3 years old';

@@ -36,6 +36,11 @@ class SplashController extends GetxController {
     }
     if (isAuth && accessToken != null) {
       _userRepository.getUserInfo().then((value) {
+        // If the saved login was invalid, the interceptor cleared it: go to sign-in
+        if (_tokenRepository.getAccessToken() == null) {
+          Get.offAllNamed(loginRoute);
+          return;
+        }
         _appController.user = value;
         Get.offAllNamed(homeRoute);
       }).onError((error, stackTrace) {

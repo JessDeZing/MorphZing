@@ -411,7 +411,7 @@ class ProfileController extends GetxController {
     nameController.text = userInfoModel.value?.fullName ?? "";
     bioController.text = userInfoModel.value?.bio ?? "";
     birthDate(userInfoModel.value?.birthDate);
-    birthDateString(DateFormat('MM/dd/yyyy').format(birthDate.value));
+    birthDateString(DateFormat.yMd(Get.locale?.languageCode).format(birthDate.value));
     if (userInfoModel.value?.sex == "M") {
       defaultSex(genderList[0]);
       currentSex(1);

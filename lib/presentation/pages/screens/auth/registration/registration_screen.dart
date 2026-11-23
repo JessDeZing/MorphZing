@@ -306,8 +306,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: CustomInputField(
-                                  hintText: 'Enter your name',
-                                  labelText: 'Enter your name',
+                                  hintText: enterYourNameHint.tr,
+                                  labelText: enterYourNameHint.tr,
                                   textEditingController: nameTextController,
                                   maxLength: 40,
                                   textCapitalization:

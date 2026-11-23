@@ -570,6 +570,7 @@ class Es {
         translation.journalTitleHint: "Ponle un título a tu entrada...",
         translation.journalBodyHint: "Cuéntame sobre tu día...",
         translation.journalSaving: "Guardando…",
+        translation.enterYourNameHint: "Escribe tu nombre",
         translation.searchEntriesHint: "Buscar entradas...",
         translation.noEntriesFound: "No se encontraron entradas",
         translation.useEmailInstead: "Usar correo electrónico",

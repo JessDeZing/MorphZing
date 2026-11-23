@@ -554,6 +554,7 @@ class En {
         translation.journalTitleHint: "Give your entry a title...",
         translation.journalBodyHint: "Tell me about your day...",
         translation.journalSaving: "Saving…",
+        translation.enterYourNameHint: "Enter your name",
         translation.searchEntriesHint: "Search entries...",
         translation.noEntriesFound: "No entries found",
         translation.useEmailInstead: "Use email instead",

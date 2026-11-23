@@ -349,6 +349,6 @@ class RegistrationController extends GetxController {
 
   String getFormatBirthDate() {
     if (!_birthDatePicked.value) return pleaseSelect.tr;
-    return DateFormat('MM/dd/yyyy').format(_birthDate.value);
+    return DateFormat.yMd(Get.locale?.languageCode).format(_birthDate.value);
   }
 }
