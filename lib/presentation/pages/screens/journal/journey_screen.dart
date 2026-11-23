@@ -1,3 +1,4 @@
+import 'package:morphzing/localization/translation_keys.dart';
 import 'package:morphzing/data/repositories/notifications/reminders.dart';
 import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
@@ -130,7 +131,12 @@ class _JourneyScreenState extends State<JourneyScreen> {
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final appBarColor = isDark ? const Color(0xFF1C1C1E) : bgColor;
-    final textColor = isDark ? Colors.white : Colors.black;
+    final textColor = isDark ? Colors.white : const Color(0xFF050A41);
+    final pageBg = isDark ? const Color(0xFF000000) : bgColor;
+    final subText = isDark ? Colors.white70 : Colors.black54;
+    final hintColor = isDark ? Colors.white24 : Colors.black38;
+    final lineColor = isDark ? Colors.white24 : Colors.black12;
+    final loc = Get.locale?.languageCode ?? 'en';
     final cardColor = isDark ? Colors.black : const Color(0xFFE5E5EA);
 
     return Obx(() {
@@ -140,7 +146,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
           return false;
         },
         child: Scaffold(
-          backgroundColor: const Color(0xFF000000),
+          backgroundColor: pageBg,
           appBar: AppBar(
             backgroundColor: appBarColor,
             foregroundColor: textColor,
@@ -150,7 +156,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
               onPressed: () async => await _saveAndPop(),
               icon: Icon(Icons.arrow_back_ios, color: textColor),
             ),
-            title: Text('Journey', style: TextStyle(color: textColor, fontFamily: 'SF Pro Display', fontSize: 18, fontWeight: FontWeight.bold)),
+            title: Text(journalScreenTitle.tr, style: TextStyle(color: textColor, fontFamily: 'SF Pro Display', fontSize: 18, fontWeight: FontWeight.bold)),
             actions: [
               CupertinoButton(
                 padding: const EdgeInsets.only(right: 8),
@@ -162,7 +168,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
             ],
           ),
           body: journeyController.loading.value
-              ? const Center(child: CupertinoActivityIndicator())
+              ? Center(child: Column(mainAxisSize: MainAxisSize.min, children: [const CupertinoActivityIndicator(radius: 14), if (_isSaving) ...[const SizedBox(height: 12), Text(journalSaving.tr, style: TextStyle(color: textColor, fontSize: 16))]]))
               : SafeArea(
                   child: Column(
                     children: [
@@ -180,10 +186,10 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(DateFormat.jm().format(journeyController.dateTime.value),
-                                          style: const TextStyle(fontSize: 13, color: Colors.white70)),
-                                        Text('${DateFormat.MMMMd().format(journeyController.dateTime.value)}, ${DateFormat.y().format(journeyController.dateTime.value)}',
-                                          style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w600)),
+                                        Text(DateFormat.jm(loc).format(journeyController.dateTime.value),
+                                          style: TextStyle(fontSize: 13, color: subText)),
+                                        Text(DateFormat.yMMMMd(loc).format(journeyController.dateTime.value),
+                                          style: TextStyle(fontSize: 18, color: textColor, fontWeight: FontWeight.w600)),
                                       ],
                                     ),
                                   ),
@@ -196,52 +202,52 @@ class _JourneyScreenState extends State<JourneyScreen> {
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                               child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF000000),
+                                decoration: BoxDecoration(
+                                  color: pageBg,
                                 ),
                                 padding: EdgeInsets.zero,
                                 child: TextField(
                                   onChanged: (e) => setState(() {}),
                                   controller: journeyController.journeyTitleController,
                                   textCapitalization: TextCapitalization.sentences,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Color(0xFF000000),
+                                    fillColor: pageBg,
                                     border: InputBorder.none,
                                     focusedBorder: InputBorder.none,
                                     enabledBorder: InputBorder.none,
-                                    hintText: 'Give your entry a title...',
-                                    hintStyle: TextStyle(color: Colors.white24, fontSize: 18),
+                                    hintText: journalTitleHint.tr,
+                                    hintStyle: TextStyle(color: hintColor, fontSize: 18),
                                     contentPadding: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                                   ),
-                                  style: const TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500),
+                                  style: TextStyle(fontSize: 18, color: textColor, fontWeight: FontWeight.w500),
                                 ),
                               ),
                             ),
-                            const Divider(height: 1, thickness: 0.3, color: Colors.white24, indent: 16, endIndent: 16),
+                            Divider(height: 1, thickness: 0.3, color: lineColor, indent: 16, endIndent: 16),
                             // Description
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
                               child: Container(
-                                decoration: const BoxDecoration(
-                                  color: Color(0xFF000000),
+                                decoration: BoxDecoration(
+                                  color: pageBg,
                                 ),
-                                constraints: BoxConstraints(minHeight: MediaQuery.of(context).size.height * 0.6),
+                                // No forced 60% height: the box grows as you type (no big gap)
                                 width: double.infinity,
                                 child: TextField(
-                                  maxLines: null,
+                                  minLines: 6, maxLines: null,
                                   controller: journeyController.journeyDescriptionController,
                                   textCapitalization: TextCapitalization.sentences,
-                                  decoration: const InputDecoration(
+                                  decoration: InputDecoration(
                                     filled: true,
-                                    fillColor: Color(0xFF000000),
+                                    fillColor: pageBg,
                                     border: InputBorder.none,
                                     focusedBorder: InputBorder.none,
                                     enabledBorder: InputBorder.none,
-                                    hintText: 'Tell me about your day...',
-                                    hintStyle: TextStyle(color: Colors.grey),
+                                    hintText: journalBodyHint.tr,
+                                    hintStyle: TextStyle(color: hintColor),
                                   ),
-                                  style: const TextStyle(fontSize: 16, color: Colors.white, height: 1.5),
+                                  style: TextStyle(fontSize: 16, color: textColor, height: 1.5),
                                 ),
                               ),
                             ),
@@ -373,7 +379,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                   },
                                 ));
                               },
-                              child: const Center(child: Image(image: AssetImage('assets/images/voice.png'), height: 22, color: Colors.white)),
+                              child: Center(child: Image(image: const AssetImage('assets/images/voice.png'), height: 22, color: textColor)),
                             )),
                             Container(height: 30, width: 1, color: greyTextColor),
                             // Gallery
@@ -383,7 +389,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                 debugPrint('Photos count: ${journeyController.photos.length}');
                                 setState(() {});
                               },
-                              child: const Center(child: Image(image: AssetImage('assets/images/photo.png'), height: 22, color: Colors.white)),
+                              child: Center(child: Image(image: const AssetImage('assets/images/photo.png'), height: 22, color: textColor)),
                             )),
                             Container(height: 30, width: 1, color: greyTextColor),
                             // Paint/Draw
@@ -398,7 +404,7 @@ class _JourneyScreenState extends State<JourneyScreen> {
                                   setState(() {});
                                 });
                               },
-                              child: const Center(child: Icon(Icons.brush, color: Colors.white, size: 24)),
+                              child: Center(child: Icon(Icons.brush, color: textColor, size: 24)),
                             )),
                             // Background hidden until subscription is ready
                             Container(height: 30, width: 1, color: greyTextColor),
