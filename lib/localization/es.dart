@@ -565,10 +565,10 @@ class Es {
         translation.signInButton: "Iniciar sesión",
         translation.newToMorphZing: "¿Primera vez en MorphZing?",
         translation.createAnAccount: "Crear una cuenta",
-        translation.usePhoneInstead: "Usar número de teléfono (solo EE. UU. y Canadá)",
+        translation.usePhoneInstead: "¿Ya tienes una cuenta con teléfono? Inicia sesión con teléfono",
         translation.useEmailInstead: "Usar correo electrónico",
         translation.loginFailedTitle: "No pudimos iniciar tu sesión.",
-        translation.loginFailedBody: "Revisa tu correo o teléfono y tu contraseña. ¿Primera vez en MorphZing? Puede que primero tengas que crear una cuenta.",
+        translation.loginFailedBody: "Revisa tu correo y tu contraseña. ¿Primera vez en MorphZing? Crea una cuenta con tu correo. No necesitas número de teléfono.",
         translation.premiumLiteText:
             'Mantente con Premium por solo \$3.99/mes.',
         translation.subscribeNow: 'Suscríbete Ahora',

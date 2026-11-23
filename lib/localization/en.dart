@@ -549,10 +549,10 @@ class En {
         translation.signInButton: "Sign in",
         translation.newToMorphZing: "New to MorphZing?",
         translation.createAnAccount: "Create an account",
-        translation.usePhoneInstead: "Use phone number instead (US & Canada)",
+        translation.usePhoneInstead: "Already have a phone account? Log in with phone",
         translation.useEmailInstead: "Use email instead",
         translation.loginFailedTitle: "We couldn't sign you in.",
-        translation.loginFailedBody: "Check your email or phone and your password. New to MorphZing? You may need to create an account first.",
+        translation.loginFailedBody: "Check your email and password. New to MorphZing? Create an account with your email. No phone number needed.",
         translation.premiumLiteText:
             'Don’t Go Breaking Our Hearts — give us another chance. Stick Around for Just \$3.99/ Next Month!',
         translation.subscribeNow: 'Subscribe now',
