@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:morphzing/data/models/journal/journal_model.dart';
@@ -33,7 +34,7 @@ class JournalItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    DateFormat.E().format(journalItem.journeyTime!),
+                    DateFormat.E(Get.locale?.languageCode).format(journalItem.journeyTime!),
                     style: TextStyle(
                       fontSize: 12,
                       color: Color(0xFF00C9BC),
@@ -51,7 +52,7 @@ class JournalItem extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    DateFormat.jm().format(journalItem.journeyTime!),
+                    DateFormat.jm(Get.locale?.languageCode).format(journalItem.journeyTime!),
                     style: const TextStyle(
                       fontSize: 10,
                       color: Color(0xFF00C9BC),

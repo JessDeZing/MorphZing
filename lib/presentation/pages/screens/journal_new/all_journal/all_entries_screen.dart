@@ -97,7 +97,7 @@ class _AllEntriesScreenState extends State<AllEntriesScreen> {
                 ),
                 onChanged: (v) => setState(() => _searchQuery = v),
               )
-            : Text(myLifeJournal.tr,
+            : Text(myLifeJourney.tr,
                 style: TextStyle(
                     color: _cText,
                     fontSize: 18,

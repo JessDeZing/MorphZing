@@ -164,7 +164,7 @@ class _NewJournalScreenState extends State<NewJournalScreen> {
                           color: Color(0xFF6c63ff), size: 18),
                       const SizedBox(width: 10),
                       Text(
-                        DateFormat('MMMM d, yyyy  h:mm a').format(_journeyTime),
+                        DateFormat.yMMMMd(Get.locale?.languageCode).add_jm().format(_journeyTime),
                         style: const TextStyle(
                             color: Colors.white, fontSize: 14),
                       ),

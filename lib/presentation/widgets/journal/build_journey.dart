@@ -92,7 +92,7 @@ class _BuildJourneyState extends State<BuildJourney> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      DateFormat.jm().format(widget.model.journeyTime!),
+                      DateFormat.jm(Get.locale?.languageCode).format(widget.model.journeyTime!),
                       style: staticTextStyle(
                         12,
                         isDark ? Colors.white : greyTextColor,
